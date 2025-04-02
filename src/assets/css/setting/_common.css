@@ -1,0 +1,28 @@
+/* 전역으로 사용하는 공통 CSS입니다! 추가 시에는 반드시 주석 처리 + 커밋 설명 + 톡방 공유해주세요. */
+/* 기본적으로 버튼은 cursor: pointer로 설정하여 가시성을 높였습니다. */
+
+button {
+    cursor: pointer;
+    background-color: var(--none);
+}
+
+body {
+    background-color: var(--black);
+}
+
+/* 각 컴포넌트의 가장 바깥 div에 해당 클래스를 적용하면 자동으로 설정됩니다. */
+.container {
+    margin: 0 auto;
+    background-color: var(--white);
+    height: 100vh;
+    min-height: 1080px;
+}
+
+/* 해당 클래스를 붙이면 display가 무조건 none이 됩니다. */
+.none {
+    display: none !important;
+}
+
+input {
+    outline: none;
+}

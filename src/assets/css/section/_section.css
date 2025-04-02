@@ -1,0 +1,31 @@
+.Header_wrap {
+    position: fixed;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 500px;
+    height: 56px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding-left: 20px;
+}
+
+.Header_wrap img {
+    width: 91px;
+}
+
+.Nav_wrap {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 100%;
+    max-width: 500px;
+    height: 60px;
+    padding: 0 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
