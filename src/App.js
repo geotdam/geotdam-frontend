@@ -6,6 +6,8 @@ import Mypage from './components/Mypage/Mypage'
 import Login from './components/Login/Login'
 import { Join } from './components/Join/Join'
 import Nav from './components/Section/Nav'
+import SocialLogin from './components/Login/SocialLogin';
+import Redirection from './components/Login/Redirection';
 
 const App = () => {
     return (
@@ -16,6 +18,8 @@ const App = () => {
                 <Route path='/mypage' element={<Mypage />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/join' element={<Join />} />
+                <Route path="/social" element={<SocialLogin />} />
+                <Route path="/oauth/kakao/callback" element={<Redirection />} />
             </Routes>
             <Nav />
         </BrowserRouter>
