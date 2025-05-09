@@ -1,4 +1,3 @@
-import React from 'react';
 import '../../assets/css/section/_section.css'; //css
 
 const Header = () => {

@@ -1,4 +1,3 @@
-import React from 'react'
 import '../../assets/css/components/logins/login.css'; //css
 
 const Login = () => {
