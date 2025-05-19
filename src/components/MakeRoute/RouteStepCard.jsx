@@ -4,7 +4,7 @@ import styles from './RouteStepCard.module.css';
 import Icon from '../../components/common/Icon';
 import dropDown from '../../assets/icons/dropDown.svg';
 
-const RouteStepCard = ({ step, color, author, time, address, phone }) => {
+const RouteStepCard = ({ step, color, name, time, address, phone }) => {
   const [expanded, setExpanded] = useState(false);
   const badgeClass = color === 'pink' ? styles.stepBadgePink : styles.stepBadgeGray;
 
@@ -15,13 +15,13 @@ const RouteStepCard = ({ step, color, author, time, address, phone }) => {
         {/* 카드 상단: 기본 정보 + 토글 */}
         <div className={styles.routeCard}>
           <div className={styles.routeDetails}>
-            <div className={styles.routeTitle}>{author}</div>
+            <div className={styles.routeTitle}>{name}</div>
             <div className={styles.routeSubtext}>{time}</div> 
           </div>
           <Icon
             src={dropDown}
             alt="Toggle"
-            backgroundColor="#fff"
+            backgroundColor="#ffffff"
             onClick={() => setExpanded(prev => !prev)}
           />
         </div>
