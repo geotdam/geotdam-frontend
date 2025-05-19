@@ -17,7 +17,7 @@ const routeSteps = [
   {
     step: 2,
     color: 'gray',
-    name: '가게 이름',
+    name: 'eeee',
     time: '10:00 - 14:00', 
     address: '456 Food Rd, Seoul',
     phone: '+82-10-1234-5678',
