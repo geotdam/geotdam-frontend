@@ -1,0 +1,29 @@
+.container {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 8px;
+    font-size: 15px;
+    color: #f3a5b2;
+}
+
+.featureBox  {
+    background-color: #ebebeb;
+    border-radius: 10px;
+    height: 48px;
+    padding: 10px;
+    box-sizing: border-box;
+  
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.featureText {
+    font-weight: 600;
+    position: relative;
+}

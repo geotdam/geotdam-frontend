@@ -1,0 +1,57 @@
+.recentPlaceContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+    align-self: stretch;
+  }
+  
+  .recentPlaceList {
+    background-color: #fff;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    text-align: left;
+    font-size: 15px;
+    align-self: stretch;
+  }
+  
+  .placeItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 16px;
+    gap: 12px;
+    align-self: stretch;
+    border-bottom: 0.4px solid #bdbdbd;
+  }
+  
+  .placeItem2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 16px;
+    gap: 12px;
+    align-self: stretch;
+  }
+  
+  .placeIcon {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    object-fit: cover;
+  }
+  
+  .placeText {
+    align-self: center;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  

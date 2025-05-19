@@ -1,0 +1,42 @@
+.search {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    left: calc(50% - 170px);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 340px;
+    padding: 20px 10px;
+    background-color: #f3a5b2;
+    box-sizing: border-box;
+  }
+  
+  .searchBar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 274px;
+    height: 36px;
+    padding: 0 10px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-sizing: border-box;
+    gap: 5px;
+  }
+  
+  .SearchIcon {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+  }
+  
+  .searchTxt {
+    position: relative;
+    font-family: "Noto-Sans", sans-serif;
+    font-size: 17px;
+    color: #6c6c6c;
+  }

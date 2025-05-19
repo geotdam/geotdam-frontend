@@ -1,0 +1,87 @@
+.myRouteContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+    align-self: stretch;
+  }
+  
+  .routeList {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    background-color: #fff;
+    border-radius: 10px;
+    font-size: 15px;
+    align-self: stretch;
+  }
+  
+  .routeItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 16px;
+    gap: 12px;
+    border-bottom: 0.4px solid #bdbdbd;
+    align-self: stretch;
+  }
+  
+  .newRouteItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 16px;
+    gap: 12px;
+    color: #f3a5b2;
+    cursor: pointer;
+    align-self: stretch;
+  }
+  
+  .routeImage {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex: 1;
+  }
+  
+  .routeName {
+    font-weight: 500;
+    position: relative;
+  }
+  
+  .placeCount {
+    font-size: 13px;
+    font-weight: 300;
+    color: #868782;
+    position: relative;
+  }
+  
+  .textWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex: 1;
+  }
+  
+  .newRouteText {
+    font-weight: 600;
+    position: relative;
+  }
+  
