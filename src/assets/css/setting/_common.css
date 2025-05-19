@@ -26,3 +26,12 @@ body {
 input {
     outline: none;
 }
+
+/* 페이지에 사방 여백 생기지 않도록 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans', sans-serif;
+    background-color: #fff;
+    overflow: hidden;
+}

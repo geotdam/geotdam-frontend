@@ -1,0 +1,49 @@
+.nearbyBenchContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    align-self: stretch;
+  }
+  
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+  }
+  
+  .pinIcon {
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+    position: relative;
+  }
+  
+  .benchItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 16px;
+    gap: 12px;
+    background-color: #fff;
+    border-radius: 10px;
+    font-size: 17px;
+    align-self: stretch;
+  }
+  
+  .benchText {
+    font-family: 'Noto Sans';
+    font-size: 15px;
+    font-weight: 500;
+    color: #000;
+    text-align: center;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  

@@ -1,0 +1,16 @@
+.footerContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.terms {
+  display: flex;   
+  font-size: 12px;
+  color: #868782;
+  font-family: 'Noto Sans';
+}
+
+.termsConditions {
+  position: relative;
+}
