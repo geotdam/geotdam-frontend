@@ -12,7 +12,7 @@ const PlaceHeader = () => {
           <Title text="성신여자대학교" />
           <div className={styles.categoryRating}>카페 ★ 1.0</div>
         </div>
-        <BookMark />
+        <BookMark type="place" />
       </div>
     </div>
   );
