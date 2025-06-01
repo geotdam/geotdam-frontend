@@ -35,7 +35,7 @@ const SearchingRoutePopup = () => {
                     <Profile />
                     {/* 백엔드 작성자 닉네임 */}
                     <div className={styles.div1}>닉네임</div>
-                    <BookMark />
+                    <BookMark type="route" />
                 </div>
                 {routeSteps.map((stepData, idx) => (
                     <RouteStepCard key={idx} {...stepData} />
