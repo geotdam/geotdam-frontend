@@ -4,7 +4,7 @@ import styles from './Login.module.css';
 
 import Icon from '../../components/common/Icon';
 import closeIcon from '../../assets/icons/close.svg';
-
+ 
 const Login = ({ onClose }) => {
   // 구글 로그인
   const handleGoogleLogin = useCallback(async () => {

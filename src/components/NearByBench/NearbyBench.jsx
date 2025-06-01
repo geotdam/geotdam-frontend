@@ -14,7 +14,7 @@ const NearbyBench = () => {
       </div>
       <div className={styles.benchItem}> 
         <Icon src={benchMarking} alt="벤치 아이콘" backgroundColor="#F3A5B2"/>
-        <div className={styles.benchText}>벤치 위치가 어떻게 리턴 되는지 확인 필요</div>
+        <div className={styles.benchText}>Near to [장소이름-백엔드에서 받아옴]</div>
       </div>
     </div>
   );
