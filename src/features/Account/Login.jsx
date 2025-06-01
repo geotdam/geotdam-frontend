@@ -7,7 +7,6 @@ import closeIcon from '../../assets/icons/close.svg'
 import googleIcon from '../../assets/icons/Google.svg'
 import kakaoIcon from '../../assets/icons/Kakao.svg'
 import emailIcon from '../../assets/icons/Email.svg'
-
 import Join from '../../features/Account/Join'
  
 const Login = ({ onClose }) => {

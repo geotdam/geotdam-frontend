@@ -1,58 +1,58 @@
 .hotRouteContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-self: stretch;
-    text-align: left;
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    align-self: stretch;
-  }
-  
-  .moreText {
-    font-size: 15px;
-    font-family: "Noto Sans";
-    color: #f3a5b2;
-    cursor: pointer;
-    text-align: center;
-    position: relative;
-  }
-  
-  .routeList {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    overflow-x: auto;
-    padding: 16px;
-    gap: 5px;
-    border-radius: 10px;
-    background-color: #fff;
-    font-size: 15px;
-    font-family: "Noto Sans";
-    box-sizing: border-box;
-    text-align: center;
-  }
-  
-  .routeItem {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    flex-shrink: 0;
-    width: 100px;
-  }
-  
-  .routeIcon {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    border-radius: 10px;
-  }
-  
-  .routeName {
-    position: relative;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-self: stretch;
+  text-align: left;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+}
+
+.moreText {
+  font-size: 15px;
+  font-family: "Noto Sans";
+  color: #f3a5b2;
+  cursor: pointer;
+  text-align: center;
+  position: relative;
+}
+
+.routeList {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding: 16px;
+  gap: 5px;
+  border-radius: 10px;
+  background-color: #fff;
+  font-size: 15px;
+  font-family: "Noto Sans";
+  box-sizing: border-box;
+  text-align: center; 
+} 
+
+.routeItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  width: 100px;
+}
+
+.routeIcon {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.routeName {
+  position: relative;
+}
