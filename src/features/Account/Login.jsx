@@ -1,11 +1,17 @@
-import { useCallback } from 'react';
+import { useState, useCallback } from 'react'
 
-import styles from './Login.module.css';
+import styles from './Login.module.css'
 
-import Icon from '../../components/common/Icon';
-import closeIcon from '../../assets/icons/close.svg';
+import Icon from '../../components/common/Icon'
+import closeIcon from '../../assets/icons/close.svg'
+import googleIcon from '../../assets/icons/Google.svg'
+import kakaoIcon from '../../assets/icons/Kakao.svg'
+import emailIcon from '../../assets/icons/Email.svg'
+import Join from '../../features/Account/Join'
  
 const Login = ({ onClose }) => {
+  const [showJoin, setShowJoin] = useState(false);
+
   // 구글 로그인
   const handleGoogleLogin = useCallback(async () => {
     try {
@@ -32,18 +38,30 @@ const Login = ({ onClose }) => {
     }
   }, [onClose]);
 
-  // 이메일 로그인
-  const handleEmailLogin = useCallback(async () => {
-    try {
-      // 이메일 로그인 API 호출
-      const res = await fetch('/api/auth/email', { method: 'POST' });
-      const data = await res.json();
-      console.log('Email login success', data);
-      onClose();
-    } catch (err) {
-      console.error('Email login failed', err);
-    }
+  // 이메일 로그인 버튼 클릭 → 가입 모드 활성화
+  const handleEmailClick = useCallback(() => {
+    setShowJoin(true);
+  }, []);
+
+  // Join 컴포넌트에서 “뒤로” 또는 완료 후 돌아올 때 호출할 핸들러
+  const handleJoinBack = useCallback(() => {
+    setShowJoin(false);
+  }, []);
+
+  // Login 바깥의 전체 팝업을 닫을 때
+  const handleClose = useCallback(() => {
+    onClose();
+    setShowJoin(false);
   }, [onClose]);
+
+  // 만약 Join 화면을 띄운 상태라면 하위에 Join 컴포넌트 렌더
+  if (showJoin) {
+    return (
+      <div className={styles.overlay}>
+        <Join onClose={handleClose} onBack={handleJoinBack} />
+      </div>
+    );
+  }
 
   return (<div className={styles.overlay}>
     <div className={styles.loginContainer}>
@@ -60,17 +78,17 @@ const Login = ({ onClose }) => {
 
       <div className={styles.methods}>
         <button className={`${styles.methodButton} ${styles.google}`}>
-          <img className={styles.icon} src="Icon/Google.svg" alt="Google Logo" />
+          <img className={styles.icon} src={googleIcon} alt="Google Logo" />
           <span>Continue with Google</span>
         </button>
 
         <button className={`${styles.methodButton} ${styles.kakao}`}>
-          <img className={styles.icon} src="Icon/Kakao.svg" alt="Kakao Logo" />
+          <img className={styles.icon} src={kakaoIcon} alt="Kakao Logo" />
           <span>카카오 로그인</span>
         </button>
 
-        <button className={`${styles.methodButton} ${styles.email}`}>
-          <img className={styles.icon} src="Icon/Email.svg" alt="Email Icon" />
+        <button className={`${styles.methodButton} ${styles.email}`} onClick={handleEmailClick}>
+          <img className={styles.icon} src={emailIcon} alt="Email Icon" />
           <span>이메일로 시작하기</span>
         </button>
       </div>
