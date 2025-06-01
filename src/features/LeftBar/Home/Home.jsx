@@ -1,6 +1,6 @@
-import ReportFooter from '../../../components/ReportFooter/ReportFooter';
 import RecentPlace from '../../../components/RecentPlace/RecentPlace';
-import HottestRoute from '../../../components/HottestRoute/HottestRoute';
+import HotRouteAround from '../../../components/HotRouteAround/HotRouteAround';
+import ReportFooter from '../../../components/ReportFooter/ReportFooter';
 
 const Home = () => {
     return (

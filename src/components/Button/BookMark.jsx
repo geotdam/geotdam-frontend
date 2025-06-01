@@ -5,7 +5,7 @@ import bookMark from '../../assets/icons/bookMark.svg';
 
 const BookMark = () => {
     const onBookMarkClick = useCallback(() => {
-        // 프로필 클릭
+        // 북마크 클릭
     }, []);
 
     return (

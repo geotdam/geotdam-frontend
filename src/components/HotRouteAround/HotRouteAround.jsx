@@ -9,6 +9,7 @@ const HotRouteAround = ({ onMoreClick }) => {
     onMoreClick()
   }, [onMoreClick])
 
+    // 백엔드 인기순 루트 조회
     const hotRoutes = [
         '긴제목도 확인Seoul Station',
         '긴제목도 확인Seoul Station',
@@ -18,7 +19,7 @@ const HotRouteAround = ({ onMoreClick }) => {
     return (
         <div className={styles.hotRouteContainer}>
             <div className={styles.header}>
-                <Title text="Hot Route" />
+                <Title text="Hottest Route" />
                 <div className={styles.moreText} onClick={handleClickMore}>More</div>
             </div>
             <div className={styles.routeList}>
