@@ -3,6 +3,7 @@ import styles from './profile.module.css'
 
 import profileImage from '../../assets/mock/profile.svg'
 import LoginPopup from '../../features/Account/Login'
+import Join from '../../features/Account/Join'
 
 const Profile = () => {
     // 로그인 여부, 여기 백엔드 연결 필요~~

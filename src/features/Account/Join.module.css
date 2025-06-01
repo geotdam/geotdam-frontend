@@ -1,0 +1,162 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    /* 필요한 경우 더 크게 조정 */
+}
+
+.loginContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 340px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 4px #f3a5b2;
+    box-sizing: border-box;
+    font-family: 'Noto Sans', sans-serif;
+    color: #191600;
+    padding: 20px 0px;
+}
+
+.closeBtn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: none;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+}
+
+.header {
+    text-align: center;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 0.4px solid #bdbdbd;
+}
+
+.title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.subtitle {
+    margin: 8px 0 0;
+    font-size: 16px;
+    font-weight: 300;
+    color: #2a2a2a;
+}
+
+.highlight {
+    font-weight: 600;
+    color: #a5c64d;
+}
+
+.inform {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0px 16px;
+    gap: 12px;
+    font-size: 24px;
+    color: #1f1f1f;
+}
+
+.birth {
+    align-self: stretch;
+    border-radius: 4px;
+    height: 68px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.txt {
+    position: relative;
+    line-height: 20px;
+    font-weight: 500;
+}
+
+.bigbox {
+    align-self: stretch;
+    border-radius: 4px;
+    background-color: #fff;
+    border: 1px solid #747775;
+    box-sizing: border-box;
+    height: 68px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0px 30px;
+    font-size: 24px;
+}
+
+.box {
+    flex: 1;
+    border-radius: 4px;
+    background-color: #fff;
+    border: 1px solid #747775;
+    box-sizing: border-box;
+    height: 68px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.span {
+    line-height: 20px;
+    font-weight: 500;
+    position: relative;
+}
+
+.genderBtn {
+    border-radius: 10px;
+    background-color: #868782;
+    padding: 10px 16px;
+    font-size: 20px;
+    color: #f7f7f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    border: none;
+    margin-left: 8px;
+    transition: background-color 0.3s;
+    cursor: pointer;
+    opacity: 0.6; /* 기본은 반투명 */
+}
+
+.genderBtn.selected {
+    background-color: #f3a5b2;
+    opacity: 1;
+}
+
+.startBtn {
+    border-radius: 10px;
+    background-color: #f3a5b2;
+    padding: 10px 16px;
+    font-size: 20px;
+    color: #f7f7f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    border: none;
+}
