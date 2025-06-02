@@ -26,7 +26,7 @@ const routeSteps = [
 
 const MakeRoutePopup = () => {
   return (
-    <div className={styles.route}>
+    <div className={`${styles.route} popup`}>
       <div className={styles.scroll}>
         <RouteHeader />
         {routeSteps.map((stepData, idx) => (

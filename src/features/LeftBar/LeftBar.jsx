@@ -13,7 +13,7 @@ import MakeRoute      from './MakeRoute/MakeRoute';
 
 const Leftbar = ({ view, onAction }) => {
   return (
-    <div className={styles.leftbar}>
+    <div className={`${styles.leftbar} leftbar`}>
       <Search />
 
       <div className={styles.scroll}>
@@ -21,9 +21,9 @@ const Leftbar = ({ view, onAction }) => {
           <>
             <RecentPlace />
             <NearByBench />
-            {/* “More” 클릭 시 */}
+            {/* "More" 클릭 시 */}
             <HotRouteAround onMoreClick={() => onAction('MORE_ROUTES')} />
-            {/* “Make Route” 클릭 시 */}
+            {/* "Make Route" 클릭 시 */}
             <MyRoute onNewRouteClick={() => onAction('NEW_ROUTE')} />
             <AddFeat />
             <ReportFooter />

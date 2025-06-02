@@ -28,7 +28,7 @@ const routeSteps = [
 
 const SearchingRoutePopup = () => {
     return (
-        <div className={styles.route}>
+        <div className={`${styles.route} popup`}>
             <div className={styles.scroll}>
                 <RouteHeader />
                 <div className={styles.div}>

@@ -12,11 +12,17 @@
   
   .map {
     position: absolute;
-    top: -226px;
-    left: -442px;
-    width: 3570px;
-    height: 1712px;
-    object-fit: cover;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* 지도는 가장 아래에 위치 */
+  }
+  
+  /* 지도 관련 스타일 */
+  #map_div {
+    width: 100%;
+    height: 100%;
   }
   
   .mapbutton {
@@ -30,6 +36,7 @@
     justify-content: flex-start;
     padding: 10px;
     gap: 10px;
+    z-index: 10; /* 맵 버튼은 지도 위에 표시 */
   }
   
   .locationbutton {
@@ -43,5 +50,14 @@
     height: 60px;
     position: relative;
     object-fit: contain;
+  }
+  
+  /* 팝업과 사이드바를 위한 z-index 설정 */
+  :global(.leftbar) {
+    z-index: 5 !important; /* 사이드바는 지도 위에 표시 */
+  }
+
+  :global(.popup) {
+    z-index: 15 !important; /* 팝업은 가장 위에 표시 */
   }
   

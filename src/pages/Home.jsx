@@ -7,6 +7,7 @@ import SearchingRoutePopup from '../features/LeftBar/SearchingRoute/SearchingRou
 import MapButton from '../components/MapButton/MapButton';
 
 import mapImage from '../assets/mock/Map.png';
+import Map from '../components/Map/Map';
 
 const Home = () => {
   const [leftBarView, setLeftBarView] = useState('home');
@@ -34,7 +35,7 @@ const Home = () => {
 
   return (
     <div className={styles.home}>
-      <img className={styles.map} src={mapImage} alt="지도" />
+      <Map/>
       {/* 가로등 */}
       {/* 경사도 */}
 
