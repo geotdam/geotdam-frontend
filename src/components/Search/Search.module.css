@@ -25,6 +25,7 @@
     background-color: #fff;
     box-sizing: border-box;
     gap: 5px;
+    border: none;
   }
   
   .SearchIcon {
