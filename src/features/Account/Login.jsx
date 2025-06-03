@@ -13,37 +13,21 @@ const Login = ({ onClose }) => {
   const [showJoin, setShowJoin] = useState(false);
 
   // 구글 로그인
-  const handleGoogleLogin = useCallback(async () => {
-    try {
-      // 구글 로그인 API 호출
-      const res = await fetch('/api/auth/google', { method: 'POST' });
-      const data = await res.json();
-      console.log('Google login success', data);
-      onClose();
-    } catch (err) {
-      console.error('Google login failed', err);
-    }
-  }, [onClose]);
+  const handleGoogleLogin = useCallback(() => {
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/login/google`;
+  }, []);
 
   // 카카오 로그인
-  const handleKakaoLogin = useCallback(async () => {
-    try {
-      // 카카오 로그인 API 호출
-      const res = await fetch('/api/auth/kakao', { method: 'POST' });
-      const data = await res.json();
-      console.log('Kakao login success', data);
-      onClose();
-    } catch (err) {
-      console.error('Kakao login failed', err);
-    }
-  }, [onClose]);
+  const handleKakaoLogin = useCallback(() => {
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/login/kakao`;
+  }, []);
 
   // 이메일 로그인 버튼 클릭 → 가입 모드 활성화
   const handleEmailClick = useCallback(() => {
     setShowJoin(true);
   }, []);
 
-  // Join 컴포넌트에서 “뒤로” 또는 완료 후 돌아올 때 호출할 핸들러
+  // Join 컴포넌트에서 "뒤로" 또는 완료 후 돌아올 때 호출할 핸들러
   const handleJoinBack = useCallback(() => {
     setShowJoin(false);
   }, []);
@@ -77,12 +61,12 @@ const Login = ({ onClose }) => {
       </div>
 
       <div className={styles.methods}>
-        <button className={`${styles.methodButton} ${styles.google}`}>
+        <button className={`${styles.methodButton} ${styles.google}`} onClick={handleGoogleLogin}>
           <img className={styles.icon} src={googleIcon} alt="Google Logo" />
           <span>Continue with Google</span>
         </button>
 
-        <button className={`${styles.methodButton} ${styles.kakao}`}>
+        <button className={`${styles.methodButton} ${styles.kakao}`} onClick={handleKakaoLogin}>
           <img className={styles.icon} src={kakaoIcon} alt="Kakao Logo" />
           <span>카카오 로그인</span>
         </button>
