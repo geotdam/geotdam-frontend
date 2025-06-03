@@ -14,12 +14,18 @@ const Login = ({ onClose }) => {
 
   // 구글 로그인
   const handleGoogleLogin = useCallback(() => {
-    window.location.href = `${import.meta.env.VITE_API_URL}/auth/login/google`;
+    console.log('API URL:', import.meta.env.VITE_API_URL); // 환경변수 확인
+    const redirectUrl = `${import.meta.env.VITE_API_URL}/api/auth/login/google`;
+    console.log('Redirecting to:', redirectUrl); // 리다이렉트 URL 확인
+    window.location.href = redirectUrl;
   }, []);
 
   // 카카오 로그인
   const handleKakaoLogin = useCallback(() => {
-    window.location.href = `${import.meta.env.VITE_API_URL}/auth/login/kakao`;
+    console.log('API URL:', import.meta.env.VITE_API_URL); // 환경변수 확인
+    const redirectUrl = `${import.meta.env.VITE_API_URL}/api/auth/login/kakao`;
+    console.log('Redirecting to:', redirectUrl); // 리다이렉트 URL 확인
+    window.location.href = redirectUrl;
   }, []);
 
   // 이메일 로그인 버튼 클릭 → 가입 모드 활성화
