@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react'
 import styles from './Search.module.css'
 
-import searchIcon from '../../assets/icons/searchIcon.svg';
+import searchIcon from '@assets/icons/searchIcon.svg';
 import Profile from '../common/profile'
 
 const Search = () => {
