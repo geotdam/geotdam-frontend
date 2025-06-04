@@ -24,14 +24,14 @@ const Join = ({ onClose }) => {
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  const API_BASE = import.meta.env.VITE_BASE_URL; // .env에서 베이스 url 불러오기
+  const VITE_BASE_URL = import.meta.env.VITE_BASE_URL; // .env에서 베이스 url 불러오기
 
   // 이메일 로그인
   const handleEmailLogin = useCallback(async () => {
     try {
       // 이메일 로그인 API 호출
-      // const res = await fetch(`${API_BASE}/api/auth/login`, {
-      const res = await fetch(`http://localhost:3000/api/auth/login`, {
+      const res = await fetch(`${VITE_BASE_URL}/api/auth/login`, {
+        // const res = await fetch(`http://localhost:3000/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         // Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -73,8 +73,8 @@ const Join = ({ onClose }) => {
     try {
       // 회원가입 api
       console.log("회원가입 요청");
-      // const res = await fetch(`${API_BASE}/api/auth/signup`, {
-      const res = await fetch(`http://localhost:3000/api/auth/signup`, {
+      const res = await fetch(`${VITE_BASE_URL}/api/auth/signup`, {
+        // const res = await fetch(`http://localhost:3000/api/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         // Authorization: `Bearer ${localStorage.getItem("token")}`,
