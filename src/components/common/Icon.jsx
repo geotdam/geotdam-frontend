@@ -1,6 +1,6 @@
 import styles from './Icon.module.css';
 
-const Icon = ({ src, alt, className = '', backgroundColor = '#eee',onClick }) => {
+const Icon = ({ src, alt, className = '', backgroundColor = '#eee', onClick }) => {
   return (
     <div
       className={styles.iconWrapper}
