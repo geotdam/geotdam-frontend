@@ -19,6 +19,13 @@ export default defineConfig({
   build: {
     commonjsOptions: {
       include: [/socket.io-client/, /node_modules\/react/, /node_modules\/react-dom/]
+    },
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'kakao-sdk': ['kakao-maps-sdk']
+        }
+      }
     }
   },
   assetsInclude: ['**/*.svg'],
@@ -26,5 +33,8 @@ export default defineConfig({
     alias: {
       '@assets': '/src/assets'
     }
+  },
+  define: {
+    global: 'window'
   }
 })
