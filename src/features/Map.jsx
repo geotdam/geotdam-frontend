@@ -2,40 +2,47 @@ import React, { useEffect, useRef } from 'react';
 import styles from './map.module.css';
 
 const Map = () => {
-    const mapRef = useRef(null);
+  const mapRef = useRef(null);
 
   useEffect(() => {
-    // 컴포넌트가 마운트되면 지도 초기화
+    let retryCount = 0;
+    const maxRetries = 20; // 최대 20번 시도 (6초)
+
     const initMap = () => {
       if (typeof window.Tmapv2 === 'undefined') {
-        setTimeout(initMap, 300);
+        if (retryCount < maxRetries) {
+          retryCount++;
+          setTimeout(initMap, 300);
+          return;
+        }
+        console.error('TMap API 로딩 실패');
         return;
       }
 
       try {
-        // map 생성
-        mapRef.current = new window.Tmapv2.Map("map_div", {
-          center: new window.Tmapv2.LatLng(37.56520450, 126.98702028), // 지도 중심 좌표
-          width: "100%",   // 지도 넓이
-          height: "100%",  // 지도 높이
-          zoom: 17         // 줌 레벨
-        });
-        
-        console.log('Map initialized successfully');
+        if (!mapRef.current) {
+          mapRef.current = new window.Tmapv2.Map("map_div", {
+            center: new window.Tmapv2.LatLng(37.56520450, 126.98702028),
+            width: "100%",
+            height: "100%",
+            zoom: 17
+          });
+          console.log('Map initialized successfully');
+        }
       } catch (error) {
         console.error('Error initializing map:', error);
       }
     };
 
-    initMap();
+    // 초기 지연 후 시작
+    setTimeout(initMap, 500);
 
-    // 컴포넌트가 언마운트되면 정리
     return () => {
       if (mapRef.current) {
         mapRef.current = null;
       }
     };
-  }, []); // 빈 배열을 넣어 마운트 시에만 실행
+  }, []);
 
   return (
     <div id="map_div" className={styles.map}></div>
