@@ -6,7 +6,12 @@ const Map = () => {
 
   useEffect(() => {
     // 컴포넌트가 마운트되면 지도 초기화
-    if (window.Tmapv2 && !mapRef.current) {
+    const initMap = () => {
+      if (typeof window.Tmapv2 === 'undefined') {
+        setTimeout(initMap, 300);
+        return;
+      }
+
       try {
         // map 생성
         mapRef.current = new window.Tmapv2.Map("map_div", {
@@ -20,9 +25,9 @@ const Map = () => {
       } catch (error) {
         console.error('Error initializing map:', error);
       }
-    } else {
-      console.error('TMap API not available');
-    }
+    };
+
+    initMap();
 
     // 컴포넌트가 언마운트되면 정리
     return () => {

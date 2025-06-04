@@ -26,5 +26,8 @@ export default defineConfig({
     alias: {
       '@assets': '/src/assets'
     }
+  },
+  define: {
+    global: 'window'
   }
 })
