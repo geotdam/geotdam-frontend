@@ -42,7 +42,7 @@ const Map = () => {
         mapRef.current = null;
       }
     };
-  }, []);
+  }, []); // 빈 배열을 넣어 마운트 시에만 실행
 
   return (
     <div id="map_div" className={styles.map}></div>
