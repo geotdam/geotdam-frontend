@@ -3,8 +3,6 @@ import styles from './MapButton.module.css';
 import { useLocation } from '../../apis/LocationApi';
 import myLocationIcon from '../../assets/icons/myLocation.svg';
 import lampIcon from '../../assets/icons/lamp.svg';
-import zoomInIcon from '../../assets/icons/zoomIn.svg';
-import zoomOutIcon from '../../assets/icons/zoomOut.svg';
 import Login from '../../features/Account/Login';
 
 const MapButton = () => {
@@ -34,17 +32,9 @@ const MapButton = () => {
 					onClick={handleLocationClick}
 					disabled={isLoading}
 				>
-					<img 
-						className={styles.mylocationbuttonIcon} 
-						alt="내 위치" 
-						src={myLocationIcon}
-					/>
+					<img alt="내 위치" src={myLocationIcon} />
 				</button>
-				<img className={styles.lampbuttonIcon} alt="" src={lampIcon} />
-				<div className={styles.zoombutton}>
-					<img className={styles.zoominbuttonIcon} alt="" src={zoomInIcon} />
-					<img className={styles.zoominbuttonIcon} alt="" src={zoomOutIcon} />
-				</div>
+				<img className={styles.lampbuttonIcon} alt="램프 버튼" src={lampIcon} />
 			</div>
 
 			{/* 로그인 팝업 */}

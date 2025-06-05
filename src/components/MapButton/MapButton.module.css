@@ -1,34 +1,8 @@
-.mylocationbuttonIcon {
-  	width: 60px;
-  	position: relative;
-  	height: 60px;
-    z-index: 1000;
-}
 .lampbuttonIcon {
   	width: 60px;
   	position: relative;
   	height: 60px;
   	object-fit: contain;
-    z-index: 1000;
-}
-.zoominbuttonIcon {
-  	align-self: stretch;
-  	max-width: 100%;
-  	overflow: hidden;
-  	height: 60px;
-  	flex-shrink: 0;
-  	object-fit: cover;
-    z-index: 1000;
-}
-.zoombutton {
-  	border-radius: 10px;
-  	background-color: #faffee;
-  	border: 2px solid #868782;
-  	display: flex;
-  	flex-direction: column;
-  	align-items: center;
-  	justify-content: center;
-  	padding: 5px;
     z-index: 1000;
 }
 .mapbutton {
@@ -97,7 +71,7 @@
 }
 
 /* 로그인 팝업 스타일 */
-.loginPopupOverlay {
+/* .loginPopupOverlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -118,4 +92,4 @@
     max-width: 90%;
     width: 400px;
     position: relative;
-}
+} */
