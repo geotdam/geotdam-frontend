@@ -117,33 +117,12 @@ const Join = ({ onClose }) => {
   ]);
 
   const handleSave = () => {
-    if (!email || !password) {
-      setErrorMessage("이메일과 비밀번호를 입력해주세요.");
-      return;
+    if (isRegisterStage) {
+      handleRegister();
+    } else {
+      handleEmailLogin();
     }
-
-    if (!isRegisterStage) {
-      // 첫 단계에서는 회원가입 단계로 전환만 수행
-      setIsRegisterStage(true);
-      setErrorMessage("");
-      return;
-    }
-
-    // 회원가입 단계에서는 모든 필드 검증 후 요청
-    if (!name || !nickname || !birthYear || !birthMonth || !birthDay || !gender || !address) {
-      setErrorMessage("모든 항목을 입력해주세요.");
-      return;
-    }
-
-    handleRegister();
   };
-
-  // 버튼 텍스트와 활성화 상태 결정
-  const isButtonDisabled = isRegisterStage ? 
-    (!name || !nickname || !birthYear || !birthMonth || !birthDay || !gender || !address) : 
-    (!email || !password);
-
-  const buttonText = isRegisterStage ? "가입하기" : "다음";
 
   // 연도, 월, 일 목록
   const years = Array.from({ length: 100 }, (_, i) => `${2025 - i}`);
@@ -199,12 +178,6 @@ const Join = ({ onClose }) => {
                 className={styles.bigbox}
                 onChange={(e) => setNickname(e.target.value)}
                 placeholder="닉네임"
-              />
-              <input
-                value={address}
-                className={styles.bigbox}
-                onChange={(e) => setAddress(e.target.value)}
-                placeholder="주소"
               />
 
               <div className={styles.birth}>
@@ -268,16 +241,17 @@ const Join = ({ onClose }) => {
                   </button>
                 ))}
               </div>
+              <input
+                value={address}
+                className={styles.bigbox}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="주소"
+              />
             </>
           )}
-          <button 
-            className={`${styles.startBtn} ${isButtonDisabled ? styles.disabled : ''}`} 
-            onClick={handleSave}
-            disabled={isButtonDisabled}
-          >
-            {buttonText}
+          <button className={styles.startBtn} onClick={handleSave}>
+            시작하기
           </button>
-          {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
         </div>
       </div>
     </div>

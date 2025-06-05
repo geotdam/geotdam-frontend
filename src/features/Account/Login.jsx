@@ -12,6 +12,10 @@ import Join from '../../features/Account/Join'
  
 const Login = ({ onClose }) => {
   const [showJoin, setShowJoin] = useState(false);
+  const [showEmailForm, setShowEmailForm] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
   // 구글 로그인
   const handleGoogleLogin = useCallback(() => {
@@ -23,7 +27,7 @@ const Login = ({ onClose }) => {
     window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/login/kakao`;
   }, []);
 
-  // 이메일 로그인 버튼 클릭 → 가입 모드 활성화
+  // 이메일 로그인 버튼 클릭 → Join 컴포넌트로 전환
   const handleEmailClick = useCallback(() => {
     setShowJoin(true);
   }, []);

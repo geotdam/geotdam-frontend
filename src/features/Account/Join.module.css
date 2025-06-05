@@ -149,31 +149,14 @@
 }
 
 .startBtn {
-    width: 100%;
-    padding: 15px;
-    background-color: #4CAF50;
-    color: white;
+    border-radius: 10px;
+    background-color: #f3a5b2;
+    padding: 10px 16px;
+    font-size: 20px;
+    color: #f7f7f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: all 0.3s ease;
-}
-
-.startBtn:hover:not(.disabled) {
-    background-color: #45a049;
-}
-
-.startBtn.disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-    opacity: 0.7;
-}
-
-.errorMessage {
-    color: #ff0000;
-    font-size: 14px;
-    margin-top: 10px;
-    text-align: center;
 }
