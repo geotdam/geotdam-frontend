@@ -1,37 +1,14 @@
-.mylocationbuttonIcon {
-  	width: 60px;
-  	position: relative;
-  	height: 60px;
-}
 .lampbuttonIcon {
   	width: 60px;
   	position: relative;
   	height: 60px;
   	object-fit: contain;
-}
-.zoominbuttonIcon {
-  	align-self: stretch;
-  	max-width: 100%;
-  	overflow: hidden;
-  	height: 60px;
-  	flex-shrink: 0;
-  	object-fit: cover;
-}
-.zoombutton {
-  	border-radius: 10px;
-  	background-color: #faffee;
-  	border: 2px solid #868782;
-  	display: flex;
-  	flex-direction: column;
-  	align-items: center;
-  	justify-content: center;
-  	padding: 5px;
+    z-index: 1000;
 }
 .mapbutton {
 	position: fixed;
   	right: 20px;
-  	top: 50%;
-  	transform: translateY(-50%);
+  	bottom: 5%;
   	display: flex;
   	flex-direction: column;
   	align-items: center;
@@ -57,6 +34,7 @@
     background-color: #faffee;
     border: 2px solid #868782;
     transition: all 0.2s ease-in-out;
+    z-index: 1000;
 }
 
 .mylocationbutton:hover {
@@ -90,3 +68,27 @@
     cursor: not-allowed;
     opacity: 0.7;
 }
+
+/* 로그인 팝업 스타일 */
+/* .loginPopupOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.loginPopupContent {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 90%;
+    width: 400px;
+    position: relative;
+} */
