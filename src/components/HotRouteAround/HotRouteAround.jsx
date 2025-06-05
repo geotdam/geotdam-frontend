@@ -1,13 +1,16 @@
 import { useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './HotRouteAround.module.css';
 
 import Title from '../common/Title/Title';
 import homeIcon from '../../assets/mock/thumb.jpg';
 
-const HotRouteAround = ({ onMoreClick }) => {
-  const handleClickMore = useCallback(() => {
-    onMoreClick()
-  }, [onMoreClick])
+const HotRouteAround = () => {
+    const navigate = useNavigate();
+
+    const handleClickMore = useCallback(() => {
+        navigate('/searchingRoute');
+    }, [navigate])
 
     // 백엔드 인기순 루트 조회
     const hotRoutes = [

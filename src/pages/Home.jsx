@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from '../assets/css/pages/home.module.css';
 
 import Leftbar from '../features/LeftBar/LeftBar';
@@ -8,26 +8,32 @@ import Map from '../features/Map';
 import MapButton from '../components/MapButton/MapButton';
 
 const Home = () => {
-  const [leftBarView, setLeftBarView] = useState('home');
-  const [popupView,  setPopupView]    = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // 현재 경로
+  const path = location.pathname;
+
+  // 주소 기반으로 Leftbar 매칭
+  const getLeftbarView = () => {
+    if (path === '/makeRoute') return 'makeRoute';
+    if (path === '/searchingRoute') return 'searchingRoute';
+    return 'home';
+  };
 
   const handleLeftbarAction = (action) => {
     switch (action) {
       case 'NEW_ROUTE':
-        setLeftBarView('makeRoute');
-        setPopupView('makeRoute');
+        navigate('/makeRoute');
         break;
-      case 'MORE_ROUTES':
-        setLeftBarView('searchingRoute');
-        setPopupView('searchingRoute');
+      case 'SEARCHING_ROUTES':
+        navigate('/searchingRoute');
         break;
       case 'BACK':
-        setLeftBarView('home');
-        setPopupView(null);
+        navigate('/');
         break;
-      default: 
-        setLeftBarView('home');
-        setPopupView(null);
+      default:
+        navigate('/');
     }
   };
 
@@ -38,15 +44,15 @@ const Home = () => {
       {/* 경사도 */}
 
       <Leftbar
-        view={leftBarView}
+        view={getLeftbarView()}
         onAction={handleLeftbarAction}
       />
 
-      {popupView === 'makeRoute' && (
+      {path  === '/makeRoute' && (
         <MakeRoutePopup onBack={() => handleLeftbarAction('BACK')} />
       )}
 
-      {popupView === 'searchingRoute' && (
+      {path  === '/searchingRoute' && (
         <SearchingRoutePopup onBack={() => handleLeftbarAction('BACK')} />
       )}
 
