@@ -41,12 +41,15 @@ export const useLocation = () => {
     const [currentLocation, setCurrentLocation] = useState(null);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [needsLogin, setNeedsLogin] = useState(false);
 
     const sendLocation = async (position) => {
         console.log('📍 Getting current position:', position);
         const token = getToken();
         if (!token) {
-            const error = '토큰이 없습니다.';
+            setNeedsLogin(true);
+            console.log('🔐 LocationApi - needsLogin set to true (no token)');
+            const error = '로그인이 필요합니다.';
             console.error('🔑 Authorization error:', error);
             setError(error);
             return;
@@ -73,7 +76,7 @@ export const useLocation = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token // Bearer 토큰 포함
+                    'Authorization': token
                 },
                 body: JSON.stringify(locationData)
             });
@@ -82,6 +85,12 @@ export const useLocation = () => {
             console.log('✅ Server response:', data);
             
             if (!data.isSuccess) {
+                // 토큰 만료 또는 인증 오류 체크
+                if (data.code === 401 || data.code === 403 || data.message?.toLowerCase().includes('token')) {
+                    setNeedsLogin(true);
+                    console.log('🔐 LocationApi - needsLogin set to true (auth error)');
+                    throw new Error('로그인이 필요합니다.');
+                }
                 throw new Error(data.message);
             }
 
@@ -101,6 +110,11 @@ export const useLocation = () => {
             return data;
         } catch (err) {
             console.error('❌ Error in sendLocation:', err);
+            // 네트워크 오류나 기타 오류에서 토큰 관련 에러 체크
+            if (err.message?.includes('로그인') || err.message?.includes('token') || err.message?.includes('인증')) {
+                setNeedsLogin(true);
+                console.log('🔐 LocationApi - needsLogin set to true (error contains auth keywords)');
+            }
             setError(err.message);
             throw err;
         }
@@ -161,6 +175,8 @@ export const useLocation = () => {
         currentLocation,
         error,
         isLoading,
+        needsLogin,
+        setNeedsLogin,  // setNeedsLogin 함수를 외부로 노출
         getCurrentLocation
     };
 }; 
