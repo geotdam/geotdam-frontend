@@ -26,10 +26,6 @@ const MapButton = () => {
 				/>
 			</button>
 			<img className={styles.lampbuttonIcon} alt="" src={lampIcon} />
-			<div className={styles.zoombutton}>
-				<img className={styles.zoominbuttonIcon} alt="" src={zoomInIcon} />
-				<img className={styles.zoominbuttonIcon} alt="" src={zoomOutIcon} />
-			</div>
 		</div>
 	);
 };
