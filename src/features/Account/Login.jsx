@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState, useCallback } from 'react'
 
 import styles from './Login.module.css'
@@ -11,24 +12,22 @@ import Join from '../../features/Account/Join'
  
 const Login = ({ onClose }) => {
   const [showJoin, setShowJoin] = useState(false);
+  const [showEmailForm, setShowEmailForm] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
   // 구글 로그인
   const handleGoogleLogin = useCallback(() => {
-    console.log('API URL:', import.meta.env.VITE_API_URL); // 환경변수 확인
-    const redirectUrl = `${import.meta.env.VITE_API_URL}/api/auth/login/google`;
-    console.log('Redirecting to:', redirectUrl); // 리다이렉트 URL 확인
-    window.location.href = redirectUrl;
+    window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/login/google`;
   }, []);
 
   // 카카오 로그인
   const handleKakaoLogin = useCallback(() => {
-    console.log('API URL:', import.meta.env.VITE_API_URL); // 환경변수 확인
-    const redirectUrl = `${import.meta.env.VITE_API_URL}/api/auth/login/kakao`;
-    console.log('Redirecting to:', redirectUrl); // 리다이렉트 URL 확인
-    window.location.href = redirectUrl;
+    window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/login/kakao`;
   }, []);
 
-  // 이메일 로그인 버튼 클릭 → 가입 모드 활성화
+  // 이메일 로그인 버튼 클릭 → Join 컴포넌트로 전환
   const handleEmailClick = useCallback(() => {
     setShowJoin(true);
   }, []);
