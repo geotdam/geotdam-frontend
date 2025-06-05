@@ -1,22 +1,50 @@
+import { useCallback, useEffect, useState } from 'react';
 import styles from './HottestRoute.module.css';
 
-import Title from '../common/Title/Title'; 
+import Title from '../common/Title/Title';
 import thumb from '../../assets/mock/thumb.jpg';
+import axios from 'axios';
 
 const HotRouteAround = ({ onMoreClick, onRouteSelect }) => {
-  const hottestRoutes = [
-    { id: 1, title: 'Namsan LOHAS 😎', author: '치돌이', thumbnail: thumb },
-    { id: 2, title: '긴 제목 테스트 어쩌고 저쩌고', author: '치돌이', thumbnail: thumb },
-    { id: 3, title: '짙은 제목', author: '치돌이', thumbnail: thumb },
-    { id: 4, title: '짙은 제목', author: '치돌이', thumbnail: thumb },
-    // ... 총 10개까지
-  ];
+  const [hottestRoutes, setHottestRoutes] = useState([]);
+
+  const handleClickMore = useCallback(() => {
+    onMoreClick();
+  }, [onMoreClick]);
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');// 엑세스 토큰 불러오기 
+  
+    
+    if (!token) {
+      console.warn('accessToken이 없습니다.');
+      return;
+    }
+
+    axios
+      .get('/api/road', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        const routeList = res.data?.result?.results;
+        if (res.data.isSuccess && Array.isArray(routeList)) {
+          setHottestRoutes(routeList.slice(0, 10)); // 최대 10개까지 자르기 
+        } else {
+          console.warn('예상한 응답 형식이 아닙니다:', res.data);
+        }
+      })
+      .catch((err) => {
+        console.error('전체 루트 불러오기 실패:', err);
+      });
+  }, []);
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
         <Title text="Hottest Route" />
-        <div className={styles.moreText} onClick={onMoreClick}>
+        <div className={styles.moreText} onClick={handleClickMore}>
           More
         </div>
       </div>
@@ -24,7 +52,7 @@ const HotRouteAround = ({ onMoreClick, onRouteSelect }) => {
       <div className={styles.routeList}>
         {hottestRoutes.map((route, idx) => (
           <div
-            key={route.id}
+            key={route.routeId}
             className={styles.routeItem}
             onClick={() => onRouteSelect(route)}
           >
@@ -36,12 +64,12 @@ const HotRouteAround = ({ onMoreClick, onRouteSelect }) => {
               <div className={styles.rankText}>{idx + 1}</div>
             </div>
             <div className={styles.routeInfo}>
-              <div className={styles.routeTitle}>{route.title}</div>
-              <div className={styles.routeAuthor}>{route.author}</div>
+              <div className={styles.routeTitle}>{route.name}</div>
+              <div className={styles.routeAuthor}>{route.creatorNickname}</div>
             </div>
             <img
               className={styles.thumbnail}
-              src={route.thumbnail}
+              src={route.routeImgUrl || thumb}
               alt="thumbnail"
             />
           </div>
