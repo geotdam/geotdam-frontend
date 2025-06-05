@@ -2,23 +2,37 @@ import { useState, useEffect } from 'react';
 import io from 'socket.io-client';
 
 // 환경변수에서 BASE_URL을 가져오거나, 기본값 사용
-const BASE_URL = import.meta.env.VITE_APP_API_URL || 'https://api.geotdam.com';
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 console.log('🌐 API Base URL:', BASE_URL);
+
+// 토큰을 가져오는 함수
+const getToken = () => {
+    const token = localStorage.getItem('token');
+    return token ? `Bearer ${token}` : null;
+};
 
 let socket;
 try {
-    socket = io(BASE_URL, {
-        withCredentials: true,
-        transports: ['websocket']
-    });
-    
-    socket.on('connect', () => {
-        console.log('🔌 Socket connected successfully');
-    });
+    const token = getToken();
+    if (token) {
+        socket = io(BASE_URL, {
+            withCredentials: true,
+            transports: ['websocket'],
+            auth: {
+                token: token // 소켓 연결 시 토큰 전달
+            }
+        });
+        
+        socket.on('connect', () => {
+            console.log('🔌 Socket connected successfully');
+        });
 
-    socket.on('connect_error', (error) => {
-        console.error('🔌 Socket connection error:', error);
-    });
+        socket.on('connect_error', (error) => {
+            console.error('🔌 Socket connection error:', error);
+        });
+    } else {
+        console.error('🔌 Socket initialization failed: No token available');
+    }
 } catch (error) {
     console.error('🔌 Socket initialization error:', error);
 }
@@ -27,12 +41,6 @@ export const useLocation = () => {
     const [currentLocation, setCurrentLocation] = useState(null);
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-
-    const getToken = () => {
-        const token = localStorage.getItem('token');
-        console.log('🔑 Token retrieved:', token ? 'Token exists' : 'No token');
-        return token ? `Bearer ${token}` : null;
-    };
 
     const sendLocation = async (position) => {
         console.log('📍 Getting current position:', position);
@@ -60,12 +68,12 @@ export const useLocation = () => {
             }
 
             // HTTP로 서버에 저장
-            console.log('🌐 Sending HTTP request to:', `${BASE_URL}/api/locations`);
-            const response = await fetch(`${BASE_URL}/api/locations`, {
+            console.log('🌐 Sending HTTP request to:', `${BASE_URL}/api/location`);
+            const response = await fetch(`${BASE_URL}/api/location`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token
+                    'Authorization': token // Bearer 토큰 포함
                 },
                 body: JSON.stringify(locationData)
             });
@@ -77,7 +85,19 @@ export const useLocation = () => {
                 throw new Error(data.message);
             }
 
-            setCurrentLocation(locationData);
+            // 서버 응답에서 위치 정보를 localStorage에 저장
+            if (data.result) {
+                const locationInfo = {
+                    userId: data.result.userId,
+                    latitude: data.result.latitude,
+                    longitude: data.result.longitude,
+                    lastUpdated: new Date().toISOString()
+                };
+                localStorage.setItem('currentLocation', JSON.stringify(locationInfo));
+                console.log('📍 Location saved to localStorage:', locationInfo);
+            }
+
+            setCurrentLocation(data.result);
             return data;
         } catch (err) {
             console.error('❌ Error in sendLocation:', err);
