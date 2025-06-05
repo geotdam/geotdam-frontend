@@ -1,7 +1,7 @@
 import styles from './RatingCard.module.css';
 
 import Title from '../common/Title/Title';
-import star from '../../assets/icons/bookmark.svg'
+import star from '../../assets/icons/Bookmark.svg'
 
 const RatingCard = () => {
   return (
