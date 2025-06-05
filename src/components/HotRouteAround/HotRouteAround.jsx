@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import styles from './HotRouteAround.module.css';
 
@@ -5,12 +6,13 @@ import Title from '../common/Title/Title';
 import homeIcon from '../../assets/mock/thumb.jpg';
 import axios from 'axios';
 
-const HotRouteAround = ({ onMoreClick }) => {
-  const [hotRoutes, setHotRoutes] = useState([]);
+const HotRouteAround = () => {
+    const [hotRoutes, setHotRoutes] = useState([]);
+    const navigate = useNavigate();
 
-  const handleClickMore = useCallback(() => {
-    onMoreClick();
-  }, [onMoreClick]);
+    const handleClickMore = useCallback(() => {
+        navigate('/searchingRoute');
+    }, [navigate])
 
   useEffect(() => {
   const token = localStorage.getItem('accessToken'); // 엑세스 토큰 갖고 오기  
