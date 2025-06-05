@@ -1,5 +1,5 @@
-import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
 import styles from './HotRouteAround.module.css';
 
 import Title from '../common/Title/Title';
@@ -7,6 +7,7 @@ import homeIcon from '../../assets/mock/thumb.jpg';
 import axios from 'axios';
 
 const HotRouteAround = () => {
+    const [hotRoutes, setHotRoutes] = useState([]);
     const navigate = useNavigate();
 
     const handleClickMore = useCallback(() => {
