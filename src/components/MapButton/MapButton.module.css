@@ -2,12 +2,14 @@
   	width: 60px;
   	position: relative;
   	height: 60px;
+    z-index: 1000;
 }
 .lampbuttonIcon {
   	width: 60px;
   	position: relative;
   	height: 60px;
   	object-fit: contain;
+    z-index: 1000;
 }
 .zoominbuttonIcon {
   	align-self: stretch;
@@ -16,6 +18,7 @@
   	height: 60px;
   	flex-shrink: 0;
   	object-fit: cover;
+    z-index: 1000;
 }
 .zoombutton {
   	border-radius: 10px;
@@ -26,6 +29,7 @@
   	align-items: center;
   	justify-content: center;
   	padding: 5px;
+    z-index: 1000;
 }
 .mapbutton {
 	position: fixed;
@@ -57,6 +61,7 @@
     background-color: #faffee;
     border: 2px solid #868782;
     transition: all 0.2s ease-in-out;
+    z-index: 1000;
 }
 
 .mylocationbutton:hover {
