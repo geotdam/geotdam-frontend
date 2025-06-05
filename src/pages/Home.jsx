@@ -9,32 +9,27 @@ import MapButton from '../components/MapButton/MapButton';
 
 const Home = () => {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { pathname } = useLocation(); 
 
-  // 현재 경로
-  const path = location.pathname;
-
-  // 주소 기반으로 Leftbar 매칭
-  const getLeftbarView = () => {
-    if (path === '/makeRoute') return 'makeRoute';
-    if (path === '/searchingRoute') return 'searchingRoute';
-    return 'home';
+  // 주소와 leftBar 매핑
+  const viewMap = {
+    '/makeRoute': 'makeRoute',
+    '/searchingRoute': 'searchingRoute',
+    '/searchingPlace': 'searchingPlace',
+    '/': 'home'
   };
 
+  const getLeftbarView = viewMap[pathname] || 'home';
+
   const handleLeftbarAction = (action) => {
-    switch (action) {
-      case 'NEW_ROUTE':
-        navigate('/makeRoute');
-        break;
-      case 'SEARCHING_ROUTES':
-        navigate('/searchingRoute');
-        break;
-      case 'BACK':
-        navigate('/');
-        break;
-      default:
-        navigate('/');
-    }
+    const actionMap = {
+      NEW_ROUTE: '/makeRoute',
+      SEARCHING_ROUTES: '/searchingRoute',
+      SEARCHING_PLACE: '/searchingPlace',
+      MORE_ROUTES: '/searchingRoute',
+      BACK: '/',
+    };
+    navigate(actionMap[action] || '/');
   };
 
   return (
@@ -43,17 +38,18 @@ const Home = () => {
       {/* 가로등 */}
       {/* 경사도 */}
 
-      <Leftbar
-        view={getLeftbarView()}
-        onAction={handleLeftbarAction}
-      />
+      <Leftbar view={getLeftbarView} onAction={handleLeftbarAction} />
 
-      {path  === '/makeRoute' && (
+      {getLeftbarView  === 'makeRoute' && (
         <MakeRoutePopup onBack={() => handleLeftbarAction('BACK')} />
       )}
 
-      {path  === '/searchingRoute' && (
+      {getLeftbarView  === 'searchingRoute' && (
         <SearchingRoutePopup onBack={() => handleLeftbarAction('BACK')} />
+      )}
+
+      {getLeftbarView  === 'searchingPlace' && (
+        <MakeRoutePopup onBack={() => handleLeftbarAction('BACK')} />
       )}
 
       <MapButton />
