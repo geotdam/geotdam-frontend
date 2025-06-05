@@ -30,26 +30,21 @@ const Join = ({ onClose }) => {
   // 이메일 로그인
   const handleEmailLogin = useCallback(async () => {
     try {
-      // 이메일 로그인 API 호출
       const res = await fetch(`${VITE_BASE_URL}/api/auth/login`, {
-        // const res = await fetch(`http://localhost:3000/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // Authorization: `Bearer ${localStorage.getItem("token")}`,
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
 
-      // console.log("이메일 로그인 성공", data);
-      // onClose();
-
       if (res.ok) {
         console.log("이메일 로그인 성공", data);
-        localStorage.setItem("token", data.token); // 토큰 저장
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user)); // 사용자 정보도 저장
         onClose();
       } else {
         setIsRegisterStage(true);
-        setErrorMessage(data.message || "로그인 실패"); // 서버 에러 메시지 표시
+        setErrorMessage(data.message || "로그인 실패");
       }
     } catch (err) {
       console.error("이메일 로그인 실패", err);
@@ -76,10 +71,8 @@ const Join = ({ onClose }) => {
       // 회원가입 api
       console.log("회원가입 요청");
       const res = await fetch(`${VITE_BASE_URL}/api/auth/signup`, {
-        // const res = await fetch(`http://localhost:3000/api/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        // Authorization: `Bearer ${localStorage.getItem("token")}`,
         body: JSON.stringify({
           email,
           password,
@@ -95,7 +88,8 @@ const Join = ({ onClose }) => {
 
       if (res.ok) {
         console.log("이메일 회원가입 성공", data);
-        localStorage.setItem("token", data.token); // 회원가입 후 자동 로그인
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user)); // 회원가입 성공 시에도 사용자 정보 저장
         onClose();
       } else {
         setErrorMessage(data.message || "회원가입 실패");
@@ -179,6 +173,12 @@ const Join = ({ onClose }) => {
                 onChange={(e) => setNickname(e.target.value)}
                 placeholder="닉네임"
               />
+              <input
+                value={address}
+                className={styles.bigbox}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="주소"
+              />
 
               <div className={styles.birth}>
                 <select
@@ -241,12 +241,6 @@ const Join = ({ onClose }) => {
                   </button>
                 ))}
               </div>
-              <input
-                value={address}
-                className={styles.bigbox}
-                onChange={(e) => setAddress(e.target.value)}
-                placeholder="주소"
-              />
             </>
           )}
           <button className={styles.startBtn} onClick={handleSave}>
