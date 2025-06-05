@@ -1,5 +1,9 @@
 import styles from './MapButton.module.css';
 import { useLocation } from '../../apis/LocationApi';
+import myLocationIcon from '../../assets/icons/myLocation.svg';
+import lampIcon from '../../assets/icons/lamp.svg';
+import zoomInIcon from '../../assets/icons/zoomIn.svg';
+import zoomOutIcon from '../../assets/icons/zoomOut.svg';
 
 const MapButton = () => {
 	const { getCurrentLocation, isLoading, error } = useLocation();
@@ -18,13 +22,13 @@ const MapButton = () => {
 				<img 
 					className={styles.mylocationbuttonIcon} 
 					alt="내 위치" 
-					src="src\assets\icons\myLocation.svg" 
+					src={myLocationIcon}
 				/>
 			</button>
-			<img className={styles.lampbuttonIcon} alt="" src="src\assets\icons\lamp.svg" />
+			<img className={styles.lampbuttonIcon} alt="" src={lampIcon} />
 			<div className={styles.zoombutton}>
-				<img className={styles.zoominbuttonIcon} alt="" src="src\assets\icons\zoomIn.svg" />
-				<img className={styles.zoominbuttonIcon} alt="" src="src\assets\icons\zoomOut.svg" />
+				<img className={styles.zoominbuttonIcon} alt="" src={zoomInIcon} />
+				<img className={styles.zoominbuttonIcon} alt="" src={zoomOutIcon} />
 			</div>
 		</div>
 	);
