@@ -8,8 +8,7 @@
 .mapbutton {
 	position: fixed;
   	right: 20px;
-  	top: 50%;
-  	transform: translateY(-50%);
+  	bottom: 5%;
   	display: flex;
   	flex-direction: column;
   	align-items: center;
