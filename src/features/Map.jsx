@@ -41,7 +41,7 @@ const useMap = (mapRef) => {
             return;
         }
 
-        // Get location from localStorage
+        // 로컬저장소로부터 위치를 얻어옴
         const defaultLocation = {
             latitude: 37.56520450,
             longitude: 126.98702028
@@ -53,12 +53,12 @@ const useMap = (mapRef) => {
             currentLocation = savedLocation ? JSON.parse(savedLocation) : defaultLocation;
             console.log('📍 Using location:', currentLocation);
         } catch (error) {
-            console.warn('⚠️ Error reading location from localStorage:', error);
+            console.warn('⚠️ Error, 로컬로부터 위치 받아오기 실패:', error);
             currentLocation = defaultLocation;
         }
 
-        const map = new window.Tmapv2.Map(mapRef.current, {
-            center: new window.Tmapv2.LatLng(currentLocation.latitude, currentLocation.longitude),
+        const map = new window.Tmapv3.Map(mapRef.current, {
+            center: new window.Tmapv3.LatLng(currentLocation.latitude, currentLocation.longitude),
             width: "100%",
             height: "100%",
             zoom: DEFAULT_ZOOM_LEVEL,

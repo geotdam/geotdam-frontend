@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styles from '../assets/css/pages/home.module.css';
 
 import Leftbar from '../features/LeftBar/LeftBar';
@@ -8,27 +8,28 @@ import Map from '../features/Map';
 import MapButton from '../components/MapButton/MapButton';
 
 const Home = () => {
-  const [leftBarView, setLeftBarView] = useState('home');
-  const [popupView,  setPopupView]    = useState(null);
+  const navigate = useNavigate();
+  const { pathname } = useLocation(); 
+
+  // 주소와 leftBar 매핑
+  const viewMap = {
+    '/makeRoute': 'makeRoute',
+    '/searchingRoute': 'searchingRoute',
+    '/searchingPlace': 'searchingPlace',
+    '/': 'home'
+  };
+
+  const getLeftbarView = viewMap[pathname] || 'home';
 
   const handleLeftbarAction = (action) => {
-    switch (action) {
-      case 'NEW_ROUTE':
-        setLeftBarView('makeRoute');
-        setPopupView('makeRoute');
-        break;
-      case 'MORE_ROUTES':
-        setLeftBarView('searchingRoute');
-        setPopupView('searchingRoute');
-        break;
-      case 'BACK':
-        setLeftBarView('home');
-        setPopupView(null);
-        break;
-      default: 
-        setLeftBarView('home');
-        setPopupView(null);
-    }
+    const actionMap = {
+      NEW_ROUTE: '/makeRoute',
+      SEARCHING_ROUTES: '/searchingRoute',
+      SEARCHING_PLACE: '/searchingPlace',
+      MORE_ROUTES: '/searchingRoute',
+      BACK: '/',
+    };
+    navigate(actionMap[action] || '/');
   };
 
   return (
@@ -37,17 +38,18 @@ const Home = () => {
       {/* 가로등 */}
       {/* 경사도 */}
 
-      <Leftbar
-        view={leftBarView}
-        onAction={handleLeftbarAction}
-      />
+      <Leftbar view={getLeftbarView} onAction={handleLeftbarAction} />
 
-      {popupView === 'makeRoute' && (
+      {getLeftbarView  === 'makeRoute' && (
         <MakeRoutePopup onBack={() => handleLeftbarAction('BACK')} />
       )}
 
-      {popupView === 'searchingRoute' && (
+      {getLeftbarView  === 'searchingRoute' && (
         <SearchingRoutePopup onBack={() => handleLeftbarAction('BACK')} />
+      )}
+
+      {getLeftbarView  === 'searchingPlace' && (
+        <MakeRoutePopup onBack={() => handleLeftbarAction('BACK')} />
       )}
 
       <MapButton />
