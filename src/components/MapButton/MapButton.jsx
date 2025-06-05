@@ -1,14 +1,31 @@
 import styles from './MapButton.module.css';
+import { useLocation } from '../../apis/LocationApi';
+import myLocationIcon from '../../assets/icons/myLocation.svg';
+import lampIcon from '../../assets/icons/lamp.svg';
+import zoomInIcon from '../../assets/icons/zoomIn.svg';
+import zoomOutIcon from '../../assets/icons/zoomOut.svg';
 
 const MapButton = () => {
+	const { getCurrentLocation, isLoading, error } = useLocation();
+
+	const handleLocationClick = () => {
+		getCurrentLocation();
+	};
+
 	return (
 		<div className={styles.mapbutton}>
-			<img className={styles.mylocationbuttonIcon} alt="" src="src\assets\icons\myLocation.svg" />
-			<img className={styles.lampbuttonIcon} alt="" src="src\assets\icons\lamp.svg" />
-			<div className={styles.zoombutton}>
-				<img className={styles.zoominbuttonIcon} alt="" src="src\assets\icons\zoomIn.svg" />
-				<img className={styles.zoominbuttonIcon} alt="" src="src\assets\icons\zoomOut.svg" />
-			</div>
+			<button 
+				className={`${styles.mylocationbutton} ${isLoading ? styles.loading : ''}`}
+				onClick={handleLocationClick}
+				disabled={isLoading}
+			>
+				<img 
+					className={styles.mylocationbuttonIcon} 
+					alt="내 위치" 
+					src={myLocationIcon}
+				/>
+			</button>
+			<img className={styles.lampbuttonIcon} alt="" src={lampIcon} />
 		</div>
 	);
 };

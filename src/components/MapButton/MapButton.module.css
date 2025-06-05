@@ -2,12 +2,14 @@
   	width: 60px;
   	position: relative;
   	height: 60px;
+    z-index: 1000;
 }
 .lampbuttonIcon {
   	width: 60px;
   	position: relative;
   	height: 60px;
   	object-fit: contain;
+    z-index: 1000;
 }
 .zoominbuttonIcon {
   	align-self: stretch;
@@ -16,6 +18,7 @@
   	height: 60px;
   	flex-shrink: 0;
   	object-fit: cover;
+    z-index: 1000;
 }
 .zoombutton {
   	border-radius: 10px;
@@ -26,18 +29,69 @@
   	align-items: center;
   	justify-content: center;
   	padding: 5px;
+    z-index: 1000;
 }
 .mapbutton {
-  	position: relative;
-  	width: 100%;
-  	overflow: hidden;
+	position: fixed;
+  	right: 20px;
+  	top: 50%;
+  	transform: translateY(-50%);
   	display: flex;
   	flex-direction: column;
-  	align-items: flex-start;
+  	align-items: center;
   	justify-content: flex-start;
   	padding: 10px;
   	box-sizing: border-box;
   	gap: 10px;
-top: 763px;
-left: 1820px;
+  	z-index: 1000;
+  	background: transparent;
+}
+
+.mylocationbutton {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #faffee;
+    border: 2px solid #868782;
+    transition: all 0.2s ease-in-out;
+    z-index: 1000;
+}
+
+.mylocationbutton:hover {
+    background-color: #f0f1e5;
+    transform: scale(1.05);
+}
+
+.mylocationbutton:active {
+    transform: scale(0.95);
+}
+
+.mylocationbutton.loading {
+    opacity: 0.7;
+    cursor: wait;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.mylocationbutton:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
 }
