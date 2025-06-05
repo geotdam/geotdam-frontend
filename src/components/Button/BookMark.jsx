@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 
 import Icon from '../common/Icon';
-import bookMark from '../../assets/icons/BookMark.svg';
+import bookMark from '../../assets/icons/bookMark.svg';
 
 // type: place 또는 route
 const BookMark = ({ type = 'place', onClick }) => {
