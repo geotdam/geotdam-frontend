@@ -32,7 +32,12 @@ const Join = ({ onClose }) => {
     try {
       const res = await fetch(`${VITE_BASE_URL}/api/auth/login`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        credentials: 'include',
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Access-Control-Allow-Credentials": "true"
+        },
         body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
@@ -72,7 +77,11 @@ const Join = ({ onClose }) => {
       console.log("회원가입 요청");
       const res = await fetch(`${VITE_BASE_URL}/api/auth/signup`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        credentials: 'include',
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
         body: JSON.stringify({
           email,
           password,
