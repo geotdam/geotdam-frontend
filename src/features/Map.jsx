@@ -1,40 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import styles from './map.module.css';
 import myLocationMarker from '../assets/icons/mylocation-marker.svg';
+import benchMarker from '../assets/icons/benchmarkings.png';
+import CustomMarker from '../components/Marker/CustomMarker';
+import LocationBenches from '../apis/LocationBenches';
 
 const DEFAULT_ZOOM_LEVEL = 15;
 const MIN_ZOOM_LEVEL = 7;
 const MAX_ZOOM_LEVEL = 19;
+const LOCATION_UPDATE_INTERVAL = 5000; // 5초마다 위치 업데이트
+const LOCATION_CHANGE_THRESHOLD = 0.0001; // 약 10미터 이상 차이날 때만 업데이트
 
 const useMap = (mapRef) => {
     const [mapInstance, setMapInstance] = useState(null);
-    const [currentMarker, setCurrentMarker] = useState(null);
-
-    const updateMarker = React.useCallback((coord) => {
-        const { latitude, longitude } = coord;
-        if (!(latitude && longitude) || !mapInstance) {
-            return;
-        }
-
-        if (currentMarker) {
-            const position = currentMarker.getPosition();
-            if (position.lat() === latitude && position.lng() === longitude) {
-                return;
-            }
-        }
-
-        currentMarker?.setMap(null);
-        const position = new window.Tmapv3.LatLng(latitude, longitude);
-        const marker = new window.Tmapv3.Marker({
-            position: position,
-            map: mapInstance,
-            icon: myLocationMarker,
-            iconSize: new window.Tmapv3.Size(48, 48),
-        });
-        
-        setCurrentMarker(marker);
-        mapInstance?.setCenter(position);
-    }, [mapInstance, currentMarker]);
 
     useEffect(() => {
         if (!window.Tmapv3 || mapRef.current?.firstChild || mapInstance) {
@@ -51,9 +29,7 @@ const useMap = (mapRef) => {
         try {
             const savedLocation = localStorage.getItem('currentLocation');
             currentLocation = savedLocation ? JSON.parse(savedLocation) : defaultLocation;
-            console.log('📍 Using location:', currentLocation);
-        } catch (error) {
-            console.warn('⚠️ Error, 로컬로부터 위치 받아오기 실패:', error);
+        } catch {
             currentLocation = defaultLocation;
         }
 
@@ -68,15 +44,12 @@ const useMap = (mapRef) => {
 
             map.setZoomLimit(MIN_ZOOM_LEVEL, MAX_ZOOM_LEVEL);
             setMapInstance(map);
-
-            // Create initial marker
-            updateMarker(currentLocation);
         } catch (error) {
             console.error('Failed to initialize map:', error);
         }
-    }, [mapRef, mapInstance, updateMarker]);
+    }, [mapRef, mapInstance]);
 
-    return { mapInstance, updateMarker };
+    return { mapInstance };
 };
 
 const Map = () => {
@@ -85,8 +58,43 @@ const Map = () => {
         latitude: null,
         longitude: null,
     });
+    const [benches, setBenches] = useState([]);
+    const lastLocationRef = useRef({
+        latitude: null,
+        longitude: null,
+    });
     
-    const { updateMarker } = useMap(mapRef);
+    const { mapInstance } = useMap(mapRef);
+
+    // 벤치 데이터 가져오기
+    useEffect(() => {
+        const fetchBenches = async () => {
+            try {
+                const response = await LocationBenches.getNearbyBenches();
+                if (response && response.result && response.result.benches) {
+                    setBenches(response.result.benches);
+                }
+            } catch (error) {
+                console.error('Failed to fetch benches:', error);
+            }
+        };
+
+        if (mapInstance) {
+            fetchBenches();
+        }
+    }, [mapInstance]);
+
+    // 위치 변경 여부 확인
+    const hasLocationChanged = useCallback((newLocation) => {
+        if (!lastLocationRef.current.latitude || !lastLocationRef.current.longitude) {
+            return true;
+        }
+
+        const latDiff = Math.abs(newLocation.latitude - lastLocationRef.current.latitude);
+        const lonDiff = Math.abs(newLocation.longitude - lastLocationRef.current.longitude);
+
+        return latDiff > LOCATION_CHANGE_THRESHOLD || lonDiff > LOCATION_CHANGE_THRESHOLD;
+    }, []);
 
     // Update marker when localStorage location changes
     useEffect(() => {
@@ -95,31 +103,58 @@ const Map = () => {
                 const savedLocation = localStorage.getItem('currentLocation');
                 if (savedLocation) {
                     const location = JSON.parse(savedLocation);
-                    setCurrentLocation(location);
+                    
+                    // 위치가 일정 거리 이상 변경되었을 때만 업데이트
+                    if (hasLocationChanged(location)) {
+                        setCurrentLocation(location);
+                        lastLocationRef.current = location;
+                        
+                        // 위치가 변경되면 지도 중심 이동
+                        if (mapInstance && location.latitude && location.longitude) {
+                            const position = new window.Tmapv3.LatLng(location.latitude, location.longitude);
+                            mapInstance.setCenter(position);
+                        }
+                    }
                 }
             } catch (error) {
                 console.error('Error reading location from localStorage:', error);
             }
         };
 
-        // Check location every second
-        const intervalId = setInterval(checkLocationUpdate, 1000);
+        // 5초마다 위치 체크
+        const intervalId = setInterval(checkLocationUpdate, LOCATION_UPDATE_INTERVAL);
 
         // Initial check
         checkLocationUpdate();
 
         return () => clearInterval(intervalId);
-    }, []);
-
-    // Update marker when location changes
-    useEffect(() => {
-        if (currentLocation.latitude && currentLocation.longitude) {
-            updateMarker(currentLocation);
-        }
-    }, [currentLocation, updateMarker]);
+    }, [mapInstance, hasLocationChanged]);
 
     return (
-        <div ref={mapRef} id="map_div" className={styles.map}></div>
+        <div ref={mapRef} id="map_div" className={styles.map}>
+            {mapInstance && currentLocation.latitude && currentLocation.longitude && (
+                <>
+                    <CustomMarker
+                        map={mapInstance}
+                        position={currentLocation}
+                        icon={myLocationMarker}
+                        iconSize={{ width: 28, height: 28 }}
+                    />
+                    {benches && benches.length > 0 && benches.map((bench, index) => (
+                        <CustomMarker
+                            key={`${bench.id}-${bench.lat}-${bench.lon}`}
+                            map={mapInstance}
+                            position={{
+                                latitude: bench.lat,
+                                longitude: bench.lon
+                            }}
+                            icon={benchMarker}
+                            iconSize={{ width: 36, height: 36 }}
+                        />
+                    ))}
+                </>
+            )}
+        </div>
     );
 };
 

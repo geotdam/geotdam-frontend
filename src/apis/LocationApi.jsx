@@ -11,26 +11,54 @@ const getToken = () => {
 };
 
 let socket;
-try {
-    const token = getToken();
-    if (token) {
-        socket = io(BASE_URL, {
-            withCredentials: true,
-            transports: ['polling', 'websocket'], // polling을 먼저 시도하고 websocket으로 업그레이드
-            auth: {
-                token: token // 소켓 연결 시 토큰 전달
-            },
-            debug: false, // 디버그 로그 비활성화
-            autoConnect: false, // 자동 연결 비활성화
-            reconnection: false // 재연결 시도 비활성화
-        });
-        
-        // 수동으로 연결 시도
-        socket.connect();
+const initializeSocket = () => {
+    try {
+        const token = getToken();
+        if (token && !socket) {
+            socket = io(BASE_URL, {
+                withCredentials: true,
+                transports: ['websocket', 'polling'],
+                auth: {
+                    token: token
+                },
+                reconnection: true,
+                reconnectionAttempts: 5,
+                reconnectionDelay: 1000,
+                timeout: 10000
+            });
+            
+            socket.on('connect', () => {
+                console.error('Socket connected successfully');
+            });
+
+            socket.on('connect_error', (error) => {
+                console.error('Socket connection error:', error);
+                // 연결 실패 시 소켓 인스턴스 정리
+                if (socket) {
+                    socket.disconnect();
+                    socket = null;
+                }
+            });
+
+            socket.on('disconnect', (reason) => {
+                console.error('Socket disconnected:', reason);
+                // 의도하지 않은 연결 종료인 경우 재연결 시도
+                if (reason === 'io server disconnect') {
+                    socket.connect();
+                }
+            });
+        }
+    } catch (error) {
+        console.error('Socket initialization error:', error);
+        if (socket) {
+            socket.disconnect();
+            socket = null;
+        }
     }
-} catch {
-    // Socket initialization failed silently
-}
+};
+
+// 초기 소켓 연결 시도
+initializeSocket();
 
 export const useLocation = () => {
     const [currentLocation, setCurrentLocation] = useState(null);
@@ -53,6 +81,11 @@ export const useLocation = () => {
         };
 
         try {
+            // Socket이 연결되어 있지 않다면 재연결 시도
+            if (!socket || !socket.connected) {
+                initializeSocket();
+            }
+
             // Socket으로 실시간 전송
             if (socket && socket.connected) {
                 socket.emit('sendLocation', locationData);
