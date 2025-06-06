@@ -9,11 +9,9 @@ const LocationRecommendBench = {
    */
   getNearbyBenches: async () => {
     try {
-      console.log('=== LocationRecommendBench API 호출 시작 ===');
       
       // 토큰 가져오기
       const token = localStorage.getItem('token');
-      console.log('저장된 토큰:', token);
       
       if (!token) {
         throw new Error('토큰이 없습니다.');
@@ -21,17 +19,14 @@ const LocationRecommendBench = {
 
       // localStorage에서 현재 위치 정보 가져오기
       const currentLocationStr = localStorage.getItem('currentLocation');
-      console.log('localStorage에서 가져온 위치 데이터:', currentLocationStr);
       
       if (!currentLocationStr) {
         throw new Error('현재 위치 정보가 없습니다.');
       }
 
       const currentLocation = JSON.parse(currentLocationStr);
-      console.log('파싱된 위치 데이터:', currentLocation);
       
       const { latitude: lat, longitude: lon } = currentLocation;
-      console.log('사용할 위치 좌표:', { lat, lon });
 
       if (!lat || !lon) {
         throw new Error('위치 정보가 올바르지 않습니다.');
@@ -50,37 +45,15 @@ const LocationRecommendBench = {
         }
       };
 
-      console.log('API 요청 설정:', requestConfig);
+      const response = await axios(requestConfig);
 
-      try {
-        const response = await axios(requestConfig);
-        console.log('API 응답 성공:', response);
-
-        if (response.data.isSuccess) {
-          console.log('벤치 데이터 조회 성공:', response.data.result);
-          return response.data.result;
-        }
-
-        throw new Error(response.data.message || '벤치 정보를 가져오는데 실패했습니다.');
-      } catch (axiosError) {
-        console.error('Axios 에러 상세:', {
-          status: axiosError.response?.status,
-          statusText: axiosError.response?.statusText,
-          data: axiosError.response?.data,
-          config: axiosError.config,
-          message: axiosError.message
-        });
-        throw axiosError;
+      if (response.data.isSuccess) {
+        return response.data.result;
       }
-    } catch (error) {
-      console.error('LocationRecommendBench 전체 에러:', {
-        name: error.name,
-        message: error.message,
-        stack: error.stack,
-        response: error.response?.data,
-        status: error.response?.status
-      });
 
+      throw new Error(response.data.message || '벤치 정보를 가져오는데 실패했습니다.');
+      
+    } catch (error) {
       if (error.response) {
         const { data, status } = error.response;
         
