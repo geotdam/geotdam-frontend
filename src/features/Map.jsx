@@ -17,19 +17,19 @@ const useMap = (mapRef) => {
         }
 
         if (currentMarker) {
-            const { _lat: prevLatitude, _lng: prevLongitude } = currentMarker.getPosition();
-            if (prevLatitude === latitude && prevLongitude === longitude) {
+            const position = currentMarker.getPosition();
+            if (position.lat() === latitude && position.lng() === longitude) {
                 return;
             }
         }
 
         currentMarker?.setMap(null);
-        const position = new window.Tmapv2.LatLng(latitude, longitude);
-        const marker = new window.Tmapv2.Marker({
-            position,
+        const position = new window.Tmapv3.LatLng(latitude, longitude);
+        const marker = new window.Tmapv3.Marker({
+            position: position,
             map: mapInstance,
             icon: myLocationMarker,
-            iconSize: new window.Tmapv2.Size(48, 48),
+            iconSize: new window.Tmapv3.Size(48, 48),
         });
         
         setCurrentMarker(marker);
@@ -37,7 +37,7 @@ const useMap = (mapRef) => {
     }, [mapInstance, currentMarker]);
 
     useEffect(() => {
-        if (mapRef.current?.firstChild || mapInstance) {
+        if (!window.Tmapv3 || mapRef.current?.firstChild || mapInstance) {
             return;
         }
 
@@ -57,19 +57,23 @@ const useMap = (mapRef) => {
             currentLocation = defaultLocation;
         }
 
-        const map = new window.Tmapv3.Map(mapRef.current, {
-            center: new window.Tmapv3.LatLng(currentLocation.latitude, currentLocation.longitude),
-            width: "100%",
-            height: "100%",
-            zoom: DEFAULT_ZOOM_LEVEL,
-            zoomControl: false,
-        });
+        try {
+            const map = new window.Tmapv3.Map(mapRef.current, {
+                center: new window.Tmapv3.LatLng(currentLocation.latitude, currentLocation.longitude),
+                width: "100%",
+                height: "100%",
+                zoom: DEFAULT_ZOOM_LEVEL,
+                zoomControl: false,
+            });
 
-        map.setZoomLimit(MIN_ZOOM_LEVEL, MAX_ZOOM_LEVEL);
-        setMapInstance(map);
+            map.setZoomLimit(MIN_ZOOM_LEVEL, MAX_ZOOM_LEVEL);
+            setMapInstance(map);
 
-        // Create initial marker
-        updateMarker(currentLocation);
+            // Create initial marker
+            updateMarker(currentLocation);
+        } catch (error) {
+            console.error('Failed to initialize map:', error);
+        }
     }, [mapRef, mapInstance, updateMarker]);
 
     return { mapInstance, updateMarker };

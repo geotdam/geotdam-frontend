@@ -9,6 +9,7 @@ const BookMark = ({ type = "place", onClick }) => {
   const altText = type === "route" ? "루트 북마크" : "장소 북마크";
 
   const VITE_BASE_URL = import.meta.env.VITE_BASE_URL; // .env에서 베이스 url 불러오기
+  const token = localStorage.getItem("token"); // 토큰 가져오기
 
   const handleClick = useCallback(async () => {
     let response;
@@ -26,13 +27,14 @@ const BookMark = ({ type = "place", onClick }) => {
       // 루트 북마크 api
       console.log("루트 북마크 호출");
       response = await fetch(
-        `${VITE_BASE_URL}/api/mypages/bookmarks/:routeId`,
+        `${VITE_BASE_URL}/api/mypages/bookmarks/${routeId}`, // 루트 id 연결하면 마저 진행해야할듯
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            /* 리퀘스트 바디 */
-          }),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({}),
         }
       );
     }
