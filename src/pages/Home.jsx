@@ -1,35 +1,38 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-import styles from '../assets/css/pages/home.module.css';
+import { useLocation, useNavigate } from "react-router-dom";
+import styles from "../assets/css/pages/home.module.css";
 
-import Leftbar from '../features/LeftBar/LeftBar';
-import MakeRoutePopup from '../features/LeftBar/MakeRoute/MakeRoutePopup';
-import SearchingRoutePopup from '../features/LeftBar/SearchingRoute/SearchingRoutePopup';
-import Map from '../features/Map';
-import MapButton from '../components/MapButton/MapButton';
+import Leftbar from "../features/LeftBar/LeftBar";
+import MakeRoutePopup from "../features/LeftBar/MakeRoute/MakeRoutePopup";
+import SearchingRoutePopup from "../features/LeftBar/SearchingRoute/SearchingRoutePopup";
+import Mypage from "../features/LeftBar/MyPage/MyPage";
+import Map from "../features/Map";
+import MapButton from "../components/MapButton/MapButton";
 
 const Home = () => {
   const navigate = useNavigate();
-  const { pathname } = useLocation(); 
+  const { pathname } = useLocation();
 
   // 주소와 leftBar 매핑
   const viewMap = {
-    '/makeRoute': 'makeRoute',
-    '/searchingRoute': 'searchingRoute',
-    '/searchingPlace': 'searchingPlace',
-    '/': 'home'
+    "/makeRoute": "makeRoute",
+    "/searchingRoute": "searchingRoute",
+    "/searchingPlace": "searchingPlace",
+    "/mypage": "mypage",
+    "/": "home",
   };
 
-  const getLeftbarView = viewMap[pathname] || 'home';
+  const getLeftbarView = viewMap[pathname] || "home";
 
   const handleLeftbarAction = (action) => {
     const actionMap = {
-      NEW_ROUTE: '/makeRoute',
-      SEARCHING_ROUTES: '/searchingRoute',
-      SEARCHING_PLACE: '/searchingPlace',
-      MORE_ROUTES: '/searchingRoute',
-      BACK: '/',
+      NEW_ROUTE: "/makeRoute",
+      SEARCHING_ROUTES: "/searchingRoute",
+      SEARCHING_PLACE: "/searchingPlace",
+      MORE_ROUTES: "/searchingRoute",
+      MYPAGE: "/mypage",
+      BACK: "/",
     };
-    navigate(actionMap[action] || '/');
+    navigate(actionMap[action] || "/");
   };
 
   return (
@@ -40,16 +43,20 @@ const Home = () => {
 
       <Leftbar view={getLeftbarView} onAction={handleLeftbarAction} />
 
-      {getLeftbarView  === 'makeRoute' && (
-        <MakeRoutePopup onBack={() => handleLeftbarAction('BACK')} />
+      {getLeftbarView === "makeRoute" && (
+        <MakeRoutePopup onBack={() => handleLeftbarAction("BACK")} />
       )}
 
-      {getLeftbarView  === 'searchingRoute' && (
-        <SearchingRoutePopup onBack={() => handleLeftbarAction('BACK')} />
+      {getLeftbarView === "searchingRoute" && (
+        <SearchingRoutePopup onBack={() => handleLeftbarAction("BACK")} />
       )}
 
-      {getLeftbarView  === 'searchingPlace' && (
-        <MakeRoutePopup onBack={() => handleLeftbarAction('BACK')} />
+      {getLeftbarView === "searchingPlace" && (
+        <MakeRoutePopup onBack={() => handleLeftbarAction("BACK")} />
+      )}
+
+      {getLeftbarView === "mypage" && (
+        <Mypage onBack={() => handleLeftbarAction("BACK")} />
       )}
 
       <MapButton />
