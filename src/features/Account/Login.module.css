@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999; /* 필요한 경우 더 크게 조정 */
+  z-index: 999;
 }
 
 .loginContainer {
