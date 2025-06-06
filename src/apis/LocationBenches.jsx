@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 class LocationBenches {
     static async getNearbyBenches() {
         try {
@@ -26,7 +28,7 @@ class LocationBenches {
             };
 
             // API 호출
-            const response = await axios.get('/api/locations/benches', config);
+            const response = await axios.get(`${BASE_URL}/api/location/benches`, config);
             console.log('API 응답:', response);
 
             // 응답 데이터 확인 및 반환
