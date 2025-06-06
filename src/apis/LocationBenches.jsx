@@ -29,11 +29,9 @@ class LocationBenches {
 
             // API 호출
             const response = await axios.get(`${BASE_URL}/api/location/benches`, config);
-            console.log('API 응답:', response);
 
             // 응답 데이터 확인 및 반환
             if (response.status === 200 && response.data) {
-                console.log('벤치 데이터 조회 성공:', response.data);
                 return response.data;  // .result 제거
             } else {
                 throw new Error('벤치 정보를 가져오는데 실패했습니다.');

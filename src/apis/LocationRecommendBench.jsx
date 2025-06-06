@@ -9,11 +9,8 @@ const LocationRecommendBench = {
    */
   getNearbyBenches: async () => {
     try {
-      console.log('=== LocationRecommendBench API 호출 시작 ===');
-      
       // 토큰 가져오기
       const token = localStorage.getItem('token');
-      console.log('저장된 토큰:', token);
       
       if (!token) {
         throw new Error('토큰이 없습니다.');
@@ -21,17 +18,13 @@ const LocationRecommendBench = {
 
       // localStorage에서 현재 위치 정보 가져오기
       const currentLocationStr = localStorage.getItem('currentLocation');
-      console.log('localStorage에서 가져온 위치 데이터:', currentLocationStr);
       
       if (!currentLocationStr) {
         throw new Error('현재 위치 정보가 없습니다.');
       }
 
       const currentLocation = JSON.parse(currentLocationStr);
-      console.log('파싱된 위치 데이터:', currentLocation);
-      
       const { latitude: lat, longitude: lon } = currentLocation;
-      console.log('사용할 위치 좌표:', { lat, lon });
 
       if (!lat || !lon) {
         throw new Error('위치 정보가 올바르지 않습니다.');
@@ -50,14 +43,10 @@ const LocationRecommendBench = {
         }
       };
 
-      console.log('API 요청 설정:', requestConfig);
-
       try {
         const response = await axios(requestConfig);
-        console.log('API 응답 성공:', response);
 
         if (response.data.isSuccess) {
-          console.log('벤치 데이터 조회 성공:', response.data.result);
           return response.data.result;
         }
 
