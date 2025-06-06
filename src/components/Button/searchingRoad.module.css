@@ -1,0 +1,36 @@
+.directionsWalkIcon {
+  	width: 24px;
+  	position: relative;
+  	height: 24px;
+}
+.div2 {
+  	position: relative;
+  	font-weight: 600;
+}
+.div1 {
+  	flex: 1;
+  	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.35);
+  	border-radius: 10px;
+  	background-color: #a5c64d;
+  	height: 48px;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: center;
+  	padding: 10px;
+  	box-sizing: border-box;
+  	gap: 4px;
+}
+.div {
+  	width: 100%;
+  	position: relative;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: flex-start;
+  	justify-content: flex-start;
+  	text-align: center;
+  	font-size: 17px;
+  	color: #f7f7f6;
+  	font-family: 'Noto Sans';
+}
+
