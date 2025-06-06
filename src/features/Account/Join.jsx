@@ -39,6 +39,7 @@ const Join = ({ onClose }) => {
           "Access-Control-Allow-Credentials": "true"
         },
         body: JSON.stringify({ email, password }),
+        credentials: "include"
       });
       const data = await res.json();
 
@@ -91,6 +92,7 @@ const Join = ({ onClose }) => {
           gender,
           address,
         }),
+        credentials: "include"
       });
 
       const data = await res.json();
