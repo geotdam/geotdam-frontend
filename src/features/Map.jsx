@@ -29,7 +29,7 @@ const useMap = (mapRef) => {
             position: position,
             map: mapInstance,
             icon: myLocationMarker,
-            iconSize: new window.Tmapv3.Size(48, 48),
+            iconSize: new window.Tmapv3.Size(24, 24),
         });
         
         setCurrentMarker(marker);
