@@ -2,14 +2,16 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import styles from './map.module.css';
 import myLocationMarker from '../assets/icons/mylocation-marker.svg';
 import benchMarker from '../assets/icons/benchmarkings.png';
+import cctvMarker from '../assets/icons/cctvMarking.png';
 import CustomMarker from '../components/Marker/CustomMarker';
 import LocationBenches from '../apis/LocationBenches';
+import LocationCctv from '../apis/LocationCctv';
 
 const DEFAULT_ZOOM_LEVEL = 15;
 const MIN_ZOOM_LEVEL = 7;
 const MAX_ZOOM_LEVEL = 19;
-const LOCATION_UPDATE_INTERVAL = 5000; // 5초마다 위치 업데이트
-const LOCATION_CHANGE_THRESHOLD = 0.0001; // 약 10미터 이상 차이날 때만 업데이트
+const LOCATION_UPDATE_INTERVAL = 5000;
+const LOCATION_CHANGE_THRESHOLD = 0.0001;
 
 const useMap = (mapRef) => {
     const [mapInstance, setMapInstance] = useState(null);
@@ -19,7 +21,6 @@ const useMap = (mapRef) => {
             return;
         }
 
-        // 로컬저장소로부터 위치를 얻어옴
         const defaultLocation = {
             latitude: 37.56520450,
             longitude: 126.98702028
@@ -59,6 +60,7 @@ const Map = () => {
         longitude: null,
     });
     const [benches, setBenches] = useState([]);
+    const [cctvs, setCctvs] = useState([]);
     const lastLocationRef = useRef({
         latitude: null,
         longitude: null,
@@ -84,6 +86,36 @@ const Map = () => {
         }
     }, [mapInstance]);
 
+    // CCTV 데이터 가져오기
+    useEffect(() => {
+        const fetchCctvs = async () => {
+            try {
+                const response = await LocationCctv.getNearbyCctvs();
+                if (response && response.markings && Array.isArray(response.markings)) {
+                    setCctvs(response.markings);
+                    console.log('CCTV data loaded:', response.markings.length, 'CCTVs found');
+                } else {
+                    console.log('No CCTV data in response:', response);
+                    setCctvs([]);
+                }
+            } catch (error) {
+                if (error.message !== '주변에 CCTV가 없습니다.') {
+                    console.error('Failed to fetch CCTVs:', error);
+                }
+                setCctvs([]);
+            }
+        };
+
+        if (mapInstance) {
+            fetchCctvs();
+            
+            // 위치가 업데이트될 때마다 CCTV 데이터도 업데이트
+            const locationCheckInterval = setInterval(fetchCctvs, LOCATION_UPDATE_INTERVAL);
+            
+            return () => clearInterval(locationCheckInterval);
+        }
+    }, [mapInstance]);
+
     // 위치 변경 여부 확인
     const hasLocationChanged = useCallback((newLocation) => {
         if (!lastLocationRef.current.latitude || !lastLocationRef.current.longitude) {
@@ -104,12 +136,10 @@ const Map = () => {
                 if (savedLocation) {
                     const location = JSON.parse(savedLocation);
                     
-                    // 위치가 일정 거리 이상 변경되었을 때만 업데이트
                     if (hasLocationChanged(location)) {
                         setCurrentLocation(location);
                         lastLocationRef.current = location;
                         
-                        // 위치가 변경되면 지도 중심 이동
                         if (mapInstance && location.latitude && location.longitude) {
                             const position = new window.Tmapv3.LatLng(location.latitude, location.longitude);
                             mapInstance.setCenter(position);
@@ -121,10 +151,8 @@ const Map = () => {
             }
         };
 
-        // 5초마다 위치 체크
         const intervalId = setInterval(checkLocationUpdate, LOCATION_UPDATE_INTERVAL);
 
-        // Initial check
         checkLocationUpdate();
 
         return () => clearInterval(intervalId);
@@ -140,7 +168,7 @@ const Map = () => {
                         icon={myLocationMarker}
                         iconSize={{ width: 28, height: 28 }}
                     />
-                    {benches && benches.length > 0 && benches.map((bench, index) => (
+                    {benches && benches.length > 0 && benches.map(bench => (
                         <CustomMarker
                             key={`${bench.id}-${bench.lat}-${bench.lon}`}
                             map={mapInstance}
@@ -150,6 +178,18 @@ const Map = () => {
                             }}
                             icon={benchMarker}
                             iconSize={{ width: 36, height: 36 }}
+                        />
+                    ))}
+                    {cctvs && cctvs.length > 0 && cctvs.map(cctv => (
+                        <CustomMarker
+                            key={`cctv-${cctv.id}`}
+                            map={mapInstance}
+                            position={{
+                                latitude: cctv.lat,
+                                longitude: cctv.lng
+                            }}
+                            icon={cctvMarker}
+                            iconSize={{ width: 32, height: 32 }}
                         />
                     ))}
                 </>
