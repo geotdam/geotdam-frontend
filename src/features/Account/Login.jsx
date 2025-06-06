@@ -19,12 +19,12 @@ const Login = ({ onClose }) => {
 
   // 구글 로그인
   const handleGoogleLogin = useCallback(() => {
-    window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/login/google`;
+    window.location.href = `${import.meta.env.VITE_BASE_URL}/api/auth/login/google`;
   }, []);
 
   // 카카오 로그인
   const handleKakaoLogin = useCallback(() => {
-    window.location.href = `${import.meta.env.VITE_API_URL}/api/auth/login/kakao`;
+    window.location.href = `${import.meta.env.VITE_BASE_URL}/api/auth/login/kakao`;
   }, []);
 
   // 이메일 로그인 버튼 클릭 → Join 컴포넌트로 전환
