@@ -3,3 +3,11 @@
 
 // 재사용 할 수 있게 카테고리 제외한 부분 컴포넌트 등록 필요
 // SearchingRoute 참고해서 만들면 됨
+
+// 기냥 임의로
+
+const MyPage = () => {
+  return <></>;
+};
+
+export default MyPage;
