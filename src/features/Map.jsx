@@ -3,9 +3,11 @@ import styles from './map.module.css';
 import myLocationMarker from '../assets/icons/mylocation-marker.svg';
 import benchMarker from '../assets/icons/benchmarkings.png';
 import cctvMarker from '../assets/icons/cctvMarking.png';
+import streetLightMarker from '../assets/icons/streetLight.png';
 import CustomMarker from '../components/Marker/CustomMarker';
 import LocationBenches from '../apis/LocationBenches';
 import LocationCctv from '../apis/LocationCctv';
+import LocationStreetLights from '../apis/LocationStreetLights';
 
 const DEFAULT_ZOOM_LEVEL = 15;
 const MIN_ZOOM_LEVEL = 7;
@@ -63,6 +65,7 @@ const Map = () => {
     });
     const [benches, setBenches] = useState([]);
     const [cctvs, setCctvs] = useState([]);
+    const [streetLights, setStreetLights] = useState([]);
     const lastLocationRef = useRef({
         latitude: null,
         longitude: null,
@@ -204,6 +207,24 @@ const Map = () => {
         return () => clearInterval(intervalId);
     }, [mapInstance, hasLocationChanged, shouldUpdateCctvs, fetchCctvs]);
 
+    // 가로등 데이터 가져오기
+    useEffect(() => {
+        const fetchStreetLights = async () => {
+            try {
+                const response = await LocationStreetLights.getNearbyStreetLights();
+                if (response && response.markings) {
+                    setStreetLights(response.markings);
+                }
+            } catch (error) {
+                console.error('Failed to fetch street lights:', error);
+            }
+        };
+
+        if (mapInstance) {
+            fetchStreetLights();
+        }
+    }, [mapInstance]);
+
     return (
         <div ref={mapRef} id="map_div" className={styles.map}>
             {mapInstance && currentLocation.latitude && currentLocation.longitude && (
@@ -244,6 +265,22 @@ const Map = () => {
                                     />
                                 );
                             })}
+                        </>
+                    )}
+                    {streetLights && streetLights.length > 0 && (
+                        <>
+                            {streetLights.map(light => (
+                                <CustomMarker
+                                    key={`streetlight-${light.id}`}
+                                    map={mapInstance}
+                                    position={{
+                                        latitude: light.lat,
+                                        longitude: light.lng
+                                    }}
+                                    icon={streetLightMarker}
+                                    iconSize={{ width: 32, height: 32 }}
+                                />
+                            ))}
                         </>
                     )}
                 </>
