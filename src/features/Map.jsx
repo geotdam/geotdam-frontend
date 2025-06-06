@@ -29,7 +29,7 @@ const useMap = (mapRef) => {
             position: position,
             map: mapInstance,
             icon: myLocationMarker,
-            iconSize: new window.Tmapv3.Size(48, 48),
+            iconSize: new window.Tmapv3.Size(24, 24),
         });
         
         setCurrentMarker(marker);
@@ -51,9 +51,7 @@ const useMap = (mapRef) => {
         try {
             const savedLocation = localStorage.getItem('currentLocation');
             currentLocation = savedLocation ? JSON.parse(savedLocation) : defaultLocation;
-            console.log('📍 Using location:', currentLocation);
         } catch (error) {
-            console.warn('⚠️ Error, 로컬로부터 위치 받아오기 실패:', error);
             currentLocation = defaultLocation;
         }
 
