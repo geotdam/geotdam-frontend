@@ -9,6 +9,7 @@ const LocationRecommendBench = {
    */
   getNearbyBenches: async () => {
     try {
+      
       // 토큰 가져오기
       const token = localStorage.getItem('token');
       
@@ -24,6 +25,7 @@ const LocationRecommendBench = {
       }
 
       const currentLocation = JSON.parse(currentLocationStr);
+      
       const { latitude: lat, longitude: lon } = currentLocation;
 
       if (!lat || !lon) {
@@ -43,33 +45,15 @@ const LocationRecommendBench = {
         }
       };
 
-      try {
-        const response = await axios(requestConfig);
+      const response = await axios(requestConfig);
 
-        if (response.data.isSuccess) {
-          return response.data.result;
-        }
-
-        throw new Error(response.data.message || '벤치 정보를 가져오는데 실패했습니다.');
-      } catch (axiosError) {
-        console.error('Axios 에러 상세:', {
-          status: axiosError.response?.status,
-          statusText: axiosError.response?.statusText,
-          data: axiosError.response?.data,
-          config: axiosError.config,
-          message: axiosError.message
-        });
-        throw axiosError;
+      if (response.data.isSuccess) {
+        return response.data.result;
       }
-    } catch (error) {
-      console.error('LocationRecommendBench 전체 에러:', {
-        name: error.name,
-        message: error.message,
-        stack: error.stack,
-        response: error.response?.data,
-        status: error.response?.status
-      });
 
+      throw new Error(response.data.message || '벤치 정보를 가져오는데 실패했습니다.');
+      
+    } catch (error) {
       if (error.response) {
         const { data, status } = error.response;
         

@@ -3,10 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 import styles from './Search.module.css'
 
-import searchIcon from '../../assets/icons/searchIcon.svg';
-import Profile from '../common/profile'
+import searchIcon from '../../assets/icons/searchIcon.svg'; 
 
-const Search = () => {
+const StartSearch = () => {
     const [query, setQuery] = useState('');
     const navigate = useNavigate();
 
@@ -29,21 +28,18 @@ const Search = () => {
     };
 
     return (
-        <div className={styles.search}>
-            <div className={styles.searchBar}>
-                <input
-                    type="text"
-                    className={styles.searchBar}
-                    value={query}
-                    onChange={handleChange}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Search Maps"
-                />
-                <img className={styles.SearchIcon} src={searchIcon} alt="searchIcon" onClick={onSearchClick} />
-            </div>
-            <Profile />
+        <div className={styles.startSearchBar}>
+            <input
+                type="text"
+                className={styles.searchText}
+                value={query}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+                placeholder="출발지"
+            />
+            <img className={styles.SearchIcon} src={searchIcon} alt="searchIcon" onClick={onSearchClick} />
         </div>
     );
 };
 
-export default Search;
+export default StartSearch;
