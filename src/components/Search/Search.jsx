@@ -1,4 +1,6 @@
 import { useState, useCallback } from 'react'
+import { useNavigate } from 'react-router-dom';
+
 import styles from './Search.module.css'
 
 import searchIcon from '../../assets/icons/searchIcon.svg';
@@ -6,13 +8,15 @@ import Profile from '../common/profile'
 
 const Search = () => {
     const [query, setQuery] = useState('');
+    const navigate = useNavigate();
 
     const onSearchClick = useCallback(() => {
+        // 검색어 없는 경우
         const trimmed = query?.trim();
         if (!trimmed) return;
-        console.log('검색 요청:', trimmed);
-        // 검색 API 연결
-    }, [query]);
+        // /searchingPlace 페이지로 이동
+        navigate(`/searchingPlace?query=${encodeURIComponent(trimmed)}`);
+    }, [query, navigate]);
 
     const handleKeyDown = useCallback((e) => {
         if (e.key === 'Enter') {
