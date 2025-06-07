@@ -3,9 +3,11 @@ import styles from './map.module.css';
 import myLocationMarker from '../assets/icons/mylocation-marker.svg';
 import benchMarker from '../assets/icons/benchmarkings.png';
 import cctvMarker from '../assets/icons/cctvMarking.png';
+import streetLightMarker from '../assets/icons/streetLight.png';
 import CustomMarker from '../components/Marker/CustomMarker';
 import LocationBenches from '../apis/LocationBenches';
 import LocationCctv from '../apis/LocationCctv';
+import LocationStreetLights from '../apis/LocationStreetLights';
 
 const DEFAULT_ZOOM_LEVEL = 15;
 const MIN_ZOOM_LEVEL = 7;
@@ -63,11 +65,16 @@ const Map = () => {
     });
     const [benches, setBenches] = useState([]);
     const [cctvs, setCctvs] = useState([]);
+    const [streetLights, setStreetLights] = useState([]);
     const lastLocationRef = useRef({
         latitude: null,
         longitude: null,
     });
     const lastCctvUpdateRef = useRef({
+        latitude: null,
+        longitude: null,
+    });
+    const lastStreetLightUpdateRef = useRef({
         latitude: null,
         longitude: null,
     });
@@ -113,10 +120,8 @@ const Map = () => {
 
         try {
             const response = await LocationCctv.getNearbyCctvs();
-            console.log('CCTV API Response:', response);
             
             if (response && Array.isArray(response.markings)) {
-                console.log('Setting CCTV markers:', response.markings.length);
                 setCctvs(response.markings);
                 lastCctvUpdateRef.current = location;
             } else {
@@ -137,7 +142,6 @@ const Map = () => {
                 if (savedLocation) {
                     const location = JSON.parse(savedLocation);
                     if (location && location.latitude && location.longitude) {
-                        console.log('Loading initial CCTV data with location:', location);
                         await fetchCctvs(location);
                     }
                 }
@@ -151,11 +155,6 @@ const Map = () => {
         }
     }, [mapInstance, fetchCctvs]);
 
-    // CCTV 상태 변경 모니터링
-    useEffect(() => {
-        console.log('CCTV state updated:', cctvs.length, 'markers');
-    }, [cctvs]);
-
     // 위치 변경 여부 확인
     const hasLocationChanged = useCallback((newLocation) => {
         if (!lastLocationRef.current.latitude || !lastLocationRef.current.longitude) {
@@ -167,6 +166,58 @@ const Map = () => {
 
         return latDiff > LOCATION_CHANGE_THRESHOLD || lonDiff > LOCATION_CHANGE_THRESHOLD;
     }, []);
+
+    // 가로등 위치가 크게 변경되었는지 확인
+    const shouldUpdateStreetLights = useCallback((newLocation) => {
+        if (!lastStreetLightUpdateRef.current.latitude || !lastStreetLightUpdateRef.current.longitude) {
+            return true;
+        }
+
+        const latDiff = Math.abs(newLocation.latitude - lastStreetLightUpdateRef.current.latitude);
+        const lonDiff = Math.abs(newLocation.longitude - lastStreetLightUpdateRef.current.longitude);
+
+        return latDiff > CCTV_UPDATE_THRESHOLD || lonDiff > CCTV_UPDATE_THRESHOLD;
+    }, []);
+
+    // 가로등 데이터 가져오기
+    const fetchStreetLights = useCallback(async (location) => {
+        if (!location || !location.latitude || !location.longitude) {
+            return;
+        }
+
+        try {
+            const response = await LocationStreetLights.getNearbyStreetLights();
+            console.log('Street Lights API Response:', response);
+            if (response && response.result && response.result.lamps) {
+                console.log('Setting street lights:', response.result.lamps.length);
+                setStreetLights(response.result.lamps);
+                lastStreetLightUpdateRef.current = location;
+            }
+        } catch (error) {
+            console.error('Failed to fetch street lights:', error);
+        }
+    }, []);
+
+    // 초기 가로등 데이터 로드
+    useEffect(() => {
+        const loadInitialStreetLights = async () => {
+            try {
+                const savedLocation = localStorage.getItem('currentLocation');
+                if (savedLocation) {
+                    const location = JSON.parse(savedLocation);
+                    if (location && location.latitude && location.longitude) {
+                        await fetchStreetLights(location);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading initial street light data:', error);
+            }
+        };
+
+        if (mapInstance) {
+            loadInitialStreetLights();
+        }
+    }, [mapInstance, fetchStreetLights]);
 
     // Update marker when localStorage location changes
     useEffect(() => {
@@ -184,9 +235,12 @@ const Map = () => {
                             const position = new window.Tmapv3.LatLng(location.latitude, location.longitude);
                             mapInstance.setCenter(position);
 
-                            // 위치가 크게 변경되었을 때만 CCTV 데이터 업데이트
+                            // 위치가 크게 변경되었을 때만 CCTV와 가로등 데이터 업데이트
                             if (shouldUpdateCctvs(location)) {
                                 fetchCctvs(location);
+                            }
+                            if (shouldUpdateStreetLights(location)) {
+                                fetchStreetLights(location);
                             }
                         }
                     }
@@ -202,7 +256,7 @@ const Map = () => {
         checkLocationUpdate();
 
         return () => clearInterval(intervalId);
-    }, [mapInstance, hasLocationChanged, shouldUpdateCctvs, fetchCctvs]);
+    }, [mapInstance, hasLocationChanged, shouldUpdateCctvs, fetchCctvs, shouldUpdateStreetLights, fetchStreetLights]);
 
     return (
         <div ref={mapRef} id="map_div" className={styles.map}>
@@ -228,9 +282,7 @@ const Map = () => {
                     ))}
                     {cctvs && cctvs.length > 0 && (
                         <>
-                            {console.log('Rendering CCTV markers:', cctvs.length)}
                             {cctvs.map(cctv => {
-                                console.log('CCTV marker data:', cctv);
                                 return (
                                     <CustomMarker
                                         key={`cctv-${cctv.id}`}
@@ -240,6 +292,26 @@ const Map = () => {
                                             longitude: cctv.lng
                                         }}
                                         icon={cctvMarker}
+                                        iconSize={{ width: 32, height: 32 }}
+                                    />
+                                );
+                            })}
+                        </>
+                    )}
+                    {streetLights && streetLights.length > 0 && (
+                        <>
+                            {console.log('Rendering street lights:', streetLights.length)}
+                            {streetLights.map(light => {
+                                console.log('Street light data:', light);
+                                return (
+                                    <CustomMarker
+                                        key={`streetlight-${light.id}`}
+                                        map={mapInstance}
+                                        position={{
+                                            latitude: parseFloat(light.lat),
+                                            longitude: parseFloat(light.lon)
+                                        }}
+                                        icon={streetLightMarker}
                                         iconSize={{ width: 32, height: 32 }}
                                     />
                                 );
