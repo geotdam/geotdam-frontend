@@ -52,32 +52,7 @@ const LocationStreetLights = {
         throw new Error(response.data.message || '가로등 정보를 가져오는데 실패했습니다.');
       }
 
-      // result와 markings 배열 존재 여부 확인
-      if (!response.data.result || !Array.isArray(response.data.result.markings)) {
-        return { markings: [] };
-      }
-
-      // 각 marking 객체의 필수 필드 검증 및 데이터 구조 변환
-      const validMarkings = response.data.result.markings
-        .filter(marking => {
-          return marking && 
-                 marking.id && 
-                 marking.point && 
-                 typeof marking.point.lat === 'number' && 
-                 typeof marking.point.lng === 'number';
-        })
-        .map(marking => ({
-          id: marking.id,
-          lat: marking.point.lat,
-          lng: marking.point.lng,
-          type: marking.type,
-          name: marking.name,
-          address: marking.address
-        }));
-
-      return {
-        markings: validMarkings
-      };
+      return response.data;
 
     } catch (error) {
       if (error.response) {
