@@ -13,7 +13,7 @@ const PlaceInfo = ( { place } ) => {
       <StartSearch />
       <SearchingRoad />
       <TransportModes />
-      <PlaceInfoCard />
+      <PlaceInfoCard place={place} />
       <RatingCard />
       <ReportFooter />
     </>
