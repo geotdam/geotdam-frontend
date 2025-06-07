@@ -11,6 +11,7 @@ import ReportFooter from "../../components/ReportFooter/ReportFooter";
 import SearchingRoute from "./SearchingRoute/SearchingRoute";
 import MakeRoute from "./MakeRoute/MakeRoute";
 import Mypage from "./MyPage/MyPage";
+import SearchingPlace from "./SearchingPlace/SearchingPlace";
 
 const Leftbar = ({ view, onAction }) => {
   return (
@@ -38,10 +39,12 @@ const Leftbar = ({ view, onAction }) => {
         )}
 
         {view === "searchingPlace" && (
-          <SearchingRoute onBack={() => onAction("BACK")} />
+          <SearchingPlace onBack={() => onAction("BACK")} />
         )}
 
-        {view === "mypage" && <Mypage onBack={() => onAction("BACK")} />}
+        {view === "mypage" && (
+          <Mypage onBack={() => onAction("BACK")} />
+        )}
       </div>
     </div>
   );
