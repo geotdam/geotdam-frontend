@@ -52,7 +52,7 @@ const Home = () => {
       )}
 
       {getLeftbarView === "searchingPlace" && (
-        <MakeRoutePopup onBack={() => handleLeftbarAction("BACK")} />
+        <SearchingPlace onBack={() => handleLeftbarAction("BACK")} />
       )}
 
       {getLeftbarView === "mypage" && (
