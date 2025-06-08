@@ -1,0 +1,72 @@
+.mypage {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+.profile {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profileImage {
+    width: 120px;
+    height: 120px;
+    border-radius: 60px;
+    margin-bottom: 16px;
+    object-fit: cover;
+}
+
+.nickname {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 8px;
+    color: #333;
+}
+
+.email {
+    font-size: 16px;
+    color: #666;
+    margin: 0;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+@media (min-width: 768px) {
+    .content {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.section {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 16px;
+    color: #333;
+}
+
+.routes, .bookmarks {
+    min-height: 200px;
+}
+
+.routes p, .bookmarks p {
+    color: #666;
+    text-align: center;
+    margin-top: 80px;
+} 

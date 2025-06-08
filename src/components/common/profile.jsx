@@ -1,31 +1,51 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import styles from './profile.module.css'
 
 import profileImage from '../../assets/mock/profile.svg'
 import LoginPopup from '../../features/Account/Login'
-import Join from '../../features/Account/Join'
 
 const Profile = () => {
-    // 로그인 여부, 여기 백엔드 연결 필요~~
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
-    // 로그인 팝업 표시 여부
-    const [showLogin, setShowLogin] = useState(false)
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [showLogin, setShowLogin] = useState(false);
+
+    useEffect(() => {
+        // 로컬 스토리지에서 토큰을 확인하여 로그인 상태 체크
+        const token = localStorage.getItem('token');
+        setIsLoggedIn(!!token);
+
+        // URL에 token이 있으면 홈으로 리다이렉트
+        if (location.search.includes('token=')) {
+            window.history.replaceState({}, '', '/');
+        }
+    }, [location]);
 
     const onProfileClick = useCallback(() => {
-        if (!isLoggedIn) {
-            setShowLogin(true)
+        const token = localStorage.getItem('token');
+        if (!token) {
+            setShowLogin(true);
         } else {
-            // 이미 로그인 된 상태
+            // 현재 경로가 홈이 아니면 홈으로 이동
+            if (location.pathname !== '/') {
+                navigate('/');
+            } else {
+                // 홈에서만 마이페이지로 이동
+                navigate('/mypage');
+            }
         }
-    }, [isLoggedIn])
+    }, [navigate, location]);
 
     const handleCloseLogin = () => {
-        setShowLogin(false)
-    }
+        setShowLogin(false);
+        // 로그인 팝업이 닫힐 때 로그인 상태 다시 체크
+        const token = localStorage.getItem('token');
+        setIsLoggedIn(!!token);
+    };
 
     return (
         <>
-        {/* 사용자 이미지로 변경 필요 */}
             <img
                 className={styles.profile}
                 src={profileImage}
