@@ -35,6 +35,7 @@ const SearchingPlace = () => {
         if (res.data?.isSuccess && Array.isArray(res.data.result)) {
         const uniquePlaces = Array.from(
           new Map(res.data.result.map(p => [p.place_id, p])).values()
+          
         );
         setPlaces(uniquePlaces);
       } else {
