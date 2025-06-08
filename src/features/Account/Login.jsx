@@ -12,69 +12,7 @@ import Join from '../../features/Account/Join'
  
 const Login = ({ onClose }) => {
   const [showJoin, setShowJoin] = useState(false);
-  const [showEmailForm, setShowEmailForm] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
-
-  // 사용자 정보 가져오기
-  const fetchUserInfo = async (token) => {
-    try {
-      const response = await fetch(`${VITE_BASE_URL}/api/auth`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch user info');
-      }
-      
-      const userData = await response.json();
-      console.log('User data:', userData); // 디버깅용
-      localStorage.setItem('user', JSON.stringify(userData));
-      return userData;
-    } catch (error) {
-      console.error('Error fetching user info:', error);
-      return null;
-    }
-  };
-
-  // 소셜 로그인 성공 후 처리
-  const handleLoginSuccess = async (token) => {
-    if (!token) return;
-    
-    console.log('Received token:', token);
-    localStorage.setItem('token', token);
-    localStorage.setItem('accessToken', token);
-    
-    try {
-      // 사용자 정보 가져오기
-      const userData = await fetchUserInfo(token);
-      if (userData) {
-        console.log('Token stored, user data fetched');
-        onClose();
-        // URL에서 토큰 제거하고 홈으로 이동
-        window.history.replaceState({}, '', '/');
-        window.location.reload();
-      }
-    } catch (error) {
-      console.error('Error in handleLoginSuccess:', error);
-    }
-  };
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get('token');
-    
-    if (token) {
-      console.log('Token found in URL:', token);
-      console.log('Current localStorage:', localStorage.getItem('token')); // 디버깅
-      handleLoginSuccess(token).then(() => {
-        console.log('After handleLoginSuccess - localStorage:', localStorage.getItem('token')); // 디버깅
-      });
-    }
-  }, []);
 
   // 구글 로그인
   const handleGoogleLogin = useCallback(() => {
