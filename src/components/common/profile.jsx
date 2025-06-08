@@ -12,30 +12,54 @@ const Profile = () => {
     const [showLogin, setShowLogin] = useState(false);
 
     useEffect(() => {
-        // 로컬 스토리지에서 토큰을 확인하여 로그인 상태 체크
-        const token = localStorage.getItem('token');
-        setIsLoggedIn(!!token);
-
-        // URL에 token이 있으면 홈으로 리다이렉트
-        if (location.search.includes('token=')) {
+        const params = new URLSearchParams(location.search);
+        const token = params.get('token');
+    
+        if (token) {
+            console.log('토큰 감지됨:', token);
+            localStorage.setItem('token', token);
+            localStorage.setItem('accessToken', token);
+    
+            // 사용자 정보 가져오기 시도 (선택)
+            fetchUserInfo(token).then(user => {
+                if (user) {
+                    localStorage.setItem('user', JSON.stringify(user));
+                }
+            });
+    
+            // URL에서 토큰 제거하고 새로고침
             window.history.replaceState({}, '', '/');
+            window.location.reload();
+        } else {
+            // 초기 로그인 상태 체크
+            const savedToken = localStorage.getItem('token');
+            setIsLoggedIn(!!savedToken);
         }
     }, [location]);
+
+    // fetchUserInfo 함수도 Profile 컴포넌트에 추가
+    const fetchUserInfo = async (token) => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/auth`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (!response.ok) throw new Error('유저 정보 요청 실패');
+            return await response.json();
+        } catch (error) {
+            console.error('유저 정보 불러오기 실패:', error);
+            return null;
+        }
+    };
 
     const onProfileClick = useCallback(() => {
         const token = localStorage.getItem('token');
         if (!token) {
             setShowLogin(true);
         } else {
-            // 현재 경로가 홈이 아니면 홈으로 이동
-            if (location.pathname !== '/') {
-                navigate('/');
-            } else {
-                // 홈에서만 마이페이지로 이동
-                navigate('/mypage');
-            }
+            // 로그인 상태이면 무조건 마이페이지로 이동
+            navigate('/mypage');
         }
-    }, [navigate, location]);
+    }, [navigate]);    
 
     const handleCloseLogin = () => {
         setShowLogin(false);
