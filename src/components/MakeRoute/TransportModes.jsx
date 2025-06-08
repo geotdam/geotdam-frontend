@@ -1,22 +1,38 @@
 import styles from './TransportModes.module.css';
-
 import bikeIcon from '../../assets/icons/bike.svg';
 import walkIcon from '../../assets/icons/walk.svg';
 import busIcon from '../../assets/icons/bus.svg';
 
-const transportData = [
-  { icon: bikeIcon, label: '20 min' },
-  { icon: walkIcon, label: '34 min' },
-  { icon: busIcon, label: '12d 55 min' }
-];
+const TransportModes = ({ routeData }) => {
+  if (!routeData || !Array.isArray(routeData)) return null;
 
-const TransportModes = () => {
+  const handleClick = (polyline) => {
+    if (polyline?.length > 0) {
+      localStorage.setItem('currentPolyline', JSON.stringify(polyline));
+      window.dispatchEvent(new Event('polylineChanged'));
+    }
+  };
+
+  const modeToIcon = {
+    WALK: walkIcon,
+    CAR: bikeIcon,
+    TRANSIT: busIcon,
+  };
+
   return (
     <div className={styles.transportList}>
-      {transportData.map((mode, index) => (
-        <div key={index} className={styles.transportItem}>
-          <img src={mode.icon} alt="교통수단 아이콘" className={styles.icon} />
-          <div className={styles.label}>{mode.label}</div>
+      {routeData.map((route, index) => (
+        <div
+          key={index}
+          className={styles.transportItem}
+          onClick={() => handleClick(route.polyline)}
+        >
+          <img
+            src={modeToIcon[route.mode] || walkIcon}
+            alt={`${route.mode} 아이콘`}
+            className={styles.icon}
+          />
+          <div className={styles.label}>{Math.round(route.duration / 60)}분</div>
         </div>
       ))}
     </div>
