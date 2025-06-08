@@ -80,6 +80,45 @@ const Map = () => {
     });
     
     const { mapInstance } = useMap(mapRef);
+    const drawnRouteRef = useRef(null);
+ 
+    //polyline 그리기 
+    useEffect(() => {
+    const drawSavedPolyline = () => {
+    const polylineStr = localStorage.getItem('currentPolyline');
+    if (!polylineStr || !mapInstance) return;
+
+    const polyline = JSON.parse(polylineStr);
+    if (!Array.isArray(polyline) || polyline.length === 0) return;
+
+    // 기존 선 제거
+    if (drawnRouteRef.current) {
+      drawnRouteRef.current.setMap(null);
+    }
+
+    const linePath = polyline.map(p => new window.Tmapv3.LatLng(p.lat, p.lng));
+
+    const routeLine = new window.Tmapv3.Polyline({
+      path: linePath,
+      strokeColor: "#F3A5B2",
+      strokeWeight: 6,
+      direction: true,
+      directionColor: "#F3A5B2",
+      map: mapInstance
+     });
+
+    drawnRouteRef.current = routeLine;
+    mapInstance.setCenter(linePath[0]);
+    };
+
+    window.addEventListener('polylineChanged', drawSavedPolyline);
+    drawSavedPolyline(); // 최초에도 한번 그림
+
+    return () => {
+      window.removeEventListener('polylineChanged', drawSavedPolyline);
+    };
+    }, [mapInstance]);
+
 
     // 벤치 데이터 가져오기
     useEffect(() => {
