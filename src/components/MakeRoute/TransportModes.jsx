@@ -1,13 +1,14 @@
-import styles from './TransportModes.module.css';
+import styles from "./TransportModes.module.css";
 
-import bikeIcon from '../../assets/icons/bike.svg';
-import walkIcon from '../../assets/icons/walk.svg';
-import busIcon from '../../assets/icons/bus.svg';
+// import bikeIcon from '../../assets/icons/bike.svg';
+import carIcon from "../../assets/icons/car.svg"; // bike icon -> car icon으로 수정
+import walkIcon from "../../assets/icons/walk.svg";
+import busIcon from "../../assets/icons/bus.svg";
 
 const transportData = [
-  { icon: bikeIcon, label: '20 min' },
-  { icon: walkIcon, label: '34 min' },
-  { icon: busIcon, label: '12d 55 min' }
+  { icon: carIcon, label: "20 min" },
+  { icon: walkIcon, label: "34 min" },
+  { icon: busIcon, label: "12d 55 min" },
 ];
 
 const TransportModes = () => {
