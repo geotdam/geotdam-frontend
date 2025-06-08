@@ -1,7 +1,9 @@
 import styles from './TransportModes.module.css';
-import bikeIcon from '../../assets/icons/bike.svg';
-import walkIcon from '../../assets/icons/walk.svg';
-import busIcon from '../../assets/icons/bus.svg';
+
+//import bikeIcon from '../../assets/icons/bike.svg';
+import carIcon from "../../assets/icons/car.svg"; // 차 아이콘
+import walkIcon from '../../assets/icons/walk.svg'; // 걷는 이모티콘 
+import busIcon from '../../assets/icons/bus.svg'; // 대중교통 이모티콘 
 
 const TransportModes = ({ routeData }) => {
   if (!routeData || !Array.isArray(routeData)) return null;
@@ -15,7 +17,7 @@ const TransportModes = ({ routeData }) => {
 
   const modeToIcon = {
     WALK: walkIcon,
-    CAR: bikeIcon,
+    CAR: carIcon,
     TRANSIT: busIcon,
   };
 
@@ -32,7 +34,7 @@ const TransportModes = ({ routeData }) => {
             alt={`${route.mode} 아이콘`}
             className={styles.icon}
           />
-          <div className={styles.label}>{Math.round(route.duration / 60)}분</div>
+          <div className={styles.label}>{Math.round(route.duration / 60)}분</div> /* */
         </div>
       ))}
     </div>
