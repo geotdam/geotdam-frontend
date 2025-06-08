@@ -15,12 +15,17 @@ const PlaceInfo = ({ place }) => {
   const [originName, setOriginName] = useState('');
   const [routeData, setRouteData] = useState([]); // 각 교통수단별 경로 정보
 
+  
+  //console.log("출발지:", originName);
+  //console.log("목적지:", place.place_name);
+
+
   const handleSearchRoute = async () => {
     try {
       const response = await axios.get(`${VITE_BASE_URL}/api/maps`, {
         params: {
           originName,
-          destinationName: place?.name || '숭례문'
+          destinationName: place.place_name,
         }
       });
 
