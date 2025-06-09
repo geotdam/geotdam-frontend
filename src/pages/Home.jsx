@@ -51,13 +51,14 @@ const Home = () => {
         <SearchingRoutePopup onBack={() => handleLeftbarAction("BACK")} />
       )}
 
-      {getLeftbarView === "searchingPlace" && (
+      {/* 팝업이 필요하다면 추가 */}
+      {/* {getLeftbarView === "searchingPlace" && (
         <SearchingPlace onBack={() => handleLeftbarAction("BACK")} />
       )}
 
       {getLeftbarView === "mypage" && (
         <Mypage onBack={() => handleLeftbarAction("BACK")} />
-      )}
+      )} */}
 
       <MapButton />
     </div>

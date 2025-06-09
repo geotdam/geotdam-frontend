@@ -110,6 +110,7 @@
   flex-direction: row;
   align-items: flex-start;
   gap: 8px;
+  cursor: pointer;
 }
 .addPlaceWrapper {
   flex: 1;

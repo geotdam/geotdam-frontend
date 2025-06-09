@@ -59,7 +59,6 @@ const PlaceInfo = ({ place }) => {
       <TransportModes routeData={routeData} />
       <PlaceInfoCard place={place} />
       <RatingCard />
-      <ReportFooter />
     </>
   );
 };

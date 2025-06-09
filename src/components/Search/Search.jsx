@@ -14,10 +14,12 @@ const Search = () => {
         // 검색어 없는 경우
         const trimmed = query?.trim();
         if (!trimmed) return;
-        // /searchingPlace 페이지로 이동
-        navigate(`/searchingPlace?query=${encodeURIComponent(trimmed)}`);
-        saveRecentPlace(trimmed); 
-    }, [query, navigate]);
+
+        // 단순 장소 검색인지, 루트 생성을 위한 검색인지
+        const basePath = location.pathname === '/makeRoute' ? '/makeRoute' : '/searchingPlace';
+        navigate(`${basePath}?query=${encodeURIComponent(trimmed)}`);
+        saveRecentPlace(trimmed);
+    }, [query, location, navigate]);
 
     const handleKeyDown = useCallback((e) => {
         if (e.key === 'Enter') {
