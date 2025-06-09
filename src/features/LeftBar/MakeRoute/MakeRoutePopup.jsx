@@ -14,6 +14,7 @@ const MakeRoutePopup = () => {
   const [searchParams] = useSearchParams();
   const placeId = searchParams.get('placeId'); 
   const [routePlaces, setRoutePlaces] = useState([]);
+  const [routeImageUrl, setRouteImageUrl] = useState(null); //루트 이미지 상태
 
   const handleAddPlace = async () => {
     if (!placeId) return;
@@ -35,10 +36,29 @@ const MakeRoutePopup = () => {
     }
   }; 
 
+  //이미지 업로드 핸들러
+  const handleImageUpload = async (file) => {
+    if (!file) return;// 파일 아니면 작동 x 
+
+    const formData = new FormData();
+    formData.append('image', file);
+    console.log('[MakeRoutePopup] 이미지 업로드 요청 중...');
+
+    try {
+      const res = await axios.post(`${VITE_BASE_URL}/api/upload/image`, formData);//이미지 업로드 api 연결
+      const uploadedUrl = res.data.url;
+      setRouteImageUrl(uploadedUrl); //받아온 이미지 url 저장하기
+      console.log('[MakeRoutePopup] 업로드된 이미지 URL:', uploadedUrl);
+      // 이 URL을 루트 생성 시 서버로 함께 전송하면 됩니다
+    } catch (err) {
+      console.error('❌ 이미지 업로드 실패:', err);
+    }
+  };
+
   return (
     <div className={styles.route}>
       <div className={styles.scroll}>
-        <RouteHeader />
+        <RouteHeader imageUrl={routeImageUrl} onImageUpload={handleImageUpload} /> {/*루트 이미지 띄우기기 */}
         {routePlaces.map((place, idx) => (
           <RouteStepCard
             key={place.place_id}
