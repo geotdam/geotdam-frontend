@@ -1,17 +1,19 @@
-import PlaceHeader from '../../../components/MakeRoute/PlaceHeader';
-import TransportModes from '../../../components/MakeRoute/TransportModes';
-import PlaceInfoCard from '../../../components/PlaceInfo/PlaceInfoCard';
-import RatingCard from '../../../components/Rating/RatingCard';
-import ReportFooter from '../../../components/ReportFooter/ReportFooter';
+import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import MakeRoutePopup from './MakeRoutePopup';
+import SearchingPlace from '../SearchingPlace/SearchingPlace'; 
 
 const MakeRoute = () => {
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get('query');   
+
   return (
     <>
-      <PlaceHeader />
-      <TransportModes />
-      <PlaceInfoCard />
-      <RatingCard />
-      <ReportFooter />
+      <SearchingPlace
+        query={query} 
+        mode="embedded"
+      />
+      <MakeRoutePopup /> 
     </>
   );
 };
