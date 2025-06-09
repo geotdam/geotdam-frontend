@@ -18,11 +18,13 @@ const Search = () => {
         // 단순 장소 검색인지, 루트 생성을 위한 검색인지
         const basePath = location.pathname === '/makeRoute' ? '/makeRoute' : '/searchingPlace';
         navigate(`${basePath}?query=${encodeURIComponent(trimmed)}`);
+        saveRecentPlace(trimmed);
     }, [query, location, navigate]);
 
     const handleKeyDown = useCallback((e) => {
         if (e.key === 'Enter') {
             onSearchClick(e.target.value);
+            saveRecentPlace(query);
         }
     }, [onSearchClick]);
 
@@ -47,5 +49,22 @@ const Search = () => {
         </div>
     );
 };
+
+const saveRecentPlace = (placeName) => {
+  const stored = localStorage.getItem('recentPlaces');
+  let places = stored ? JSON.parse(stored) : [];
+
+  // 중복 제거
+  places = places.filter((p) => p !== placeName);
+
+  // 맨 앞에 추가
+  places.unshift(placeName);
+
+  // 최대 3개 저장
+  if (places.length > 3) places = places.slice(0, 3);
+
+  localStorage.setItem('recentPlaces', JSON.stringify(places));
+};
+
 
 export default Search;

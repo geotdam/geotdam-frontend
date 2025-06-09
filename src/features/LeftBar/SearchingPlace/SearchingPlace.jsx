@@ -38,7 +38,7 @@ const SearchingPlace = ({ query: externalQuery, onPlaceSelect, mode = 'standalon
           const uniquePlaces = Array.from(
             new Map(res.data.result.map(p => [p.place_id, p])).values()
           );
-          setPlaces(uniquePlaces); 
+          setPlaces(uniquePlaces);
         } else {
           setPlaces([]);
         }
@@ -68,7 +68,7 @@ const SearchingPlace = ({ query: externalQuery, onPlaceSelect, mode = 'standalon
       ) : (
         // 장소 리스트
         <>
-        <RecentPlace />
+          <RecentPlace />
           {places.map((place, index) => {
             const label = String.fromCharCode(65 + index);
             return (

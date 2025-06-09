@@ -16,13 +16,17 @@ const BookMark = ({ type = "place", onClick }) => {
     if (type === "place") {
       // 장소 북마크 api
       console.log("장소 북마크 호출");
-      response = await fetch(`${VITE_BASE_URL}/api/`, {
-        method: "",
-        headers: {},
-        body: JSON.stringify({
-          /* 리퀘스트 바디 */
-        }),
-      });
+      response = await fetch(
+        `${VITE_BASE_URL}/api/places/${placeId}/bookmark`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({}),
+        }
+      );
     } else {
       // 루트 북마크 api
       console.log("루트 북마크 호출");
