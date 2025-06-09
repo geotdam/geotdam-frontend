@@ -15,7 +15,6 @@ const PlaceInfo = ( { place } ) => {
       <TransportModes />
       <PlaceInfoCard place={place} />
       <RatingCard />
-      <ReportFooter />
     </>
   );
 };
