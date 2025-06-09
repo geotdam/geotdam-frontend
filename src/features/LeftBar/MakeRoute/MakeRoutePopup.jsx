@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import axios from 'axios';
 import styles from './MakeRoutePopup.module.css';
 
 import RouteHeader from '../../../components/MakeRoute/RouteHeader';
@@ -5,34 +8,49 @@ import RouteStepCard from '../../../components/MakeRoute/RouteStepCard';
 import AddPlaceCard from '../../../components/MakeRoute/AddPlaceCard';
 import SaveButton from '../../../components/Button/SaveButton';
 
-const routeSteps = [
-  {
-    step: 1,
-    color: 'pink',
-    name: 'byTOFU',
-    time: '9:00 - 15:00', 
-    address: '123 Hansik-ro, Eumsik-si, Seoul, 444555',
-    phone: '+375 (17) 327-10-45',
-  },
-  {
-    step: 2,
-    color: 'gray',
-    name: 'eeee',
-    time: '10:00 - 14:00', 
-    address: '456 Food Rd, Seoul',
-    phone: '+82-10-1234-5678',
-  },
-];
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const MakeRoutePopup = () => {
+  const [searchParams] = useSearchParams();
+  const placeId = searchParams.get('placeId'); 
+  const [routePlaces, setRoutePlaces] = useState([]);
+
+  const handleAddPlace = async () => {
+    if (!placeId) return;
+
+    // 이미 추가된 장소인지 확인
+    if (routePlaces.find(p => p.place_id === placeId)) return;
+
+    try {
+      const res = await axios.get(`${VITE_BASE_URL}/api/places/${placeId}`);
+      const place = res.data?.result;
+
+      if (place) {
+        setRoutePlaces(prev => [...prev, place]);
+      } else {
+        console.warn('🔍 장소 정보 없음');
+      }
+    } catch (err) {
+      console.error('❌ 장소 정보 불러오기 실패:', err);
+    }
+  }; 
+
   return (
     <div className={styles.route}>
       <div className={styles.scroll}>
         <RouteHeader />
-        {routeSteps.map((stepData, idx) => (
-          <RouteStepCard key={idx} {...stepData} />
+        {routePlaces.map((place, idx) => (
+          <RouteStepCard
+            key={place.place_id}
+            step={idx + 1}
+            name={place.place_name}
+            address={place.roadAddress}
+            phone={place.tel}
+            time={place.additionalInfo}
+          />
         ))}
-        <AddPlaceCard step="3" />
+
+        <AddPlaceCard step={routePlaces.length + 1} onClick={handleAddPlace} />
         <SaveButton />
       </div>
     </div>

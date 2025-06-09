@@ -110,6 +110,7 @@
   flex-direction: row;
   align-items: flex-start;
   gap: 8px;
+  cursor: pointer;
 }
 .addPlaceWrapper {
   flex: 1;
@@ -142,4 +143,13 @@
   align-items: center;
   justify-content: center;
   flex-direction: row;
+}
+
+.thumbnail {
+  align-self: stretch;
+  border-radius: 10px;
+  max-width: 100%;
+  overflow: hidden;
+  height: 186px; 
+  object-fit: cover;
 }
