@@ -48,7 +48,7 @@ const RouteHeader = ({ imageUrl, onImageUpload }) => {
         onClick={handleClick} //썸네일 클릭 가능
         onError={(e) => {
           e.target.onerror = null;
-          e.target.src = 'src/assets/mock/thumb.jpg';
+         // e.target.src = 'src/assets/mock/thumb.jpg';
         }}
       />
       <b className={styles.routeTitle}>Name of Route</b>
