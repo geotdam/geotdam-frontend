@@ -2,14 +2,13 @@ import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const LocationRecommendBench = {
+const LocationCctv = {
   /**
-   * 현재 위치 주변 벤치 정보를 가져오는 API (반경 1km 이내)
-   * @returns {Promise} - 벤치 정보 응답 (장소명, 주소, 위경도 포함)
+   * 현재 위치 주변 CCTV 정보를 가져오는 API (반경 100m 이내)
+   * @returns {Promise} - CCTV 정보 응답
    */
-  getNearbyBenches: async () => {
+  getNearbyCctvs: async () => {
     try {
-      
       // 토큰 가져오기
       const token = localStorage.getItem('token');
       
@@ -25,34 +24,61 @@ const LocationRecommendBench = {
       }
 
       const currentLocation = JSON.parse(currentLocationStr);
-      
-      const { latitude: lat, longitude: lon } = currentLocation;
+      const { latitude, longitude } = currentLocation;
 
-      if (!lat || !lon) {
+      if (!latitude || !longitude) {
         throw new Error('위치 정보가 올바르지 않습니다.');
       }
 
-      const requestConfig = {
+      const response = await axios({
         method: 'GET',
-        url: `${BASE_URL}/api/locations/near/benches`,
+        url: `${BASE_URL}/api/markings/cctv`,
         params: {
-          lat,
-          lon
+          latitude,
+          longitude
         },
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
-      };
+      });
 
-      const response = await axios(requestConfig);
-
-      if (response.data.isSuccess) {
-        return response.data.result;
+      // 응답 데이터 안전성 검사
+      if (!response.data) {
+        throw new Error('응답 데이터가 없습니다.');
       }
 
-      throw new Error(response.data.message || '벤치 정보를 가져오는데 실패했습니다.');
-      
+      if (!response.data.isSuccess) {
+        throw new Error(response.data.message || 'CCTV 정보를 가져오는데 실패했습니다.');
+      }
+
+      // result와 markings 배열 존재 여부 확인
+      if (!response.data.result || !Array.isArray(response.data.result.markings)) {
+        return { markings: [] };
+      }
+
+      // 각 marking 객체의 필수 필드 검증 및 데이터 구조 변환
+      const validMarkings = response.data.result.markings
+        .filter(marking => {
+          return marking && 
+                 marking.id && 
+                 marking.point && 
+                 typeof marking.point.lat === 'number' && 
+                 typeof marking.point.lng === 'number';
+        })
+        .map(marking => ({
+          id: marking.id,
+          lat: marking.point.lat,
+          lng: marking.point.lng,
+          type: marking.type,
+          name: marking.name,
+          address: marking.address
+        }));
+
+      return {
+        markings: validMarkings
+      };
+
     } catch (error) {
       if (error.response) {
         const { data, status } = error.response;
@@ -60,7 +86,7 @@ const LocationRecommendBench = {
         // HTTP 상태 코드별 에러 처리
         switch (status) {
           case 404:
-            throw new Error('주변에 벤치가 없습니다.');
+            throw new Error('주변에 CCTV가 없습니다.');
           case 400:
             throw new Error(data.message || '잘못된 요청입니다.');
           case 401:
@@ -73,7 +99,7 @@ const LocationRecommendBench = {
             } else if (data.code === 'COMMON4001') {
               throw new Error('현재 위치를 가져올 수 없습니다.');
             }
-            throw new Error(data.message || '벤치 정보를 가져오는데 실패했습니다.');
+            throw new Error(data.message || 'CCTV 정보를 가져오는데 실패했습니다.');
         }
       }
       
@@ -81,9 +107,9 @@ const LocationRecommendBench = {
       if (error.message.includes('Network Error')) {
         throw new Error('서버에 연결할 수 없습니다. 네트워크 연결을 확인해주세요.');
       }
-      throw new Error(error.message || '서버와의 통신에 실패했습니다.');
+      throw error;
     }
   }
 };
 
-export default LocationRecommendBench; 
+export default LocationCctv; 

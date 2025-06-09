@@ -23,10 +23,8 @@ const NearbyBench = () => {
       setError(null);
 
       const result = await LocationRecommendBench.getNearbyBenches();
-      console.log('받아온 벤치 데이터:', result);
       setBenchData(result);
     } catch (err) {
-      console.error('벤치 데이터 가져오기 실패:', err);
       setError(err.message);
     } finally {
       setLoading(false);
@@ -41,7 +39,6 @@ const NearbyBench = () => {
     // 위치 데이터가 변경될 때만 갱신하도록 수정
     const handleStorageChange = (e) => {
       if (e.key === 'currentLocation') {
-        console.log('위치 데이터 변경 감지, 벤치 정보 갱신');
         fetchBenchData(false);
       }
     };
@@ -50,7 +47,6 @@ const NearbyBench = () => {
 
     // 5분마다 한 번씩만 갱신 (너무 자주 갱신하지 않도록)
     const intervalId = setInterval(() => {
-      console.log('주기적 벤치 정보 갱신');
       fetchBenchData(false);
     }, 5 * 60 * 1000); // 5분
 
