@@ -1,0 +1,189 @@
+.namsanLohas {
+  	align-self: stretch;
+  	position: relative;
+  	font-size: 28px;
+}
+.icon {
+  	width: 35px;
+  	position: relative;
+  	height: 35px;
+  	object-fit: cover;
+}
+.div2 {
+  	flex: 1;
+  	position: relative;
+}
+.icon1 {
+  	width: 30px;
+  	border-radius: 15px;
+  	height: 30px;
+}
+.div1 {
+  	width: 310px;
+  	display: none;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: flex-start;
+  	gap: 7px;
+}
+.p {
+  	margin: 0;
+}
+.div3 {
+  	width: 310px;
+  	position: relative;
+  	display: none;
+}
+.div {
+  	align-self: stretch;
+  	display: flex;
+  	flex-direction: column;
+  	align-items: flex-end;
+  	justify-content: center;
+  	gap: 12px;
+  	text-align: left;
+}
+.rates {
+  	position: relative;
+  	font-weight: 600;
+}
+.div7 {
+  	align-self: stretch;
+  	height: 35px;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: flex-start;
+  	gap: 7px;
+}
+.starBorderIcon {
+  	width: 24px;
+  	position: relative;
+  	height: 24px;
+  	overflow: hidden;
+  	flex-shrink: 0;
+}
+.stars {
+  	width: 258px;
+  	height: 24px;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: flex-start;
+  	gap: 5px;
+}
+.api {
+  	align-self: stretch;
+  	position: relative;
+  	font-size: 13px;
+  	color: #868782;
+}
+.div6 {
+  	align-self: stretch;
+  	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  	border-radius: 10px;
+  	background-color: #fff;
+  	display: flex;
+  	flex-direction: column;
+  	align-items: flex-start;
+  	justify-content: flex-start;
+  	padding: 12px 16px;
+  	gap: 10px;
+}
+.div5 {
+  	align-self: stretch;
+  	overflow: hidden;
+  	display: flex;
+  	flex-direction: column;
+  	align-items: flex-start;
+  	justify-content: flex-start;
+  	padding: 0px 0px 10px;
+  	gap: 10px;
+  	text-align: left;
+  	font-size: 15px;
+}
+.div4 {
+  	align-self: stretch;
+  	display: flex;
+  	flex-direction: column;
+  	align-items: flex-start;
+  	justify-content: flex-start;
+  	gap: 10px;
+  	font-size: 20px;
+}
+.div21 {
+  	width: 19px;
+  	position: relative;
+  	font-weight: 600;
+  	display: inline-block;
+  	height: 14px;
+  	flex-shrink: 0;
+}
+.icroute {
+  	width: 30px;
+  	border-radius: 15px;
+  	background-color: #ebebeb;
+  	height: 30px;
+  	display: flex;
+  	flex-direction: column;
+  	align-items: center;
+  	justify-content: center;
+  	padding: 4px 2px;
+  	box-sizing: border-box;
+}
+.reportAnIssue {
+  	position: relative;
+  	font-family: 'Noto Sans';
+}
+.cart {
+  	align-self: stretch;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: flex-start;
+  	padding: 16px 16px 16px 0px;
+  	gap: 12px;
+}
+.reportissuebutton {
+  	align-self: stretch;
+  	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  	border-radius: 10px;
+  	background-color: #fff;
+  	display: flex;
+  	flex-direction: column;
+  	align-items: flex-end;
+  	justify-content: flex-start;
+  	padding: 0px 0px 0px 16px;
+  	color: #868782;
+  	font-family: 'SF Pro';
+}
+.route {
+  position: relative;
+  left: 352px;
+  top: calc(0% - 100vh);
+  width: 340px;
+  height: calc(100vh - 40px);
+  margin: 20px 0;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 50%, rgba(243, 165, 178, 0.4)), #faffee;
+  box-shadow: -5px 0px 5px rgba(0, 0, 0, 0.25);
+  overflow-y: auto;
+  scrollbar-width: none;         /* Firefox */
+  -ms-overflow-style: none;      /* IE, Edge */
+}
+.route::-webkit-scrollbar {
+  display: none;                 /* Chrome, Safari, Opera */
+}
+
+/* 내부 스크롤 영역 */
+.scroll {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 30px;
+  box-sizing: border-box;
+}

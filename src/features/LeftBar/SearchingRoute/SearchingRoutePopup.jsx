@@ -34,8 +34,7 @@ const SearchingRoutePopup = () => {
       <div className={styles.scroll}>
         <RouteHeader />
         <div className={styles.div}>
-          <Profile />
-          {/* 백엔드 작성자 닉네임 */}
+          <Profile /> 
           <NickName />
           <BookMark type="route" />
           <Likes type="route" />
@@ -43,7 +42,7 @@ const SearchingRoutePopup = () => {
         {routeSteps.map((stepData, idx) => (
           <RouteStepCard key={idx} {...stepData} />
         ))}
-        <RatingCard />
+        <RatingCard averageRating={4.2} userRating={3} onRate={(rating) => {}} />  
         <ReportFooter />
       </div>
     </div>
