@@ -33,6 +33,7 @@ const Profile = () => {
     const params = new URLSearchParams(location.search);
     const tokenFromUrl = params.get('token');
 
+    // 1) URL에서 토큰이 오면 저장 및 사용자 정보 가져오기
     if (tokenFromUrl) {
       console.debug('🔐 토큰 감지됨:', tokenFromUrl);
       localStorage.setItem('token', tokenFromUrl);
@@ -51,27 +52,27 @@ const Profile = () => {
         // URL에서 토큰 제거 및 페이지 새로고침 없이 상태 업데이트
         window.history.replaceState({}, '', window.location.pathname);
       });
-    } else {
-      // 토큰이 URL에 없으면 로컬스토리지 토큰으로 시도
-      const savedToken = localStorage.getItem('token');
-      if (savedToken) {
-        fetchUserInfo(savedToken).then((userData) => {
-          if (userData) {
-            setUser(userData);
-            setIsLoggedIn(true);
-          } else {
-            setIsLoggedIn(false);
-            setUser(null);
-            localStorage.removeItem('token');
-            localStorage.removeItem('user');
-          }
-        });
-      } else {
-        setIsLoggedIn(false);
+    } 
+  }, [location]);
+  
+  // 2) 컴포넌트 마운트 시 로컬스토리지에서 상태 복원
+    useEffect(() => {
+    const savedToken = localStorage.getItem('token');
+    const savedUser = localStorage.getItem('user');
+
+    if (savedToken && savedUser) {
+      try {
+        setUser(JSON.parse(savedUser));
+        setIsLoggedIn(true);
+      } catch (err) {
+        console.error('유저 정보 파싱 실패:', err);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
         setUser(null);
+        setIsLoggedIn(false);
       }
     }
-  }, [location]);
+  }, []);
 
     const onProfileClick = useCallback(() => {
         const token = localStorage.getItem('token');
