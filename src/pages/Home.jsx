@@ -4,6 +4,7 @@ import styles from "../assets/css/pages/home.module.css";
 import Leftbar from "../features/LeftBar/LeftBar";
 import MakeRoutePopup from "../features/LeftBar/MakeRoute/MakeRoutePopup";
 import SearchingRoutePopup from "../features/LeftBar/SearchingRoute/SearchingRoutePopup";
+import ReviewPopup from '../features/LeftBar/Review/ReviewPopup'
 import SearchingPlace from "../features/LeftBar/SearchingPlace/SearchingPlace";
 import Map from "../features/Map";
 import MapButton from "../components/MapButton/MapButton";
@@ -45,6 +46,7 @@ const Home = () => {
 
       {getLeftbarView === "makeRoute" && (
         <MakeRoutePopup onBack={() => handleLeftbarAction("BACK")} />
+        //<ReviewPopup onBack={() => handleLeftbarAction("BACK")} />
       )}
 
       {getLeftbarView === "searchingRoute" && (
