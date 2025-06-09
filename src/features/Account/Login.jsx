@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 
 import styles from './Login.module.css'
 
@@ -12,20 +12,17 @@ import Join from '../../features/Account/Join'
  
 const Login = ({ onClose }) => {
   const [showJoin, setShowJoin] = useState(false);
-  const [showEmailForm, setShowEmailForm] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
   // 구글 로그인
   const handleGoogleLogin = useCallback(() => {
-    window.location.href = `${import.meta.env.VITE_BASE_URL}/api/auth/login/google`;
-  }, []);
+    window.location.href = `${VITE_BASE_URL}/api/auth/login/google`;
+  }, [VITE_BASE_URL]);
 
   // 카카오 로그인
   const handleKakaoLogin = useCallback(() => {
-    window.location.href = `${import.meta.env.VITE_BASE_URL}/api/auth/login/kakao`;
-  }, []);
+    window.location.href = `${VITE_BASE_URL}/api/auth/login/kakao`;
+  }, [VITE_BASE_URL]);
 
   // 이메일 로그인 버튼 클릭 → Join 컴포넌트로 전환
   const handleEmailClick = useCallback(() => {
