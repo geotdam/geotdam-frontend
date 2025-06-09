@@ -43,7 +43,7 @@ const RouteHeader = ({ imageUrl, onImageUpload }) => {
       />
       <img
         className={styles.thumbnail}
-        src={imageUrl || 'src/assets/mock/thumb.jpg'}
+        src={imageUrl}
         alt="썸네일"
         onClick={handleClick} //썸네일 클릭 가능
         onError={(e) => {
