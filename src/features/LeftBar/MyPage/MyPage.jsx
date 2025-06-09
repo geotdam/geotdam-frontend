@@ -1,13 +1,15 @@
-// 카테고리 선택
-// 루트 or 플레이스 뜨는거
-
-// 재사용 할 수 있게 카테고리 제외한 부분 컴포넌트 등록 필요
-// SearchingRoute 참고해서 만들면 됨
-
-// 기냥 임의로
+import ReportFooter from '../../../components/ReportFooter/ReportFooter';
+import Contents from './Contents';
+import TopNavigation from './TopNavigation';
 
 const MyPage = () => {
-  return <></>;
+  return (
+    <>
+    <TopNavigation />
+    <Contents />
+    <ReportFooter />
+    </>
+  );
 };
 
 export default MyPage;
