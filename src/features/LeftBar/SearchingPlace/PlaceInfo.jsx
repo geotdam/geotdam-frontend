@@ -58,7 +58,7 @@ const PlaceInfo = ({ place }) => {
       <SearchingRoad isEnabled={!!originName} onSearchClick={handleSearchRoute} />
       <TransportModes routeData={routeData} />
       <PlaceInfoCard place={place} />
-      <RatingCard />
+      <RatingCard averageRating={4.2} userRating={3} onRate={(rating) => {}} /> 
     </>
   );
 };

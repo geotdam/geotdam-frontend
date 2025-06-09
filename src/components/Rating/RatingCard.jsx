@@ -1,9 +1,9 @@
 import styles from './RatingCard.module.css';
 
 import Title from '../common/Title/Title';
-import star from '../../assets/icons/bookMark.svg'
+import StarRating from './StarRating';
 
-const RatingCard = () => {
+const RatingCard = ({ averageRating, userRating, onRate }) => {
   return (
     <div className={styles.ratingSection}>
       <Title text="Rates" /> 
@@ -12,12 +12,9 @@ const RatingCard = () => {
           <div className={styles.label}>Average Rating</div>
           <div className={styles.ratingRow}>
             <div className={styles.stars}>
-              <img src={star} alt="star" />
-              <img src={star} alt="star" />
-              <img src={star} alt="star" />
-              <img src={star} alt="star" />
-              <img src={star} alt="star" />
+              <StarRating value={Math.round(averageRating)} />
             </div>
+            <div className={styles.more}>{averageRating.toFixed(1)}</div>
             <div className={styles.more}>More</div>
           </div>
         </div>
@@ -25,16 +22,12 @@ const RatingCard = () => {
         <div className={styles.userRatingBox}>
           <div className={styles.label}>Rate This Place</div>
           <div className={styles.stars}>
-            <img src={star} alt="star" />
-            <img src={star} alt="star" />
-            <img src={star} alt="star" />
-            <img src={star} alt="star" />
-            <img src={star} alt="star" />
+            <StarRating value={userRating} onRate={onRate} editable />
           </div>
         </div>
       </div>
     </div>
   );
-};
+}; 
 
 export default RatingCard;
