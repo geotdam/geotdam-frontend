@@ -61,7 +61,7 @@ const saveRecentPlace = (placeName) => {
   places.unshift(placeName);
 
   // 최대 3개 저장
-  if (places.length > 3) places = places.slice(0, 5);
+  if (places.length > 3) places = places.slice(0, 3);
 
   localStorage.setItem('recentPlaces', JSON.stringify(places));
 };
