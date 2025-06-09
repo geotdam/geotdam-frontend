@@ -45,8 +45,8 @@ const Home = () => {
       <Leftbar view={getLeftbarView} onAction={handleLeftbarAction} />
 
       {getLeftbarView === "makeRoute" && (
-        <MakeRoutePopup onBack={() => handleLeftbarAction("BACK")} />
-        //<ReviewPopup onBack={() => handleLeftbarAction("BACK")} />
+        //<MakeRoutePopup onBack={() => handleLeftbarAction("BACK")} />
+        <ReviewPopup onBack={() => handleLeftbarAction("BACK")} />
       )}
 
       {getLeftbarView === "searchingRoute" && (
