@@ -7,6 +7,7 @@ import ReportFooter from "../../../components/ReportFooter/ReportFooter";
 import Profile from "../../../components/common/profile";
 import BookMark from "../../../components/Button/BookMark";
 import Likes from "../../../components/Button/likes";
+import NickName from "../../../components/common/NickName";
 
 const routeSteps = [
   {
@@ -35,7 +36,7 @@ const SearchingRoutePopup = () => {
         <div className={styles.div}>
           <Profile />
           {/* 백엔드 작성자 닉네임 */}
-          <div className={styles.div1}>닉네임</div>
+          <NickName />
           <BookMark type="route" />
           <Likes type="route" />
         </div>
