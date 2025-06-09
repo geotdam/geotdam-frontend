@@ -144,3 +144,12 @@
   justify-content: center;
   flex-direction: row;
 }
+
+.thumbnail {
+  align-self: stretch;
+  border-radius: 10px;
+  max-width: 100%;
+  overflow: hidden;
+  height: 186px; 
+  object-fit: cover;
+}

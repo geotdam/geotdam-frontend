@@ -6,7 +6,7 @@ import dropDown from '../../assets/icons/dropDown.svg';
 
 const RouteStepCard = ({ step, color, name, time, address, phone }) => {
   const [expanded, setExpanded] = useState(false);
-  const badgeClass = color === 'pink' ? styles.stepBadgePink : styles.stepBadgeGray;
+  const badgeClass = color === 'gray' ? styles.stepBadgeGray : styles.stepBadgePink;
 
   return (
     <div className={styles.routeItem}>
