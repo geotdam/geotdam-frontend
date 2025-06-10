@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import styles from './HotRouteAround.module.css';
 
 import Title from '../common/Title/Title';
-import homeIcon from '../../assets/mock/thumb.jpg';
+//import thumb from '../../assets/mock/thumb.jpg';
 import axios from 'axios';
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -17,11 +17,9 @@ const HotRouteAround = () => {
   }, [navigate]);
 
   useEffect(() => {
-    // 토큰 없이 추천 루트 API 호출
     axios
-       .get(`${VITE_BASE_URL}/api/road/recommends`)
+      .get(`${VITE_BASE_URL}/api/road/recommends`)
       .then((res) => {
-        console.log('추천 루트 응답:', res.data);
         if (res.data.isSuccess && Array.isArray(res.data.result)) {
           setHotRoutes(res.data.result);
         }
@@ -34,26 +32,21 @@ const HotRouteAround = () => {
   return (
     <div className={styles.hotRouteContainer}>
       <div className={styles.header}>
-        <Title text="Hottest Route" />
+        <Title text="Hot Route Around User" />
         <div className={styles.moreText} onClick={handleClickMore}>More</div>
       </div>
       <div className={styles.routeList}>
         {hotRoutes.map((route, index) => (
           <div className={styles.routeItem} key={index}>
-            <img
-              className={styles.routeIcon}
-              src={
-                typeof route.imageUrl === 'string' &&
-                route.imageUrl.trim().startsWith('http')
-                  ? route.imageUrl
-                  : homeIcon
-              }
-              alt="경로 아이콘"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = homeIcon;
-              }}
-            />
+            {/* imageUrl이 정상적인 URL일 때만 이미지 렌더링 */}
+            {typeof route.imageUrl === 'string' &&
+              route.imageUrl.trim().startsWith('http') && (
+                <img
+                  className={styles.routeIcon}
+                  src={route.imageUrl}
+                  alt="경로 아이콘"
+                />
+            )}
             <div className={styles.routeName}>{route.name}</div>
           </div>
         ))}
