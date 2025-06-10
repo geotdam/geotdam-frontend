@@ -3,7 +3,7 @@ import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import styles from "./SearchingRoutePopup.module.css";
 
-import RouteHeader from "../../../components/MakeRoute/RouteHeader";
+import RouteHeader from "../../../components/MyRoute/RouteHeader";
 import RouteStepCard from "../../../components/MakeRoute/RouteStepCard";
 import RatingCard from "../../../components/Rating/RatingCard";
 import Profile from "../../../components/common/profile";
@@ -42,7 +42,11 @@ const SearchingRoutePopup = ({ routeId, onClose }) => {
   return (
     <div className={styles.route}>
       <div className={styles.scroll}>
-        <RouteHeader title={routeData.name} />
+        <RouteHeader
+          routeName={routeData.name}
+          description={routeData.description}
+          imageUrl={routeData.routeImgUrl}
+        />
         <div className={styles.div}>
           <Profile imageUrl={routeData.routeImgUrl} />
           <NickName name={routeData.creatorNickname} />
