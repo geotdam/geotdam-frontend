@@ -12,6 +12,7 @@ import SearchingRoute from "./SearchingRoute/SearchingRoute";
 import MakeRoute from "./MakeRoute/MakeRoute";
 import Mypage from "./MyPage/MyPage";
 import SearchingPlace from "./SearchingPlace/SearchingPlace";
+import HottestRoute from "../../components/HottestRoute/HottestRoute";
 
 const Leftbar = ({ view, onAction }) => {
   return (
@@ -33,7 +34,7 @@ const Leftbar = ({ view, onAction }) => {
         )}
 
         {view === "hottestRoute" && (
-          <SearchingRoute onBack={() => onAction("BACK")} />
+          <HottestRoute onBack={() => onAction("BACK")} />
         )}
 
         {view === "makeRoute" && (

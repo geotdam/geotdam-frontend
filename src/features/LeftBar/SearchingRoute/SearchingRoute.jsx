@@ -1,9 +1,11 @@
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import ReportFooter from '../../../components/ReportFooter/ReportFooter';
 import styles from '../../../components/Search/Search.module.css';
 import searchIcon from '../../../assets/icons/searchIcon.svg';
 import Contents from '../MyPage/Contents';
+import SearchingRoutePopup from './SearchingRoutePopup';
 
 const SearchingRoute = () => {
   // 여기 참고
@@ -25,6 +27,7 @@ const SearchingRoute = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('all');
   const [selectedRouteId, setSelectedRouteId] = useState(null);
+  const [selectedRoute, setSelectedRoute] = useState(null); // 팝업용 상태
 
   const onSearchClick = useCallback(() => {
     // 검색어 없는 경우
@@ -32,7 +35,7 @@ const SearchingRoute = () => {
     if (!trimmed) return;
 
     navigate(`${basePath}?query=${encodeURIComponent(trimmed)}`);
-  }, [query, location, navigate]);
+  }, [query, navigate]);
 
   const handleKeyDown = useCallback((e) => {
     if (e.key === 'Enter') {
@@ -64,6 +67,12 @@ const SearchingRoute = () => {
       </div>
       <Contents data={data} tab={activeTab} onSelectRoute={setSelectedRouteId} />
       <ReportFooter />
+      {selectedRoute && (
+        <SearchingRoutePopup
+          routeId={selectedRoute.routeId} // 현재 선택된 루트 정보를 SearchingRoutePopup으로 전달 
+          onClose={() => setSelectedRoute(null)}
+        />
+      )}
     </>
   );
 };
