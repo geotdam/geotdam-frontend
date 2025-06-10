@@ -1,13 +1,57 @@
-// 카테고리 선택
-// 루트 or 플레이스 뜨는거
-
-// 재사용 할 수 있게 카테고리 제외한 부분 컴포넌트 등록 필요
-// SearchingRoute 참고해서 만들면 됨
-
-// 기냥 임의로
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const MyPage = () => {
-  return <></>;
+  const [activeTab, setActiveTab] = useState('myroute');
+  const [data, setData] = useState([]);
+  const [selectedRouteId, setSelectedRouteId] = useState(null);
+
+  const fetchData = async (tab) => {
+    try {
+      const token = localStorage.getItem('token');
+      let res;
+
+      if (tab === 'myroute') {
+        // 내가 만든 루트 조회 api
+        res = await axios.get(`${VITE_BASE_URL}/api/road/myroots?page=1`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        const resultData = res.data.result;
+        if (Array.isArray(resultData)) {
+          setData(resultData);
+        } else {
+          // 받아온 데이터 형식이 안 맞을 때
+          setData([]);
+        }
+      } else if (tab === 'routemark') {
+        // 루트 북마크 호출!!! 여기 연결해주세요
+      } else if (tab === 'placemark') {
+        // 장소 북마크 호출!!! 여기 연결해주세요
+      }
+    } catch (err) {
+      console.error('API 호출 실패:', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(activeTab);
+  }, [activeTab]);
+
+  return (
+    <>
+      <TopNavigation activeTab={activeTab} onTabChange={setActiveTab} />
+      <Contents data={data} tab={activeTab} onSelectRoute={setSelectedRouteId} />
+      <ReportFooter />
+
+      {selectedRouteId && (
+        <SearchingRoutePopup
+          routeId={selectedRouteId}
+          onClose={() => setSelectedRouteId(null)}
+        />
+      )}
+    </>
+  );
 };
 
 export default MyPage;

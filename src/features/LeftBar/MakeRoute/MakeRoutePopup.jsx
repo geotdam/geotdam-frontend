@@ -14,6 +14,7 @@ const MakeRoutePopup = () => {
   const [searchParams] = useSearchParams();
   const placeId = searchParams.get('placeId');
   const [routePlaces, setRoutePlaces] = useState([]);
+  const [routeImageUrl, setRouteImageUrl] = useState(null);
 
   const handleSaveRoute = async () => {
     const token = localStorage.getItem('token');
@@ -25,7 +26,7 @@ const MakeRoutePopup = () => {
     const payload = {
       routeName: '루트 이름',
       description: '루트 설명',
-      userUploadImgUrl: 'https://example.com/image.jpg', // api 연결 필요
+      userUploadImgUrl: routeImageUrl ?? null,
       places: routePlaces.map((place, idx) => ({
         sequence: idx + 1,
         name: place.place_name,
