@@ -1,36 +1,45 @@
 // RouteHeader.jsx
-import { useRef } from 'react';
+import axios from 'axios';
+import { useRef, useState } from 'react';
 import styles from '../../features/LeftBar/MakeRoute/MakeRoutePopup.module.css';
 
-const RouteHeader = ({ imageUrl, onImageUpload }) => {
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
+
+const RouteHeader = ({ onUploadComplete }) => {
   const fileInputRef = useRef(null);
+  const [localImageUrl, setLocalImageUrl] = useState(null); // 미리보기용
 
   const handleClick = () => {
-  console.log('[RouteHeader] 썸네일 클릭됨');
-  if (fileInputRef.current) {
-    fileInputRef.current.value = ''; // 👈 선택값 초기화
-    fileInputRef.current.click();    // 👈 파일 선택창 열기
-  }
-};
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+      fileInputRef.current.click();
+    }
+  };
 
- const handleChange = (e) => {
-  console.log('[RouteHeader] 파일 선택 변경 감지');
+  const handleChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-  const fileList = e.target.files;
-  console.log('[RouteHeader] 선택된 파일들:', fileList);
+    // 미리보기용 URL
+    const preview = URL.createObjectURL(file);
+    setLocalImageUrl(preview);
 
-  const file = fileList?.[0];
-  if (!file) {
-    console.warn('[RouteHeader] 파일이 없습니다.');
-    return;
-  }
+    const formData = new FormData();
+    formData.append('image', file);
 
-  console.log('[RouteHeader] 전달할 파일:', file);
+    try {
+      const res = await axios.post(`${VITE_BASE_URL}/api/upload/image`, formData);
+      const uploadedUrl = res.data.url;
+      console.log('[RouteHeader] 이미지 업로드 성공:', uploadedUrl);
 
-  if (onImageUpload) {
-    onImageUpload(file);
-  }
-};
+      // 부모 컴포넌트에 알림
+      if (onUploadComplete) {
+        onUploadComplete(uploadedUrl);
+      }
+    } catch (err) {
+      console.error('[RouteHeader] 이미지 업로드 실패:', err);
+    }
+  };
 
   return (
     <div className={styles.routeHeader}>
@@ -43,12 +52,12 @@ const RouteHeader = ({ imageUrl, onImageUpload }) => {
       />
       <img
         className={styles.thumbnail}
-        src={imageUrl}
+        src={localImageUrl || 'src/assets/mock/thumb.jpg'}
         alt="썸네일"
-        onClick={handleClick} //썸네일 클릭 가능
+        onClick={handleClick}
         onError={(e) => {
           e.target.onerror = null;
-         // e.target.src = 'src/assets/mock/thumb.jpg';
+          e.target.src = 'src/assets/mock/thumb.jpg';
         }}
       />
       <b className={styles.routeTitle}>Name of Route</b>
