@@ -12,8 +12,45 @@ const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const MakeRoutePopup = () => {
   const [searchParams] = useSearchParams();
-  const placeId = searchParams.get('placeId'); 
+  const placeId = searchParams.get('placeId');
   const [routePlaces, setRoutePlaces] = useState([]);
+
+  const handleSaveRoute = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      alert('로그인이 필요합니다.');
+      return;
+    }
+
+    const payload = {
+      routeName: '루트 이름',
+      description: '루트 설명',
+      userUploadImgUrl: 'https://example.com/image.jpg', // api 연결 필요
+      places: routePlaces.map((place, idx) => ({
+        sequence: idx + 1,
+        name: place.place_name,
+        phone: place.tel,
+        open_hours: place.additionalInfo,
+        address: place.roadAddress,
+        isPrimaryPlace: true,
+        lat: place.lat,
+        lng: place.lng,
+      })),
+    };
+
+    try {
+      await axios.post(`${VITE_BASE_URL}/api/road`, payload, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      alert('루트가 저장되었습니다!');
+    } catch (error) {
+      console.error('루트 저장 실패:', error);
+      alert('루트 저장 중 오류가 발생했습니다.');
+    }
+  };
 
   const handleAddPlace = async () => {
     if (!placeId) return;
@@ -28,12 +65,12 @@ const MakeRoutePopup = () => {
       if (place) {
         setRoutePlaces(prev => [...prev, place]);
       } else {
-        console.warn('🔍 장소 정보 없음');
+        console.warn('장소 정보 없음');
       }
     } catch (err) {
-      console.error('❌ 장소 정보 불러오기 실패:', err);
+      console.error('장소 정보 불러오기 실패:', err);
     }
-  }; 
+  };
 
   return (
     <div className={styles.route}>
@@ -51,7 +88,7 @@ const MakeRoutePopup = () => {
         ))}
 
         <AddPlaceCard step={routePlaces.length + 1} onClick={handleAddPlace} />
-        <SaveButton />
+        <SaveButton onClick={handleSaveRoute} />
       </div>
     </div>
   );
