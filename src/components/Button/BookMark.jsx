@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import Icon from "../common/Icon";
 import bookMark from "../../assets/icons/bookMark.svg";
@@ -11,13 +12,19 @@ const BookMark = ({ type = "place", onClick }) => {
   const VITE_BASE_URL = import.meta.env.VITE_BASE_URL; // .env에서 베이스 url 불러오기
   const token = localStorage.getItem("token"); // 토큰 가져오기
 
+  // URL 쿼리에서 placeId, routeId 추출
+  const [searchParams] = useSearchParams();
+  const placeId = searchParams.get("placeId"); // 이거 근데 티맵 id임
+  // const tmapId = searchParams.get("tmapId");
+  // const routeId = searchParams.get("routeId");
+
   const handleClick = useCallback(async () => {
     let response;
     if (type === "place") {
       // 장소 북마크 api
       console.log("장소 북마크 호출");
       response = await fetch(
-        `${VITE_BASE_URL}/api/places/${placeId}/bookmark`,
+        `${VITE_BASE_URL}/api/places/${placeId}/bookmark`, // 근데 이거 티맵 id임
         {
           method: "POST",
           headers: {
@@ -44,6 +51,8 @@ const BookMark = ({ type = "place", onClick }) => {
     }
 
     const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "북마크 실패");
+
     if (onClick) onClick(type, data);
   }, [type, onClick]);
 
