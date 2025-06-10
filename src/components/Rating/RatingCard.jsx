@@ -4,10 +4,13 @@ import styles from './RatingCard.module.css';
 import Title from '../common/Title/Title';
 import StarRating from './StarRating';
 import MakeReview from '../../features/LeftBar/Review/MakeReview';
+import ReviewPopup from '../../features/LeftBar/Review/ReviewPopup';
+
 
 const RatingCard = ({ averageRating, userRating, onRate }) => {
   const [isReviewOpen, setIsReviewOpen] = useState(false);
   const [clickedRating, setClickedRating] = useState(userRating);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const handleRateClick = (rating) => {
     setClickedRating(rating);
@@ -30,8 +33,13 @@ const RatingCard = ({ averageRating, userRating, onRate }) => {
             <div className={styles.stars}>
               <StarRating value={Math.round(averageRating)} />
             </div>
-            <div className={styles.more}>{averageRating.toFixed(1)}</div>
-            <div className={styles.more}>More</div>
+            <div className={styles.rate}>{averageRating.toFixed(1)}</div>
+            <div
+              className={styles.more}
+              onClick={() => setIsPopupOpen(true)}
+            >
+              More
+            </div>
           </div>
         </div>
 
@@ -44,6 +52,10 @@ const RatingCard = ({ averageRating, userRating, onRate }) => {
           />
         </div>
       </div>
+
+      {isPopupOpen && (
+        <ReviewPopup onClose={() => setIsPopupOpen(false)} />
+      )}
 
       {isReviewOpen && (
         <MakeReview
