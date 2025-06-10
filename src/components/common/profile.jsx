@@ -92,8 +92,6 @@ const Profile = () => {
     };
     const secureImageUrl = user?.imageUrl?.replace('http://', 'https://');
     const profileSrc = secureImageUrl || profileImage;
-    console.log('🖼️ 프로필 이미지 경로:', profileSrc);
-
     return (
         <>
             <img
