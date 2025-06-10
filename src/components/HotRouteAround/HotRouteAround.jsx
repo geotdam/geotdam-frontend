@@ -18,7 +18,7 @@ const HotRouteAround = () => {
 
   useEffect(() => {
     axios
-      .get(`${VITE_BASE_URL}/api/road/recommends`)
+      .get(`${VITE_BASE_URL}/api/road/recommends`)//추천 인기순 루트 api 불러오기 
       .then((res) => {
         if (res.data.isSuccess && Array.isArray(res.data.result)) {
           setHotRoutes(res.data.result);
@@ -38,14 +38,13 @@ const HotRouteAround = () => {
       <div className={styles.routeList}>
         {hotRoutes.map((route, index) => (
           <div className={styles.routeItem} key={index}>
-            {/* imageUrl이 정상적인 URL일 때만 이미지 렌더링 */}
-            {typeof route.imageUrl === 'string' &&
-              route.imageUrl.trim().startsWith('http') && (
-                <img
-                  className={styles.routeIcon}
-                  src={route.imageUrl}
-                  alt="경로 아이콘"
-                />
+            {/*이미지 렌더링 */}
+            {route.imageUrl && (
+              <img
+                className={styles.routeIcon}
+                src={route.imageUrl}
+                alt="경로 아이콘"
+              />
             )}
             <div className={styles.routeName}>{route.name}</div>
           </div>
