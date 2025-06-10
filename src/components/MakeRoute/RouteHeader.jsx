@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { useRef, useState } from 'react';
 import styles from '../../features/LeftBar/MakeRoute/MakeRoutePopup.module.css';
+import thumbnailRoute from '../../assets/images/thumbnail.png'
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -52,7 +53,7 @@ const RouteHeader = ({ onUploadComplete }) => {
       />
       <img
         className={styles.thumbnail}
-        src={localImageUrl}
+        src={localImageUrl||thumbnailRoute}
         alt="썸네일"
         onClick={handleClick}
         onError={(e) => {
