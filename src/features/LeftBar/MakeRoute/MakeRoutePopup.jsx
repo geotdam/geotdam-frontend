@@ -14,6 +14,7 @@ const MakeRoutePopup = () => {
   const [searchParams] = useSearchParams();
   const placeId = searchParams.get('placeId'); 
   const [routePlaces, setRoutePlaces] = useState([]);
+ const [setRouteImageUrl] = useState(null); //루트 이미지 상태
 
   const handleAddPlace = async () => {
     if (!placeId) return;
@@ -38,7 +39,8 @@ const MakeRoutePopup = () => {
   return (
     <div className={styles.route}>
       <div className={styles.scroll}>
-        <RouteHeader />
+        <RouteHeader onUploadComplete={(uploadedUrl) => setRouteImageUrl(uploadedUrl)} />
+{/*루트 이미지 띄우기*/}
         {routePlaces.map((place, idx) => (
           <RouteStepCard
             key={place.place_id}

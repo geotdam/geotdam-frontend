@@ -1,9 +1,28 @@
 import styles from './MyRoute.module.css';
+import { useEffect, useState } from 'react';
 
 import Title from '../common/Title/Title';
 import plus from '../../assets/icons/zoomIn.svg';
 
 const MyRoute = ({ onNewRouteClick }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+  }, []);
+
+  if (!isLoggedIn) {
+    return (
+      <div className={styles.myRouteContainer}>
+        <Title text="My Route" />
+        <div className={styles.loginPrompt}>
+          마이 루트를 보려면 <strong>로그인</strong>하세요.
+        </div>
+      </div>
+    );
+  }
+  
   return (
     <div className={styles.myRouteContainer}>
       <Title text="My Route" />
