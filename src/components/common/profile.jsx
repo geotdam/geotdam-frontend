@@ -90,13 +90,20 @@ const Profile = () => {
         const token = localStorage.getItem('token');
         setIsLoggedIn(!!token);
     };
+    const secureImageUrl = user?.imageUrl?.replace('http://', 'https://');
+    const profileSrc = secureImageUrl || profileImage;
+    console.log('🖼️ 프로필 이미지 경로:', profileSrc);
 
     return (
         <>
             <img
                 className={styles.profile}
-                src={profileImage}
+                src={profileSrc}
                 alt="사용자 프로필"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = profileImage; // fallback 이미지 (예: 기본 동그란 아이콘)
+                }}
                 onClick={onProfileClick}
             />
 
