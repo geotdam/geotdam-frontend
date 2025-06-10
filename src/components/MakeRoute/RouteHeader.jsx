@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { useRef, useState } from 'react';
 import styles from '../../features/LeftBar/MakeRoute/MakeRoutePopup.module.css';
-import thumbnailRoute from '../../assets/mock/thumbnail.png'
+import thumbnailRoute from '../../assets/images/thumbnail.png'
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
