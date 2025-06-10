@@ -30,7 +30,7 @@ const RouteHeader = ({ onUploadComplete }) => {
     try {
       const res = await axios.post(`${VITE_BASE_URL}/api/upload/image`, formData);
       const uploadedUrl = res.data.url;
-      console.log('[RouteHeader] 이미지 업로드 성공:', uploadedUrl);
+      console.log('[RouteHeader] 이미지 업로드 성공:', uploadedUrl); //uploadedurl 저장 ! 이미지 url 
 
       // 부모 컴포넌트에 알림
       if (onUploadComplete) {
@@ -52,12 +52,12 @@ const RouteHeader = ({ onUploadComplete }) => {
       />
       <img
         className={styles.thumbnail}
-        src={localImageUrl || 'src/assets/mock/thumb.jpg'}
+        src={localImageUrl}
         alt="썸네일"
         onClick={handleClick}
         onError={(e) => {
           e.target.onerror = null;
-          e.target.src = 'src/assets/mock/thumb.jpg';
+          //e.target.src = 'src/assets/mock/thumb.jpg';
         }}
       />
       <b className={styles.routeTitle}>Name of Route</b>
