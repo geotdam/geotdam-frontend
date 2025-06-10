@@ -4,8 +4,9 @@ import BookMark from '../Button/BookMark';
 
 const PlaceHeader = ({ place }) => {
   //console.log('[PlaceHeader]', place.thumbnail_url);
-  
 
+  console.log('place.point', place.point); 
+  
   return (
     <div className={styles.headerContainer}>
       <img
@@ -19,14 +20,14 @@ const PlaceHeader = ({ place }) => {
               e.target.onerror = null; // 무한루프 방지
               e.target.src = '/src/assets/mock/thumb.jpg'; // 실패 시 기본 이미지로 대체
             }} 
-      />
-
+      />  
+      
+   
       <div className={styles.headerContent}>
         <div className={styles.titleBlock}>
           <Title text={place.place_name || '장소 이름 없음'} />
           <div className={styles.categoryRating}>
-            {place.bizCategory || '카테고리 없음'} ★ {place.point || '0.0'}
-          </div>
+            {place.bizCategory || '카테고리 없음'} ★ {place.point || '0.0'} {/*장소 별점 연동  */}           </div>
         </div>
         <BookMark type="place" />
       </div>

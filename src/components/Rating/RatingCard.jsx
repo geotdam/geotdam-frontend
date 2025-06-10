@@ -20,6 +20,7 @@ const RatingCard = ({ averageRating, userRating, onRate }) => {
     // 여기 리뷰(텍스트) api
   };
 
+
   return (
     <div className={styles.ratingSection}>
       <Title text="Rates" />

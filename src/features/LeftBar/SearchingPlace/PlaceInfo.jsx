@@ -18,8 +18,6 @@ const PlaceInfo = ({ place }) => {
   
   //console.log("출발지:", originName);
   //console.log("목적지:", place.place_name);
-
-
   const handleSearchRoute = async () => {
     try {
       const response = await axios.get(`${VITE_BASE_URL}/api/maps`, {
@@ -58,7 +56,7 @@ const PlaceInfo = ({ place }) => {
       <SearchingRoad isEnabled={!!originName} onSearchClick={handleSearchRoute} />
       <TransportModes routeData={routeData} />
       <PlaceInfoCard place={place} />
-      <RatingCard averageRating={4.2} userRating={3} onRate={(rating) => {}} /> 
+      <RatingCard averageRating={4.2} userRating={3} onRate={(rating) => {}} /> {/**장소 리뷰 별점 연동  */}
     </>
   );
 };
