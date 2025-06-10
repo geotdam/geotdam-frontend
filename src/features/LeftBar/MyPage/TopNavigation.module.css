@@ -17,6 +17,7 @@
 
 .navItem {
   position: relative;
+  cursor: pointer;
 }
 
 .separator {
@@ -27,4 +28,5 @@
 .activeItem {
   position: relative;
   color: #f3a5b2;
+  cursor: pointer;
 }
