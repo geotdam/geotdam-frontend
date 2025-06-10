@@ -4,6 +4,8 @@ import axios from 'axios';
 import ReportFooter from '../../../components/ReportFooter/ReportFooter';
 import Contents from './Contents';
 import TopNavigation from './TopNavigation';
+import MyBookmarkList from '../../../apis/MyBookmarkList';
+import MyPlaceBookmark from '../../../apis/MyPlaceBookmark';
 import SearchingRoutePopup from '../SearchingRoute/SearchingRoutePopup';
 
 const MyPage = () => {
@@ -31,12 +33,43 @@ const MyPage = () => {
           setData([]);
         }
       } else if (tab === 'routemark') {
-        // 루트 북마크 호출!!! 여기 연결해주세요
+        // 루트 북마크 호출
+        const response = await MyBookmarkList.getBookmarkedRoutes();
+        if (response.isSuccess && Array.isArray(response.rresult)) {
+          // 북마크된 루트 정보 추가 조회
+          const routePromises = response.rresult.map(bookmark => 
+            axios.get(`${import.meta.env.VITE_BASE_URL}/api/road/${bookmark.routeId}`, {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            })
+          );
+
+          try {
+            const routeResponses = await Promise.all(routePromises);
+            const routeData = routeResponses
+              .filter(res => res.data.isSuccess)
+              .map(res => res.data.result);
+            setData(routeData);
+          } catch (error) {
+            console.error('루트 상세 정보 조회 실패:', error);
+            setData([]);
+          }
+        } else {
+          setData([]);
+        }
       } else if (tab === 'placemark') {
-        // 장소 북마크 호출!!! 여기 연결해주세요
+        // 장소 북마크 호출
+        const response = await MyPlaceBookmark.getBookmarkedPlaces();
+        if (response.isSuccess && Array.isArray(response.result)) {
+          setData(response.result);
+        } else {
+          setData([]);
+        }
       }
     } catch (err) {
       console.error('API 호출 실패:', err);
+      setData([]); // 에러 발생 시 빈 배열로 설정
     }
   };
 
