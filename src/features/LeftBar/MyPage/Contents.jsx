@@ -1,17 +1,27 @@
 import styles from './Contents.module.css';
 
-const Contents = () => {
+const Contents = ({ data = [], tab }) => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.card}>
-        <div className={styles.contentRow}>
-          <div className={styles.textGroup}>
-            <div className={styles.title}>Namsan LOHAS 😎</div>
-            <div className={styles.subtitle}>치돌이</div>
+      {data.map((item, idx) => (
+        <div key={idx} className={styles.card}>
+          <div className={styles.row}>
+            <div className={styles.textGroup}>
+              <div className={styles.title}>{item.name}</div>
+              {tab === 'myroute' || tab === 'routemark' ? (
+                <div className={styles.subtitle}>{item.creator}</div>
+              ) : (
+                <div className={styles.subtitle}>{item.address}</div>
+              )}
+            </div>
+            <img
+              src={item.imageUrl}
+              alt={item.name}
+              className={styles.thumbnail}
+            />
           </div>
-          <img className={styles.thumbnail} alt="home" src="Home.png" />
         </div>
-      </div>
+      ))}
     </div>
   );
 };

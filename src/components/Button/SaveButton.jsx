@@ -1,9 +1,9 @@
 import styles from '../../features/LeftBar/MakeRoute/MakeRoutePopup.module.css';
 
-const SaveButton = () => (
-  <div className={styles.saveButton}>
+const SaveButton = ({ onClick }) => (
+  <button  className={styles.saveButton} onClick={onClick}>
     <b className={styles.routeTitle}>Save</b>
-  </div>
+  </button >
 );
 
 export default SaveButton;
