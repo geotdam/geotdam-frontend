@@ -1,5 +1,6 @@
 import RecentPlace from '../../../components/RecentPlace/RecentPlace';
 import HotRouteAround from '../../../components/HotRouteAround/HotRouteAround';
+import MyRoute from '../../../components/MyRoute/MyRoute'
 import ReportFooter from '../../../components/ReportFooter/ReportFooter';
 
 const Home = () => {

@@ -1,10 +1,10 @@
 import styles from './Contents.module.css';
 
-const Contents = ({ data = [], tab }) => {
+const Contents = ({ data = [], tab, onSelectRoute }) => {
   return (
     <div className={styles.wrapper}>
       {data.map((item, idx) => (
-        <div key={idx} className={styles.card}>
+        <div key={idx} className={styles.card} onClick={() => onSelectRoute(item.routeId)}>
           <div className={styles.row}>
             <div className={styles.textGroup}>
               <div className={styles.title}>{item.name}</div>
