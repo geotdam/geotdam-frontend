@@ -92,6 +92,7 @@ const Profile = () => {
     };
     const secureImageUrl = user?.imageUrl?.replace('http://', 'https://');
     const profileSrc = secureImageUrl || profileImage;
+    
     return (
         <>
             <img
