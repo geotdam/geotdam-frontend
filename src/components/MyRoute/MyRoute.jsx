@@ -28,8 +28,7 @@ const MyRoute = ({ onNewRouteClick }) => {
       <Title text="My Route" />
       <div className={styles.routeList}>
 
-        {/* 백엔드 연결 필요 */}
-        {/* 내 루트 목록, 루트 상세 정보 조회 */}
+        {/* 내 루트 목록 연결!! */}
         <div className={styles.routeItem}>
           <img className={styles.routeImage} alt="루트 이미지" src={plus} />
           <div className={styles.content}>
@@ -37,9 +36,8 @@ const MyRoute = ({ onNewRouteClick }) => {
             <div className={styles.placeCount}>3 places</div>
           </div>
         </div>
+        {/* 여기까지 */}
 
-        {/* 백엔드 연결 필요 */}
-        {/* 나만의 루트 생성 */}
         <div className={styles.newRouteItem} onClick={onNewRouteClick}>
           <img className={styles.routeImage} alt="추가 이미지" src={plus} />
           <div className={styles.textWrapper}>

@@ -4,10 +4,12 @@ import axios from 'axios';
 import ReportFooter from '../../../components/ReportFooter/ReportFooter';
 import Contents from './Contents';
 import TopNavigation from './TopNavigation';
+import SearchingRoutePopup from '../SearchingRoute/SearchingRoutePopup';
 
 const MyPage = () => {
   const [activeTab, setActiveTab] = useState('myroute');
   const [data, setData] = useState([]);
+  const [selectedRouteId, setSelectedRouteId] = useState(null);
 
   const fetchData = async (tab) => {
     try {
@@ -16,7 +18,7 @@ const MyPage = () => {
 
       if (tab === 'myroute') {
         // 내가 만든 루트 조회 api
-        res = await axios.get('https://geotdam.store/api/road/myroots?page=1', {
+        res = await axios.get(`https://geotdam.store/api/road/myroots?page=1`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -45,8 +47,15 @@ const MyPage = () => {
   return (
     <>
       <TopNavigation activeTab={activeTab} onTabChange={setActiveTab} />
-      <Contents data={data} tab={activeTab} />
+      <Contents data={data} tab={activeTab} onSelectRoute={setSelectedRouteId} />
       <ReportFooter />
+
+      {selectedRouteId && (
+        <SearchingRoutePopup
+          routeId={selectedRouteId}
+          onClose={() => setSelectedRouteId(null)}
+        />
+      )}
     </>
   );
 };
