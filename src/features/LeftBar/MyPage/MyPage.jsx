@@ -8,6 +8,8 @@ import MyBookmarkList from '../../../apis/MyBookmarkList';
 import MyPlaceBookmark from '../../../apis/MyPlaceBookmark';
 import SearchingRoutePopup from '../SearchingRoute/SearchingRoutePopup';
 
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
+
 const MyPage = () => {
   const [activeTab, setActiveTab] = useState('myroute');
   const [data, setData] = useState([]);
@@ -20,7 +22,7 @@ const MyPage = () => {
 
       if (tab === 'myroute') {
         // 내가 만든 루트 조회 api
-        res = await axios.get(`https://geotdam.store/api/road/myroots?page=1`, {
+        res = await axios.get(`${VITE_BASE_URL}/api/road/myroots?page=1`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
