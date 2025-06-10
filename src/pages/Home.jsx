@@ -8,6 +8,7 @@ import ReviewPopup from '../features/LeftBar/Review/ReviewPopup'
 import SearchingPlace from "../features/LeftBar/SearchingPlace/SearchingPlace";
 import Map from "../features/Map";
 import MapButton from "../components/MapButton/MapButton";
+import MyPage from "../features/LeftBar/MyPage/MyPage";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -46,11 +47,14 @@ const Home = () => {
 
       {getLeftbarView === "makeRoute" && (
         <MakeRoutePopup onBack={() => handleLeftbarAction("BACK")} />
-        //<ReviewPopup onBack={() => handleLeftbarAction("BACK")} />
       )}
 
       {getLeftbarView === "searchingRoute" && (
         <SearchingRoutePopup onBack={() => handleLeftbarAction("BACK")} />
+      )}
+
+      {getLeftbarView === "mypage" && (
+        <MyPage onBack={() => handleLeftbarAction("BACK")} />
       )}
 
       {/* 팝업이 필요하다면 추가 */}

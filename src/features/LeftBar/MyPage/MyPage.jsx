@@ -1,3 +1,10 @@
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
+import ReportFooter from '../../../components/ReportFooter/ReportFooter';
+import Contents from './Contents';
+import TopNavigation from './TopNavigation';
+
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const MyPage = () => {
