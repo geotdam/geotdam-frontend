@@ -80,7 +80,7 @@ const HottestRoute = ({ onMoreClick = () => {}, onRouteSelect = () => {} }) => {
       {/* 루트 상세 팝업: 선택된 루트가 있으면 띄움 */}
       {selectedRoute && (
         <SearchingRoutePopup
-          route={selectedRoute} // 현재 선택된 루트 정보를 SearchingRoutePopup으로 전달 
+          routeId={selectedRoute.routeId} // 현재 선택된 루트 정보를 SearchingRoutePopup으로 전달 
           onClose={() => setSelectedRoute(null)}
         />
       )}
