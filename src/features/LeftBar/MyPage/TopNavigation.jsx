@@ -1,13 +1,28 @@
 import styles from './TopNavigation.module.css';
 
-const TopNavigation = () => {
+const TopNavigation = ({ activeTab, onTabChange }) => {
   return (
     <div className={styles.topNav}>
-      <div className={styles.navItem}>MyRoute</div>
+      <div
+        className={activeTab === 'myroute' ? styles.activeItem : styles.navItem}
+        onClick={() => onTabChange('myroute')}
+      >
+        MyRoute
+      </div>
       <div className={styles.separator}>|</div>
-      <b className={styles.activeItem}>RouteMark</b>
+      <div
+        className={activeTab === 'routemark' ? styles.activeItem : styles.navItem}
+        onClick={() => onTabChange('routemark')}
+      >
+        RouteMark
+      </div>
       <div className={styles.separator}>|</div>
-      <div className={styles.navItem}>PlaceMark</div>
+      <div
+        className={activeTab === 'placemark' ? styles.activeItem : styles.navItem}
+        onClick={() => onTabChange('placemark')}
+      >
+        PlaceMark
+      </div>
     </div>
   );
 };
