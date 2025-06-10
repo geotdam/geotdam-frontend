@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './HottestRoute.module.css';
 
 import Title from '../common/Title/Title';
@@ -7,15 +8,18 @@ import SearchingRoutePopup from '../../features/LeftBar/SearchingRoute/Searching
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
+// 핫루트에 들어가는 인기 루트 리스트
 // 기본값을 함수로 지정해서 안전하게 처리
 const HottestRoute = ({ onMoreClick = () => {}, onRouteSelect = () => {} }) => {
   const [allRoutes, setAllRoutes] = useState([]); // 전체 루트 저장
   const [showAll, setShowAll] = useState(false);  // 전체 보기 여부
   const [selectedRoute, setSelectedRoute] = useState(null); // 팝업용 상태
+  const navigate = useNavigate();
 
   const handleClickMore = useCallback(() => {
-    setShowAll(true); // More 클릭 시 전체 보기로 전환
+    //setShowAll(true); // More 클릭 시 전체 보기로 전환
     onMoreClick();
+    navigate('/searchingRoute');
   }, [onMoreClick]);
 
   useEffect(() => {

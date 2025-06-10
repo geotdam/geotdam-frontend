@@ -9,6 +9,7 @@ import SearchingPlace from "../features/LeftBar/SearchingPlace/SearchingPlace";
 import Map from "../features/Map";
 import MapButton from "../components/MapButton/MapButton";
 import MyPage from "../features/LeftBar/MyPage/MyPage";
+import HottestRoutePopup from "../features/LeftBar/HottestRoute/HottestRoutePopup";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ const Home = () => {
   // 주소와 leftBar 매핑
   const viewMap = {
     "/makeRoute": "makeRoute",
+    "/hottestRoute": "hottestRoute",
     "/searchingRoute": "searchingRoute",
     "/searchingPlace": "searchingPlace",
     "/mypage": "mypage",
@@ -28,6 +30,7 @@ const Home = () => {
   const handleLeftbarAction = (action) => {
     const actionMap = {
       NEW_ROUTE: "/makeRoute",
+      HOTTEST_ROUTES: "/hottestRoute",
       SEARCHING_ROUTES: "/searchingRoute",
       SEARCHING_PLACE: "/searchingPlace",
       MORE_ROUTES: "/searchingRoute",
@@ -40,9 +43,6 @@ const Home = () => {
   return (
     <div className={styles.home}>
       <Map />
-      {/* 가로등 */}
-      {/* 경사도 */}
-
       <Leftbar view={getLeftbarView} onAction={handleLeftbarAction} />
 
       {getLeftbarView === "makeRoute" && (
@@ -57,14 +57,15 @@ const Home = () => {
         <SearchingRoutePopup onBack={() => handleLeftbarAction("BACK")} />
       )}
 
+      {getLeftbarView === "hottestRoute" && (
+        <SearchingRoutePopup onBack={() => handleLeftbarAction("BACK")} />
+      )}
+
       {/* 팝업이 필요하다면 추가 */}
       {/* {getLeftbarView === "searchingPlace" && (
         <SearchingPlace onBack={() => handleLeftbarAction("BACK")} />
       )}
-
-      {getLeftbarView === "mypage" && (
-        <Mypage onBack={() => handleLeftbarAction("BACK")} />
-      )} */}
+     */}
 
       <MapButton />
     </div>

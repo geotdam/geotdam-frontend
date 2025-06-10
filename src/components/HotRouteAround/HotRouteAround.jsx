@@ -8,12 +8,13 @@ import axios from 'axios';
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
+// 홈에 들어가는 인기 루트 리스트
 const HotRouteAround = () => {
   const [hotRoutes, setHotRoutes] = useState([]);
   const navigate = useNavigate();
 
   const handleClickMore = useCallback(() => {
-    navigate('/searchingRoute');
+    navigate('/hottestRoute');
   }, [navigate]);
 
   useEffect(() => {
@@ -32,7 +33,7 @@ const HotRouteAround = () => {
   return (
     <div className={styles.hotRouteContainer}>
       <div className={styles.header}>
-        <Title text="Hot Route Around User" />
+        <Title text="Hot Route Recommend" />
         <div className={styles.moreText} onClick={handleClickMore}>More</div>
       </div>
       <div className={styles.routeList}>
