@@ -158,9 +158,9 @@
   	font-family: 'SF Pro';
 }
 .route {
-  position: relative;
+  position: fixed;
   left: 352px;
-  top: calc(0% - 100vh);
+  top: 0;
   width: 340px;
   height: calc(100vh - 40px);
   margin: 20px 0;
