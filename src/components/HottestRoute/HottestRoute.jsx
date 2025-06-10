@@ -5,6 +5,9 @@ import Title from '../common/Title/Title';
 import thumb from '../../assets/mock/thumb.jpg';
 import axios from 'axios';
 
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
+
+
 const HotRouteAround = ({ onMoreClick, onRouteSelect }) => {
   const [hottestRoutes, setHottestRoutes] = useState([]);
 
@@ -13,24 +16,13 @@ const HotRouteAround = ({ onMoreClick, onRouteSelect }) => {
   }, [onMoreClick]);
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');// 엑세스 토큰 불러오기 
-  
-    
-    if (!token) {
-      console.warn('accessToken이 없습니다.');
-      return;
-    }
-
+    // 토큰 없이 전체 루트 API 호출
     axios
-      .get('/api/road', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(`${VITE_BASE_URL}/api/road`)
       .then((res) => {
         const routeList = res.data?.result?.results;
         if (res.data.isSuccess && Array.isArray(routeList)) {
-          setHottestRoutes(routeList.slice(0, 10)); // 최대 10개까지 자르기 
+          setHottestRoutes(routeList.slice(0, 10)); // 최대 10개까지 자르기
         } else {
           console.warn('예상한 응답 형식이 아닙니다:', res.data);
         }

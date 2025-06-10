@@ -6,38 +6,30 @@ import Title from '../common/Title/Title';
 import homeIcon from '../../assets/mock/thumb.jpg';
 import axios from 'axios';
 
-const HotRouteAround = () => {
-    const [hotRoutes, setHotRoutes] = useState([]);
-    const navigate = useNavigate();
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
-    const handleClickMore = useCallback(() => {
-        navigate('/searchingRoute');
-    }, [navigate])
+const HotRouteAround = () => {
+  const [hotRoutes, setHotRoutes] = useState([]);
+  const navigate = useNavigate();
+
+  const handleClickMore = useCallback(() => {
+    navigate('/searchingRoute');
+  }, [navigate]);
 
   useEffect(() => {
-  const token = localStorage.getItem('accessToken'); // 엑세스 토큰 갖고 오기  
-  
-  if (!token) {
-    console.warn('accessToken이 없습니다.');
-    return;
-  }
-
-  axios
-    .get('/api/road/recommends', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then((res) => {
-      console.log('추천 루트 응답:', res.data);
-      if (res.data.isSuccess && Array.isArray(res.data.result)) {
-        setHotRoutes(res.data.result);
-      }
-    })
-    .catch((err) => {
-      console.error('추천 루트 불러오기 실패:', err);
-    });
-}, []);
+    // 토큰 없이 추천 루트 API 호출
+    axios
+       .get(`${VITE_BASE_URL}/api/road/recommends`)
+      .then((res) => {
+        console.log('추천 루트 응답:', res.data);
+        if (res.data.isSuccess && Array.isArray(res.data.result)) {
+          setHotRoutes(res.data.result);
+        }
+      })
+      .catch((err) => {
+        console.error('추천 루트 불러오기 실패:', err);
+      });
+  }, []);
 
   return (
     <div className={styles.hotRouteContainer}>
@@ -48,7 +40,7 @@ const HotRouteAround = () => {
       <div className={styles.routeList}>
         {hotRoutes.map((route, index) => (
           <div className={styles.routeItem} key={index}>
-             <img
+            <img
               className={styles.routeIcon}
               src={
                 typeof route.imageUrl === 'string' &&
@@ -62,7 +54,6 @@ const HotRouteAround = () => {
                 e.target.src = homeIcon;
               }}
             />
-
             <div className={styles.routeName}>{route.name}</div>
           </div>
         ))}
