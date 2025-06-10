@@ -19,8 +19,6 @@ const formatDuration = (seconds) => {
 }; // 소요시간 계산 
 
 
-
-
 const TransportModes = ({ routeData }) => {
   if (!routeData || !Array.isArray(routeData)) return null;
 
