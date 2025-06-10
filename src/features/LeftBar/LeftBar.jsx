@@ -32,6 +32,10 @@ const Leftbar = ({ view, onAction }) => {
           </>
         )}
 
+        {view === "hottestRoute" && (
+          <SearchingRoute onBack={() => onAction("BACK")} />
+        )}
+
         {view === "makeRoute" && (
           <MakeRoute onBack={() => onAction("BACK")} />
         )}
