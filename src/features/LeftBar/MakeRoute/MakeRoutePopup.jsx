@@ -77,7 +77,7 @@ const MakeRoutePopup = () => {
     <div className={styles.route}>
       <div className={styles.scroll}>
         <RouteHeader onUploadComplete={(uploadedUrl) => setRouteImageUrl(uploadedUrl)} />
-{/*루트 이미지 띄우기*/}
+        {/*루트 이미지 띄우기*/}
         {routePlaces.map((place, idx) => (
           <RouteStepCard
             key={place.place_id}

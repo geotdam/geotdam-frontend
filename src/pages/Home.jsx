@@ -54,7 +54,7 @@ const Home = () => {
       )}
 
       {getLeftbarView === "mypage" && (
-        <MyPage onBack={() => handleLeftbarAction("BACK")} />
+        <SearchingRoutePopup onBack={() => handleLeftbarAction("BACK")} />
       )}
 
       {/* 팝업이 필요하다면 추가 */}

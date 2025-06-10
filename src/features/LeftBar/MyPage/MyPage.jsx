@@ -4,6 +4,7 @@ import axios from 'axios';
 import ReportFooter from '../../../components/ReportFooter/ReportFooter';
 import Contents from './Contents';
 import TopNavigation from './TopNavigation';
+import SearchingRoutePopup from '../SearchingRoute/SearchingRoutePopup';
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 

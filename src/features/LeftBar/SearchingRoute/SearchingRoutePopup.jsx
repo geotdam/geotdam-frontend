@@ -1,9 +1,11 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useSearchParams } from "react-router-dom";
 import styles from "./SearchingRoutePopup.module.css";
 
 import RouteHeader from "../../../components/MakeRoute/RouteHeader";
 import RouteStepCard from "../../../components/MakeRoute/RouteStepCard";
 import RatingCard from "../../../components/Rating/RatingCard";
-import ReportFooter from "../../../components/ReportFooter/ReportFooter";
 import Profile from "../../../components/common/profile";
 import BookMark from "../../../components/Button/BookMark";
 import Likes from "../../../components/Button/likes";
@@ -37,22 +39,34 @@ const SearchingRoutePopup = ({ routeId, onClose }) => {
 
   if (!routeData) return <div>Loading...</div>;
 
-const SearchingRoutePopup = () => {
   return (
     <div className={styles.route}>
       <div className={styles.scroll}>
-        <RouteHeader />
+        <RouteHeader title={routeData.name} />
         <div className={styles.div}>
-          <Profile /> 
-          <NickName />
-          <BookMark type="route" />
-          <Likes type="route" />
+          <Profile imageUrl={routeData.routeImgUrl} />
+          <NickName name={routeData.creatorNickname} />
+          <BookMark type="route" routeId={routeData.routeId} />
+          <Likes type="route" routeId={routeData.routeId} />
         </div>
-        {routeSteps.map((stepData, idx) => (
-          <RouteStepCard key={idx} {...stepData} />
+        {routeData.places.map((place, idx) => (
+          <RouteStepCard
+            key={idx}
+            step={place.sequence}
+            name={place.name}
+            time={place.open_hours}
+            address={place.address}
+            phone={place.phone}
+            color={place.isPrimaryPlace ? 'pink' : 'gray'}
+          />
         ))}
-        <RatingCard averageRating={4.2} userRating={3} onRate={(rating) => {}} />  
-        <ReportFooter />
+        <RatingCard
+          averageRating={routeData.avgRates}
+          userRating={0}
+          onRate={(rating) => {
+            // 여기 별점 연결 해주세요!!!!
+          }}
+        />
       </div>
     </div>
   );
