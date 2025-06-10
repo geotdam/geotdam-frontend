@@ -3,6 +3,7 @@ import styles from './HottestRoute.module.css';
 
 import Title from '../common/Title/Title';
 import axios from 'axios';
+import SearchingRoutePopup from '../../features/LeftBar/SearchingRoute/SearchingRoutePopup'; 
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -10,6 +11,7 @@ const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 const HottestRoute = ({ onMoreClick = () => {}, onRouteSelect = () => {} }) => {
   const [allRoutes, setAllRoutes] = useState([]); // 전체 루트 저장
   const [showAll, setShowAll] = useState(false);  // 전체 보기 여부
+  const [selectedRoute, setSelectedRoute] = useState(null); // 팝업용 상태
 
   const handleClickMore = useCallback(() => {
     setShowAll(true); // More 클릭 시 전체 보기로 전환
@@ -52,7 +54,11 @@ const HottestRoute = ({ onMoreClick = () => {}, onRouteSelect = () => {} }) => {
           <div
             key={route.routeId}
             className={styles.routeItem}
-            onClick={() => onRouteSelect(route)}
+            onClick={() => {
+                console.log('클릭한 route:', route);        
+                //onRouteSelect(route)
+                setSelectedRoute(route)}
+              } // 클릭 시 팝업용 상태에 route 저장
           >
             <div className={idx < 3 ? styles.rankBadgePink : styles.rankBadgeGray}>
               <div className={styles.rankText}>{idx + 1}</div>
@@ -71,6 +77,13 @@ const HottestRoute = ({ onMoreClick = () => {}, onRouteSelect = () => {} }) => {
           </div>
         ))}
       </div>
+      {/* 루트 상세 팝업: 선택된 루트가 있으면 띄움 */}
+      {selectedRoute && (
+        <SearchingRoutePopup
+          routeId={selectedRoute.routeId} // 현재 선택된 루트 정보를 SearchingRoutePopup으로 전달 
+          onClose={() => setSelectedRoute(null)}
+        />
+      )}
     </div>
   );
 };
