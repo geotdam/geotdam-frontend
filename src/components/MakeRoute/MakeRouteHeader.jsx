@@ -6,7 +6,13 @@ import thumbnailRoute from '../../assets/images/thumbnail.png'
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const RouteHeader = ({ onUploadComplete }) => {
+const RouteHeader = ({
+  routeName,
+  description,
+  onChangeRouteName,
+  onChangeDescription,
+  onUploadComplete
+}) => {
   const fileInputRef = useRef(null);
   const [localImageUrl, setLocalImageUrl] = useState(null); // 미리보기용
 
@@ -31,7 +37,7 @@ const RouteHeader = ({ onUploadComplete }) => {
     try {
       const res = await axios.post(`${VITE_BASE_URL}/api/upload/image`, formData);
       const uploadedUrl = res.data.url;
-      console.log('[RouteHeader] 이미지 업로드 성공:', uploadedUrl); //uploadedurl 저장 ! 이미지 url 
+      console.log('[RouteHeader] 이미지 업로드 성공:', uploadedUrl);
 
       // 부모 컴포넌트에 알림
       if (onUploadComplete) {
@@ -53,7 +59,7 @@ const RouteHeader = ({ onUploadComplete }) => {
       />
       <img
         className={styles.thumbnail}
-        src={localImageUrl||thumbnailRoute}
+        src={localImageUrl || thumbnailRoute}
         alt="썸네일"
         onClick={handleClick}
         onError={(e) => {
@@ -61,10 +67,21 @@ const RouteHeader = ({ onUploadComplete }) => {
           //e.target.src = 'src/assets/mock/thumb.jpg';
         }}
       />
-      <b className={styles.routeTitle}>Name of Route</b>
-      <div className={styles.routeSubtext}>
-        with Friend 장문 테스트 장문 테스트 장문 테스트 ...
-      </div>
+      { /* 루트 이름 */}
+      <input
+        type="text"
+        className={styles.routeTitleInput}
+        value={routeName}
+        onChange={(e) => onChangeRouteName?.(e.target.value)}
+        placeholder="루트의 이름을 입력해주세요"
+      />
+      { /* 루트 설명 */}
+      <textarea
+        className={styles.routeDescriptionInput}
+        value={description}
+        onChange={(e) => onChangeDescription?.(e.target.value)}
+        placeholder="당신이 걷고 싶은 루트를 설명해주세요"
+      />
     </div>
   );
 };

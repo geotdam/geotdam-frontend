@@ -3,13 +3,15 @@ import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import styles from "./SearchingRoutePopup.module.css";
 
-import RouteHeader from "../../../components/MakeRoute/RouteHeader";
+import RouteHeader from "../../../components/MyRoute/RouteHeader";
 import RouteStepCard from "../../../components/MakeRoute/RouteStepCard";
 import RatingCard from "../../../components/Rating/RatingCard";
 import Profile from "../../../components/common/profile";
 import BookMark from "../../../components/Button/BookMark";
 import Likes from "../../../components/Button/likes";
 import NickName from "../../../components/common/NickName";
+
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const SearchingRoutePopup = ({ routeId, onClose }) => {
   const [searchParams] = useSearchParams();
@@ -21,7 +23,7 @@ const SearchingRoutePopup = ({ routeId, onClose }) => {
       let res;
 
       try {
-        res = await axios.get(`https://geotdam.store/api/road/${routeId}`, {
+        res = await axios.get(`${VITE_BASE_URL}/api/road/${routeId}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -40,7 +42,11 @@ const SearchingRoutePopup = ({ routeId, onClose }) => {
   return (
     <div className={styles.route}>
       <div className={styles.scroll}>
-        <RouteHeader title={routeData.name} />
+        <RouteHeader
+          routeName={routeData.name}
+          description={routeData.description}
+          imageUrl={routeData.routeImgUrl}
+        />
         <div className={styles.div}>
           <Profile imageUrl={routeData.routeImgUrl} />
           <NickName name={routeData.creatorNickname} />
