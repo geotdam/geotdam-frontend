@@ -12,22 +12,62 @@ const Profile = () => {
     const [showLogin, setShowLogin] = useState(false);
     const [user, setUser] = useState(null);
 
-    const fetchUserInfo = async (token) => {
-    if (!token) return null;
+    // 토큰 만료 처리 함수
+    const handleTokenExpiry = useCallback(() => {
+        console.warn('⏰ 토큰 만료, 로그아웃 처리됨');
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setIsLoggedIn(false);
+        setUser(null);
+        alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
+        navigate('/');
+    }, [navigate]);
 
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/auth/social`, {
-        method: 'GET',
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!response.ok) throw new Error('유저 정보 요청 실패');
-      const data = await response.json();
-      return data.user || null;
-    } catch (error) {
-      console.error('유저 정보 불러오기 실패:', error);
-      return null;
-    }
-  };
+    const fetchUserInfo = async (token) => {
+        if (!token) return null;
+
+        try {
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/auth/social`, {
+                method: 'GET',
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            
+            if (response.status === 401) {
+                handleTokenExpiry();
+                return null;
+            } 
+            
+            if (!response.ok) throw new Error('유저 정보 요청 실패');
+            const data = await response.json();
+            return data.user || null;
+        } catch (error) {
+            console.error('유저 정보 불러오기 실패:', error);
+            return null;
+        }
+    };
+
+    // 토큰 유효성 검사 함수
+    const validateToken = useCallback(async () => {
+        const token = localStorage.getItem('token');
+        if (!token) return false;
+
+        try {
+            const response = await fetch('/api/auth/social', {
+                method: 'GET',
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            
+            if (response.status === 401) {
+                handleTokenExpiry();
+                return false;
+            }
+            
+            return response.ok;
+        } catch (error) {
+            console.error('토큰 검증 실패:', error);
+            return false;
+        }
+    }, [handleTokenExpiry]);
 
     useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -72,7 +112,29 @@ const Profile = () => {
         setIsLoggedIn(false);
       }
     }
-  }, []);
+  }, [validateToken]);
+
+    // 3) 주기적 토큰 검증 - 토큰이 있을 때만 30초마다 검증
+    useEffect(() => {
+        let interval;
+        
+        if (isLoggedIn) {
+            interval = setInterval(() => {
+                const token = localStorage.getItem('token');
+                if (token) {
+                    validateToken();
+                } else {
+                    // 토큰이 없으면 로그아웃 상태로 변경
+                    setIsLoggedIn(false);
+                    setUser(null);
+                }
+            }, 30000); // 30초마다 검증
+        }
+
+        return () => {
+            if (interval) clearInterval(interval);
+        };
+    }, [isLoggedIn, validateToken]);
 
     const onProfileClick = useCallback(() => {
         const token = localStorage.getItem('token');
