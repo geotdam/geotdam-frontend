@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState ,useMemo} from "react";
 import axios from "axios";
 import { useSearchParams } from "react-router-dom";
 import styles from "./SearchingRoutePopup.module.css";
@@ -11,12 +11,19 @@ import BookMark from "../../../components/Button/BookMark";
 import Likes from "../../../components/Button/likes";
 import NickName from "../../../components/common/NickName";
 import SearchingRoad from "../../../components/Button/SearchingRoad";
+import TransportModes from '../../../components/MakeRoute/TransportModes';
+
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const SearchingRoutePopup = ({ routeId, onClose }) => {
   const [searchParams] = useSearchParams();
   const [routeData, setRouteData] = useState(null);
+  const [routes, setRoutes] = useState([]); // 각 교통수단별 경로 정보 저장
+
+  useEffect(() => {
+  setRoutes([]); // 루트 바뀌면 이전 경로 결과 초기화
+}, [routeId]);
 
   useEffect(() => {
     const fetchRouteDetail = async () => {
@@ -39,6 +46,45 @@ const SearchingRoutePopup = ({ routeId, onClose }) => {
   }, [routeId]);
 
   if (!routeData) return <div>Loading...</div>;
+
+  
+  //경유 검색 api 연동 (기본적인 틀은 경로 똑같습니다)
+  const handleSearchRoute = async () => {
+  if (!routeData || routeData.places.length < 3) return;
+
+  const originName = routeData.places[0]?.name;
+  const waypointName = routeData.places[1]?.name;
+  const destinationName = routeData.places[2]?.name;
+
+  try {
+    const response = await axios.get(`${VITE_BASE_URL}/api/maps`, {
+      params: {
+        originName,
+        destinationName,
+        waypointName,
+      },
+    });
+
+    const data = response.data;
+    const routeList = data?.result?.routes || [];
+
+    if (data.isSuccess && Array.isArray(routeList)) {
+      setRoutes(routeList);
+
+      const defaultPolyline = routeList[0]?.polyline;
+      if (defaultPolyline?.length > 0) {
+        localStorage.setItem('currentPolyline', JSON.stringify(defaultPolyline));
+        window.dispatchEvent(new Event('polylineChanged'));
+      }
+    } else {
+      console.error('경로가 없습니다:', data?.message);
+    }
+  } catch (err) {
+    console.error('경로 검색 실패:', err);
+  }
+};
+
+
 
   return (
     <div className={styles.route}>
@@ -65,7 +111,8 @@ const SearchingRoutePopup = ({ routeId, onClose }) => {
             color={place.isPrimaryPlace ? 'pink' : 'gray'}
           />
         ))}
-        <SearchingRoad />
+        <SearchingRoad isEnabled onSearchClick={handleSearchRoute} />
+        <TransportModes routeData={routes} /> {/*여기에 경로 검색 연동*/}
         <RatingCard
           averageRating={routeData.avgRates}
           userRating={0}
