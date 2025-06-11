@@ -48,20 +48,34 @@ const SearchingRoutePopup = ({ routeId, onClose }) => {
   if (!routeData) return <div>Loading...</div>;
 
   
-  //경유 검색 api 연동 (기본적인 틀은 경로 똑같습니다)
-  const handleSearchRoute = async () => {
-  if (!routeData || routeData.places.length < 3) return;
+  //경유 검색 api 연동 (기본적인 틀은 경로 검색이랑 똑같습니다다)
+ const handleSearchRoute = async () => {
+  if (!routeData || !Array.isArray(routeData.places)) return;
 
-  const originName = routeData.places[0]?.name;
-  const waypointName = routeData.places[1]?.name;
-  const destinationName = routeData.places[2]?.name;
+  const places = routeData.places;
+  let originName, destinationName, waypointName;
+
+  // 장소가 2개일 경우엔 출발지 - 목적지
+  if (places.length === 2) {
+    originName = places[0]?.name;
+    destinationName = places[1]?.name;
+  }
+  // 장소가 3개일 경우엔 출발지 - 경유지 - 목적지
+  else if (places.length === 3) {
+    originName = places[0]?.name;
+    waypointName = places[1]?.name;
+    destinationName = places[2]?.name;
+  } else {
+    console.warn('장소 개수가 2개 또는 3개가 아닙니다.');//일단 장소 1개면 경로 검색 못하게 막아놓기 
+    return;
+  }
 
   try {
     const response = await axios.get(`${VITE_BASE_URL}/api/maps`, {
       params: {
         originName,
         destinationName,
-        waypointName,
+        ...(waypointName ? { waypointName } : {}), // 경유지 있을 때만 포함
       },
     });
 
@@ -83,6 +97,7 @@ const SearchingRoutePopup = ({ routeId, onClose }) => {
     console.error('경로 검색 실패:', err);
   }
 };
+
 
 
 
@@ -112,7 +127,7 @@ const SearchingRoutePopup = ({ routeId, onClose }) => {
           />
         ))}
         <SearchingRoad isEnabled onSearchClick={handleSearchRoute} />
-        <TransportModes routeData={routes} /> {/*여기에 경로 검색 연동*/}
+        <TransportModes routeData={routes} /> 
         <RatingCard
           averageRating={routeData.avgRates}
           userRating={0}
