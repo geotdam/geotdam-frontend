@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import PlaceHeader from '../../../components/MakeRoute/PlaceHeader';
@@ -14,7 +15,8 @@ const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 const PlaceInfo = ({ place }) => {
   const [originName, setOriginName] = useState('');
   const [routeData, setRouteData] = useState([]); // 각 교통수단별 경로 정보
-
+  const [averageRating, setAverageRating] = useState(null);
+  const [userRating, setUserRating] = useState(null);
   
   //console.log("출발지:", originName);
   //console.log("목적지:", place.place_name);
@@ -49,6 +51,37 @@ const PlaceInfo = ({ place }) => {
     }
   };
 
+const getToken = () => {
+  const token = localStorage.getItem('token'); // ✅ 이름 맞춰야 함!
+   console.log('[디버그] 가져온 토큰:', token);
+   console.log(place);
+  return token ? `Bearer ${token}` : null;
+};
+const handleRate = async (rating) => {
+  try {
+    const res = await axios.post(
+      `${VITE_BASE_URL}/api/places/${place.place_id}/reviews`,//별점 등록 api 호출 
+      {
+        rating,
+        content: '별점만 등록',
+      },
+      {
+        headers: {
+          Authorization: getToken(),
+        },
+      }
+    );
+
+    if (res.data.isSuccess) {
+      setUserRating(res.data.result.rating);
+      setAverageRating(res.data.result.corrected_rating);
+    }
+  } catch (err) {
+    console.error('별점 등록 실패:', err);
+  }
+}; //별점 남기기 
+
+
   return (
     <>
       <PlaceHeader place={place} />
@@ -56,7 +89,7 @@ const PlaceInfo = ({ place }) => {
       <SearchingRoad isEnabled={!!originName} onSearchClick={handleSearchRoute} />
       <TransportModes routeData={routeData} />
       <PlaceInfoCard place={place} />
-      <RatingCard averageRating={4.2} userRating={3} onRate={(rating) => {}} /> {/**장소 리뷰 별점 연동  */}
+      <RatingCard averageRating={place.point} userRating={userRating} onRate={handleRate} /> {/**장소 리뷰 별점 연동  */}
     </>
   );
 };
