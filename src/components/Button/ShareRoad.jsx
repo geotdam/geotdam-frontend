@@ -5,7 +5,7 @@ import SharePopup from "../Share/SharePopup";
 
 const ShareRoad = ({ routeId }) => {
   const [showPopup, setShowPopup] = useState(false);
-  const shareUrl = `${window.location.origin}/route/${routeId}`; // 직접 구성한 공유 URL
+  const shareUrl = `${window.location.origin}/road/${routeId}`; 
 
   const handleClick = useCallback(() => {
     if (!routeId) {
