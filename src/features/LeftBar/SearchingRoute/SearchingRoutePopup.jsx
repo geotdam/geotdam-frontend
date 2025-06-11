@@ -10,6 +10,7 @@ import Profile from "../../../components/common/profile";
 import BookMark from "../../../components/Button/BookMark";
 import Likes from "../../../components/Button/likes";
 import NickName from "../../../components/common/NickName";
+import SearchingRoad from "../../../components/Button/SearchingRoad";
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -64,6 +65,7 @@ const SearchingRoutePopup = ({ routeId, onClose }) => {
             color={place.isPrimaryPlace ? 'pink' : 'gray'}
           />
         ))}
+        <SearchingRoad />
         <RatingCard
           averageRating={routeData.avgRates}
           userRating={0}
