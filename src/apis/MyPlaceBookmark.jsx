@@ -39,11 +39,15 @@ const MyPlaceBookmark = {
         throw new Error('응답 데이터가 없습니다.');
       }
 
-      if (!response.data.isSuccess) {
-        throw new Error(response.data.message || '북마크한 장소 리스트를 가져오는데 실패했습니다.');
+      // Check if bookmarks array exists in the response
+      if (!response.data.bookmarks || !Array.isArray(response.data.bookmarks)) {
+        throw new Error('북마크 데이터 형식이 올바르지 않습니다.');
       }
 
-      return response.data;
+      return {
+        isSuccess: true,
+        result: response.data.bookmarks
+      };
 
     } catch (error) {
       if (error.response) {

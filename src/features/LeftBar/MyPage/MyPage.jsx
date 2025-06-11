@@ -51,7 +51,19 @@ const MyPage = () => {
             const routeResponses = await Promise.all(routePromises);
             const routeData = routeResponses
               .filter(res => res.data.isSuccess)
-              .map(res => res.data.result);
+              .map(res => {
+                const route = res.data.result;
+                return {
+                  id: route.routeId,
+                  name: route.name || '이름 없음',
+                  description: route.description || '설명 없음',
+                  imageUrl: route.routeImgUrl || '',
+                  creatorNickname: route.creatorNickname || '알 수 없음',
+                  avgRates: route.avgRates || 0,
+                  createdAt: route.createdAt,
+                  places: route.places || []
+                };
+              });
             setData(routeData);
           } catch (error) {
             console.error('루트 상세 정보 조회 실패:', error);
@@ -64,7 +76,15 @@ const MyPage = () => {
         // 장소 북마크 호출
         const response = await MyPlaceBookmark.getBookmarkedPlaces();
         if (response.isSuccess && Array.isArray(response.result)) {
-          setData(response.result);
+          // Transform the data to handle null values and extract necessary information
+          const transformedData = response.result.map(bookmark => ({
+            id: bookmark.placeId,
+            userId: bookmark.userId,
+            name: bookmark.place?.name || '이름 없음',
+            category: bookmark.place?.category || '카테고리 없음',
+            // Add any other necessary fields with default values
+          }));
+          setData(transformedData);
         } else {
           setData([]);
         }
