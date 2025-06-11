@@ -157,6 +157,7 @@ export const useLocation = () => {
             (err) => {
                 const error = '위치 정보를 가져올 수 없습니다: ' + err.message;
                 setError(error);
+                setNeedsLogin(true);
                 setIsLoading(false);
             },
             {

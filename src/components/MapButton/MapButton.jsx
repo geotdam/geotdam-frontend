@@ -6,7 +6,7 @@ import lampIcon from '../../assets/icons/lamp.svg';
 import Login from '../../features/Account/Login';
 
 const MapButton = () => {
-	const { getCurrentLocation, isLoading, error, needsLogin, setNeedsLogin } = useLocation();
+	const { getCurrentLocation, isLoading, needsLogin, setNeedsLogin } = useLocation();
 	const [showLoginPopup, setShowLoginPopup] = useState(false);
 
 	const handleLocationClick = () => {
