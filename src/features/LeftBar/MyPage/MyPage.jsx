@@ -76,14 +76,31 @@ const MyPage = () => {
         // 장소 북마크 호출
         const response = await MyPlaceBookmark.getBookmarkedPlaces();
         if (response.isSuccess && Array.isArray(response.result)) {
-          // Transform the data to handle null values and extract necessary information
-          const transformedData = response.result.map(bookmark => ({
-            id: bookmark.placeId,
-            userId: bookmark.userId,
-            name: bookmark.place?.name || '이름 없음',
-            category: bookmark.place?.category || '카테고리 없음',
-            // Add any other necessary fields with default values
-          }));
+          // Transform the data to handle the nested place structure
+          const transformedData = await Promise.all(
+            response.result.map(async (bookmark) => {
+              let placeDetails = null;
+              if (bookmark.place?.tmapPlaceId) {
+                placeDetails = await MyPlaceBookmark.getTmapPlaceDetails(bookmark.place.tmapPlaceId);
+              }
+              
+              return {
+                id: bookmark.placeId,
+                userId: bookmark.userId,
+                name: bookmark.place?.name || '이름 없음',
+                tmapPlaceId: bookmark.place?.tmapPlaceId || '',
+                // Tmap 상세 정보가 있는 경우 추가 정보 포함
+                ...(placeDetails && {
+                  address: placeDetails.address,
+                  tel: placeDetails.tel,
+                  location: placeDetails.location,
+                  imageUrl: placeDetails.imageUrl,
+                  bizCategory: placeDetails.bizCategory,
+                  facilities: placeDetails.facilities
+                })
+              };
+            })
+          );
           setData(transformedData);
         } else {
           setData([]);
