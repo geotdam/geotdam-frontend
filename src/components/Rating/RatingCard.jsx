@@ -7,7 +7,7 @@ import MakeReview from '../../features/LeftBar/Review/MakeReview';
 import ReviewPopup from '../../features/LeftBar/Review/ReviewPopup';
 
 
-const RatingCard = ({ averageRating, userRating, onRate }) => {
+const RatingCard = ({ averageRating, userRating, onRate, tmapPlaceId, placeName}) => {
   const [isReviewOpen, setIsReviewOpen] = useState(false);
   const [clickedRating, setClickedRating] = useState(userRating);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -18,7 +18,7 @@ const RatingCard = ({ averageRating, userRating, onRate }) => {
   };
 
   const handleReviewSubmit = (rating, comment) => {
-    onRate(rating); // 여기 별점 api
+    onRate(rating,comment); // 여기 별점 api
     setIsReviewOpen(false);
     // 여기 리뷰(텍스트) api
   };
@@ -55,7 +55,11 @@ const RatingCard = ({ averageRating, userRating, onRate }) => {
       </div>
 
       {isPopupOpen && (
-        <ReviewPopup onClose={() => setIsPopupOpen(false)} />
+        <ReviewPopup
+          tmapPlaceId={tmapPlaceId}
+          placeName={placeName}
+          onClose={() => setIsPopupOpen(false)}
+        />
       )}
 
       {isReviewOpen && (

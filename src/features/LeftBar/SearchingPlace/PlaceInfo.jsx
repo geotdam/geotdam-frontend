@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -18,6 +18,11 @@ const PlaceInfo = ({ place }) => {
   const [averageRating, setAverageRating] = useState(null);
   const [userRating, setUserRating] = useState(null);
   
+  useEffect(() => {
+  if (place?.point) {
+    setAverageRating(place.point);
+  }
+}, [place]);
   //console.log("출발지:", originName);
   //console.log("목적지:", place.place_name);
   const handleSearchRoute = async () => {
@@ -57,13 +62,13 @@ const getToken = () => {
    console.log(place);
   return token ? `Bearer ${token}` : null;
 };
-const handleRate = async (rating) => {
+const handleRate = async (rating, comment) => {
   try {
     const res = await axios.post(
       `${VITE_BASE_URL}/api/places/${place.place_id}/reviews`,//별점 등록 api 호출 
       {
         rating,
-        content: '별점만 등록',
+        content: comment,
       },
       {
         headers: {
@@ -89,7 +94,13 @@ const handleRate = async (rating) => {
       <SearchingRoad isEnabled={!!originName} onSearchClick={handleSearchRoute} />
       <TransportModes routeData={routeData} />
       <PlaceInfoCard place={place} />
-      <RatingCard averageRating={place.point} userRating={userRating} onRate={handleRate} /> {/**장소 리뷰 별점 연동  */}
+      <RatingCard
+        averageRating={averageRating || place.point}
+        userRating={userRating || 0}
+        onRate={handleRate}
+        tmapPlaceId={place.place_id}
+        placeName={place.place_name}
+      /> {/**장소 리뷰 별점 연동  */}
     </>
   );
 };
