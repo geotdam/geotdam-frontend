@@ -12,6 +12,7 @@ import Likes from "../../../components/Button/likes";
 import NickName from "../../../components/common/NickName";
 import SearchingRoad from "../../../components/Button/SearchingRoad";
 import TransportModes from '../../../components/MakeRoute/TransportModes';
+import ShareRoad from "../../../components/Button/ShareRoad";
 
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -114,6 +115,7 @@ const SearchingRoutePopup = ({ routeId, onClose }) => {
           <NickName name={routeData.creatorNickname} />
           <BookMark type="route" routeId={routeData.routeId} />
           <Likes type="route" routeId={routeData.routeId} />
+          <ShareRoad routeId={routeData.routeId} />
         </div>
         {routeData.places.map((place, idx) => (
           <RouteStepCard
