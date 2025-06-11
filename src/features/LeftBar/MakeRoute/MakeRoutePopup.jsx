@@ -28,12 +28,15 @@ const MakeRoutePopup = () => {
       alert('로그인이 필요합니다.');
       return;
     }
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userId = user?.id;
 
     // 루트 데이터
     const payload = {
       routeName: routeName || '루트',
       description: description || '',
       userUploadImgUrl: routeImageUrl,
+      userId,
       places: routePlaces.map((place, idx) => ({
         sequence: idx + 1,
         name: place.place_name,

@@ -1,0 +1,13 @@
+.profile {
+    position: relative;
+    width: 35px;
+    height: 35px;
+    object-fit: cover;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.div1 {
+  	flex: 1;
+  	position: relative;
+}
