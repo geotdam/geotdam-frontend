@@ -82,6 +82,7 @@ const MyPage = () => {
             userId: bookmark.userId,
             name: bookmark.place?.name || '이름 없음',
             tmapPlaceId: bookmark.place?.tmapPlaceId || '',
+            imageUrl: bookmark.place?.imgurl || '',
             // Add any other necessary fields with default values
           }));
           setData(transformedData);

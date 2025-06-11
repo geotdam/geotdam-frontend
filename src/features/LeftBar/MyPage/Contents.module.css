@@ -28,6 +28,14 @@
   padding: 12px 16px;
 }
 
+.row {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 10px;
+}
+
 .contentRow {
   align-self: stretch;
   display: flex;

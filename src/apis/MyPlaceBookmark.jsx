@@ -44,6 +44,18 @@ const MyPlaceBookmark = {
         throw new Error('북마크 데이터 형식이 올바르지 않습니다.');
       }
 
+      // Validate each bookmark has required fields
+      const validBookmarks = response.data.bookmarks.every(bookmark => 
+        bookmark.place && 
+        typeof bookmark.place === 'object' &&
+        'name' in bookmark.place &&
+        'tmapPlaceId' in bookmark.place
+      );
+
+      if (!validBookmarks) {
+        throw new Error('북마크 데이터의 필수 필드가 누락되었습니다.');
+      }
+
       return {
         isSuccess: true,
         result: response.data.bookmarks
