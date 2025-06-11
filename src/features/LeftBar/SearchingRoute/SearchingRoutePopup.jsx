@@ -6,10 +6,11 @@ import styles from "./SearchingRoutePopup.module.css";
 import RouteHeader from "../../../components/MyRoute/RouteHeader";
 import RouteStepCard from "../../../components/MakeRoute/RouteStepCard";
 import RatingCard from "../../../components/Rating/RatingCard";
-import Profile from "../../../components/common/profile";
+import Author from "../../../components/common/author";
 import BookMark from "../../../components/Button/BookMark";
 import Likes from "../../../components/Button/likes";
 import NickName from "../../../components/common/NickName";
+import SearchingRoad from "../../../components/Button/SearchingRoad";
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -48,7 +49,7 @@ const SearchingRoutePopup = ({ routeId, onClose }) => {
           imageUrl={routeData.routeImgUrl}
         />
         <div className={styles.div}>
-          <Profile imageUrl={routeData.routeImgUrl} />
+          <Author imageUrl={routeData.routeImgUrl} />
           <NickName name={routeData.creatorNickname} />
           <BookMark type="route" routeId={routeData.routeId} />
           <Likes type="route" routeId={routeData.routeId} />
@@ -64,6 +65,7 @@ const SearchingRoutePopup = ({ routeId, onClose }) => {
             color={place.isPrimaryPlace ? 'pink' : 'gray'}
           />
         ))}
+        <SearchingRoad />
         <RatingCard
           averageRating={routeData.avgRates}
           userRating={0}

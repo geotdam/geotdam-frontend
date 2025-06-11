@@ -5,7 +5,7 @@ import styles from './profile.module.css'
 import profileImage from '../../assets/mock/profile.svg'
 import LoginPopup from '../../features/Account/Login'
 
-const Profile = () => {
+const Author = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -163,7 +163,7 @@ const Profile = () => {
                 alt="사용자 프로필"
                 onError={(e) => {
                   e.target.onerror = null;
-                  e.target.src = profileImage;
+                  e.target.src = profileImage; // fallback 이미지 (예: 기본 동그란 아이콘)
                 }}
                 onClick={onProfileClick}
             />
@@ -175,4 +175,4 @@ const Profile = () => {
     );
 }
 
-export default Profile;
+export default Author;
