@@ -11,6 +11,12 @@ const NearbyBench = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+  }, []);
 
   const fetchBenchData = async (isInitialLoad = false) => {
     try {
@@ -33,6 +39,11 @@ const NearbyBench = () => {
   };
 
   useEffect(() => {
+    // 로그인이 되어있지 않으면 데이터를 가져오지 않음
+    if (!isLoggedIn) {
+      setLoading(false);
+      return;
+    }
     // 초기 데이터 로드
     fetchBenchData(true);
 
@@ -54,8 +65,22 @@ const NearbyBench = () => {
       window.removeEventListener('storage', handleStorageChange);
       clearInterval(intervalId);
     };
-  }, []);
+  }, [isLoggedIn]);
 
+  if (!isLoggedIn) {
+    return (
+      <div className={styles.nearbyBenchContainer}>
+        <div className={styles.header}>
+          <Title text="Nearby bench" />
+          <PinMark />
+        </div>
+        <div className={styles.loginPrompt}>
+          주변 벤치를 보려면 <strong>로그인</strong>하세요.
+        </div>
+      </div>
+    );
+  }
+  
   const renderBenchContent = () => {
     // 초기 로딩 시에만 Loading 표시
     if (loading) {
