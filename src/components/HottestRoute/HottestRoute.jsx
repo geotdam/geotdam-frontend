@@ -59,7 +59,7 @@ const HottestRoute = ({ onMoreClick = () => {}, onRouteSelect = () => {} }) => {
             key={route.routeId}
             className={styles.routeItem}
             onClick={() => {
-                console.log('클릭한 route:', route);        
+                //console.log('클릭한 route:', route);        
                 //onRouteSelect(route)
                 setSelectedRoute(route)}
               } // 클릭 시 팝업용 상태에 route 저장
