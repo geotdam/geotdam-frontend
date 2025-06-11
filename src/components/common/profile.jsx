@@ -14,7 +14,7 @@ const Profile = () => {
 
     // 토큰 만료 처리 함수
     const handleTokenExpiry = useCallback(() => {
-        console.warn('⏰ 토큰 만료, 로그아웃 처리됨');
+        console.warn('토큰 만료, 로그아웃 처리됨');
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         setIsLoggedIn(false);
@@ -52,7 +52,7 @@ const Profile = () => {
         if (!token) return false;
 
         try {
-            const response = await fetch('/api/auth/social', {
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}/api/auth/social`, {
                 method: 'GET',
                 headers: { Authorization: `Bearer ${token}` },
             });
